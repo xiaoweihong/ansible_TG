@@ -1,0 +1,10 @@
+---
+
+- name: vsftpd restarted
+  service: name=vsftpd state=restarted
+
+- name: postgres restarted
+  service: name=postgresql state=restarted
+
+- name: postgres stop 
+  service: name=postgresql state=stopped

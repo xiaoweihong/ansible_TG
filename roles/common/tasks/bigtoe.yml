@@ -1,0 +1,56 @@
+---
+
+- name: untar bigtoe ---->/opt/
+  unarchive:
+    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
+    dest: /opt/
+    creates: /opt/bigtoe
+
+- name: execute install_web.sh
+  shell: bash install_web.sh
+  args:
+    chdir: /opt/bigtoe
+
+#- name: update nginx ----> nginx-1.16.0 for safe
+#  copy:
+#    src: '{{ item.src }}' 
+#    dest: '{{ item.dest }}' 
+#  with_items:
+#    - { src: 'conf/nginx/nginx',dest: '/usr/sbin/nginx' } 
+  
+
+
+###TODO version replace 
+- name: change ip for config file
+  template:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }  
+
+
+###TODO version replace 
+- name: execute install bigtoe
+  shell: ./install_master.sh DeepEngine-4.0.1.ini 
+  args:
+    chdir: /opt/bigtoe
+
+- name: change ip for app_config
+  template:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/bigtoe/app_config',dest: '/etc/bigtoe/flags/app_config' }  
+
+- name: copy config_app.sh ----> /opt/bigtoe
+  template:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/bigtoe/app_config',dest: '/etc/bigtoe/flags/app_config' }  
+
+
+- name: execute config_app for vse
+  shell: ./config_app.sh 
+  args:
+    chdir: /opt/bigtoe

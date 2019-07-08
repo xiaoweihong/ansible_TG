@@ -1,0 +1,18 @@
+
+- name: transport apt software package
+  unarchive:
+    src: package/software_package.tgz
+    dest: /opt/
+    creates: /opt/software_package
+
+
+- name: update sources.list                                                                                           
+  copy:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/apt/sources.list_local',dest: '/etc/apt/sources.list' } 
+    - { src: 'conf/apt/02allow-unsigned', dest: '/etc/apt/apt.conf.d/02allow-unsigned' } 
+
+- name: some clean work for install smoothly
+  shell: rm -f /var/lib/apt/lists/lock

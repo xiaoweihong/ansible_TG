@@ -1,0 +1,30 @@
+---
+ 
+- name: Check /platformData
+  shell: test -d {{ platformPath }} 
+  register: returnmsg
+  ignore_errors: True
+  
+- name: IF failed exit
+  fail: msg="/{{platformPath}}目录未挂载磁盘或者/platformPath目录未创建"
+  when: returnmsg.rc != 0
+
+- name: make softlink for {{platformPath}} ---> /home/{{ansible_user}}/{{platformPath}}
+  file:
+    path: /home/{{ansible_user}}/{{platformPath}}
+    src: '{{platformPath}}'
+    state: link
+
+
+- name: mkdir for {{platformPath}} 
+  file:
+    path: /home/{{ansible_user}}{{platformPath}}/{{ item }}
+    state: directory
+    recurse: yes
+  with_items: [redis,kafka,logs,fse,weedfs,http_server]
+
+- name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG
+  unarchive:
+    src: application/platformTG.tgz
+    dest: /home/{{ansible_user}}
+#    creates: /opt/software_package

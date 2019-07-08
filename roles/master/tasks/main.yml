@@ -1,0 +1,6 @@
+---
+
+- include: serviceSupervisor.yml
+
+- include: serviceConfig.yml
+  tags: [nginx]

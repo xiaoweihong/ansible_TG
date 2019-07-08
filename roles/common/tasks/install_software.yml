@@ -1,0 +1,33 @@
+---
+
+
+- name: install dependence_software 
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    #- nginx
+    - openssh-server
+    - vim
+    - ifenslave
+    - ntp
+    - tree
+    - cpufrequtils
+    - htop
+    - nmon
+    - zip 
+    - rar 
+    - unrar 
+    - libbz2-dev
+    - bc 
+    - coreutils
+    - open-iscsi 
+    - multipath-tools
+    - nfs-common
+    - libltdl7
+    - nload
+    - iotop
+    - supervisor
+    - lrzsz
+    - unzip
+  tags: [node]

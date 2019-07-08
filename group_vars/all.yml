@@ -1,0 +1,20 @@
+---
+ansible_become: yes
+ansible_become_method: sudo
+ansible_user: ubuntu 
+ansible_password: ubuntu 
+ansible_become_pass: ubuntu 
+
+platformPath: /platformData
+ansible_host_ip: '{{ ansible_default_ipv4.address }}'
+
+bigtoe_version: "4.0.1"
+
+#ansible_become: yes
+#ansible_become_method: sudo
+#ansible_user: admin 
+#ansible_password: admin123 
+#ansible_become_pass: admin123
+#iface: '{{ ansible_default_ipv4.interface }}'
+#ip: '{{ ansible_default_ipv4.address }}'
+#monitor_dir: /home/admin

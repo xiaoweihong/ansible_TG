@@ -1,0 +1,9 @@
+
+- name: Check /data for bigtoe
+  shell: test -d /data 
+  register: returnmsg_data
+  ignore_errors: True
+  
+- name: IF failed exit
+  fail: msg="/data目录未挂载磁盘或者/data目录未创建"
+  when: returnmsg_data.rc != 0

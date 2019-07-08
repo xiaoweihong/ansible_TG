@@ -1,0 +1,46 @@
+---
+
+- name: Check OS Version 
+  fail: msg="OS {{ ansible_lsb.description }} is not correct" 
+  when:
+    - ansible_distribution != "Ubuntu"
+#   - ansible_lsb.description != "Ubuntu 14.04.5 LTS"
+    - ansible_lsb.description != "Ubuntu 16.04.5 LTS"                                                                 
+
+- include: bigtoe_check.yml
+  tags: [bigtoe]
+
+- include: bigtoe.yml 
+  tags: [bigtoe]
+
+- include: directory_prepare.yml
+
+- include: software_prepare.yml
+  tags: [postgresql]
+
+- include_tasks:
+    file: ftp.yml 
+    apply:
+      tags:
+      - ftp
+  tags: [always]
+
+
+- include: install_software.yml
+
+- include: postgresql.yml
+  tags: [postgresql]
+
+
+
+#- name: Check supervisor
+#  command: dpkg-query -l supervisor 
+#  register: supervisor_check
+#  ignore_errors: True
+#   
+#   
+#- name: Install supervisor
+#  apt:
+#    name: supervisor 
+#    state: present
+#  when: supervisor_check.stderr.find('no packages found') != -1

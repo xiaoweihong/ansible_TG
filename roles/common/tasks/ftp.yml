@@ -1,0 +1,89 @@
+---
+
+- include: software_prepare.yml
+
+- name: install ftp package 
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - vsftpd
+    - db-util
+
+- name: create ftp user 
+  copy:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/ftp/vsftpd_user.txt',dest: '/etc/vsftpd_user.txt' } 
+
+
+- name: create dir
+  file:
+    path: /data/ftp/{{ item }}
+    state: directory
+    owner: ftp
+    group: ftp
+  with_items: [ftp1,ftp2,ftp3]
+
+#- name: create dir_upload_user
+#  file:
+#    path: /data/upload_videos
+#    state: directory
+#    owner: ftp
+#    group: ftp
+
+
+- name: mkdir /etc/vsftpd_user_conf
+  file:
+    path: /etc/vsftpd_user_conf
+    state: directory
+    owner: ftp
+    group: ftp
+
+- name: create user vsftpd_user_conf files
+  copy:
+   content: "local_root=/data/ftp/{{ item }}\n"
+   dest: /etc/vsftpd_user_conf/{{ item }}
+  with_items: [ftp1,ftp2,ftp3]
+
+#- name: create user vsftpd_user_conf upload_videos
+#  copy:
+#   content: "local_root=/home/{{ansible_user}}/data/{{ item }}\n"
+#   dest: /etc/vsftpd_user_conf/{{ item }}
+#  with_items: [upload_videos]
+
+- name: rm /etc/vsftpd_login.db
+  file:
+    name: /etc/vsftpd_login.db
+    state: absent
+  ignore_errors: True
+
+- name: create db
+  command: db_load -T -t hash -f /etc/vsftpd_user.txt /etc/vsftpd_login.db
+
+- name: chmod 600 /etc/vsftpd_login.db
+  file:
+    name: /etc/vsftpd_login.db
+    mode: 0600
+
+- name: create pam for vsftpd
+  copy:
+    src: conf/ftp/vsftpdPam
+    dest: /etc/pam.d/vsftpd
+    
+- name: config vsftpd
+  copy:
+    src: conf/ftp/vsftpd.conf
+    dest: /etc/vsftpd.conf
+  notify: vsftpd restarted
+
+#- name: rm -f /etc/vsftpd_user.txt
+#  file:
+#   path: /etc/vsftpd_user.txt
+#   state: absent
+
+#- name: kill `pgrep -f /usr/sbin/vsftpd`
+#  script: conf/vsftpd/reloadVsftpd.sh
+#  ignore_errors: True
+

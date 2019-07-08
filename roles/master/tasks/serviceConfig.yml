@@ -1,0 +1,12 @@
+---
+
+- name: config nginx
+  copy:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'nginx/jormougand.nginx.conf',dest: '/etc/nginx/conf.d/jormougand.nginx.conf' }
+  notify:
+    - nginx reload
+
+- meta: flush_handlers
