@@ -21,4 +21,4 @@
     src: '{{ item.src }}' 
     dest: '{{ item.dest }}' 
   with_items:
-    - { src: 'conf/nginx/modules',dest: '/usr/lib/nginx/modules' } 
+    - { src: 'conf/nginx/modules',dest: '/usr/lib/nginx/' } 
