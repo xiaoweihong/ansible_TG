@@ -1,0 +1,12 @@
+---
+
+- name: transport map package
+  unarchive:
+    src: package/map.tgz
+    dest: /home/{{ansible_user}}/platformTG
+    creates: /home/{{ansible_user}}/platformTG/map
+
+- name: install docker-compose
+  shell: ./map_install.sh
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/map
