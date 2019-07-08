@@ -11,6 +11,8 @@
   args:
     chdir: /opt/bigtoe
 
+- include: nginx.yml
+  tags: [nginx2]
 #- name: update nginx ----> nginx-1.16.0 for safe
 #  copy:
 #    src: '{{ item.src }}' 
