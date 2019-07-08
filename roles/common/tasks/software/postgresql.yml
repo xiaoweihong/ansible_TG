@@ -59,6 +59,7 @@
     dest: '{{ item.dest }}' 
   with_items:
     - { src: 'conf/postgresql/postgresql.conf',dest: '/etc/postgresql/11/main/postgresql.conf' }  
+    - { src: 'conf/postgresql/pg_hba.conf',dest: '/etc/postgresql/11/main/pg_hba.conf' }  
 
     
 
