@@ -1,0 +1,12 @@
+---
+- name: show all
+  debug: msg={{groups}}
+
+- name: show master ip
+  debug: msg={{groups.master[0]}}
+
+- name: show current use group name
+  debug: msg={{group_names}}
+
+  #- name: show hostvars
+  #  debug: msg={{hostvars}}

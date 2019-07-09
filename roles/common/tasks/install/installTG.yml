@@ -4,11 +4,15 @@
   unarchive:
     src: package/platformTG.tgz
     dest: /home/{{ansible_user}}
-    creates: /opt/software_package
+    creates: /home/{{ansible_user}}/platformTG
 
 - include: installMserverMcluster.yml
 
-- include: installFse.yml
-  apply:
-    tags: [fse]
+- include: installMutischeduler.yml
+
+- include_tasks: 
+    file: installFse.yml
+    apply:
+      tags:
+      - fse
   tags: [always]

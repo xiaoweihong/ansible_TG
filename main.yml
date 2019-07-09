@@ -8,9 +8,9 @@
   roles:
     - role: master 
 
-- hosts: master 
-  roles:
-    - role: test 
+  #- hosts: master 
+  #  roles:
+  #    - role: test 
 #  vars_prompt:
 #      - name: "var1"
 #        prompt: "input value for var1"

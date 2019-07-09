@@ -6,19 +6,20 @@
     dest: /opt/
     creates: /opt/bigtoe
 
+- command: test -f /etc/bigtoe/flags/init_done
+  register: result
+  ignore_errors: true
+  tags: [mm]
+
 - name: execute install_web.sh
   shell: bash install_web.sh
   args:
     chdir: /opt/bigtoe
+  when: result|failed
+  tags: [mm]
 
 - include: nginx.yml
   tags: [nginx2]
-#- name: update nginx ----> nginx-1.16.0 for safe
-#  copy:
-#    src: '{{ item.src }}' 
-#    dest: '{{ item.dest }}' 
-#  with_items:
-#    - { src: 'conf/nginx/nginx',dest: '/usr/sbin/nginx' } 
   
 
 
@@ -36,6 +37,7 @@
   shell: ./install_master.sh DeepEngine-4.0.1.ini 
   args:
     chdir: /opt/bigtoe
+  when: result|failed
 
 - name: change ip for app_config
   template:
@@ -56,3 +58,8 @@
   shell: ./config_app.sh 
   args:
     chdir: /opt/bigtoe
+
+  #- name: restart vse
+  #  shell: ./restart_pods.sh vse
+  #  args:
+  #    chdir: /opt/bigtoe

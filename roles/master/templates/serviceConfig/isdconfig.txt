@@ -1,0 +1,57 @@
+{
+	"StreamToolsConfig": {
+		"Port": "7070"
+	},
+	"ImageSaveServiceConfig": {
+		"IsOpen": true,
+		"ConfigType": 1,
+		"ConfigInfo": {
+			"Host": "{{groups.master[0]}}:8502",
+			"TimeoutSecond": 3,
+			"ConnectNumber": 5
+		}
+	},
+	"MatrixServiceConfig": {
+		"IsOpen": true,
+		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
+		"ConnectNumber": 10,
+		"TimeoutSecond": 5,
+		"TryTimes": 3
+	},
+	"SingleFaceNodeConfig": {
+		"MaxThread": 100,
+		"Context": {
+			"SessionId": "single_face",
+			"Functions": [
+				200
+			],
+			"Type": 2,
+			"Params": {
+				"detect_mode": "1"
+			}
+		}
+	},
+	"ImageStorageNodeConfig": {
+		"ImageSaveMaxThread": 100
+	},
+	"KafkaInputNodeConfig": {
+		"Brokers": [
+			"{{groups.master[0]}}:32400"
+		],
+		"Topics": [
+			"face-importer"
+		],
+		"Group": "g1",
+		"MaxFetchBytes": "104857600",
+		"SendMessageTimeout": 5
+	},
+	"KafkaOutputNodeConfig": {
+		"KafkaAddress": [
+			"{{groups.master[0]}}:32400"
+		],
+		"KafkaTopic": "index-vehicle",
+		"MaxMessageBytes": "104857600",
+		"KafkaSentMaxThread": 100,
+		"IsCompression": false
+	}
+}

@@ -1,7 +1,7 @@
 ---
 
 - name: load docker images
-  shell: find images -name *.img|xargs docker load -i {}; 
+  shell: find images -name *.img|xargs -i docker load -i {}; 
   args:
     chdir: /home/{{ansible_user}}/platformTG/run 
 

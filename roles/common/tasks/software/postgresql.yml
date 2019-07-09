@@ -81,4 +81,9 @@
 - meta: flush_handlers
 
 - name: add postgresql password
-  shell: sudo -u postgres /usr/bin/psql  -U postgres -c "ALTER USER postgres PASSWORD '123456';"
+  shell: sudo -u postgres /usr/bin/psql  -U postgres -c "ALTER USER postgres PASSWORD 'Zstvgcs@9102';"
+
+##TODO 防止多次刷库，做限制
+- name: create database
+  shell: su - postgres -c "psql -f /home/ubuntu/platformTG/loki/latest/deepface_partition.sql"
+
