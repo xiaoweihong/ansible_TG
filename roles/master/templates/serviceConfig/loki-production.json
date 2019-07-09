@@ -1,0 +1,104 @@
+{
+    "api": {
+        "upload": {
+            "path": "/home/{{ansible_user}}/platformData/loki/upload",
+            "bigtoe_video": "/data/bigtoe/upload-videos"
+        }
+    },
+    "app": {
+        "tmpPath": "/home/{{ansible_user}}/platformData/loki/tmp"
+    },
+    "database": {
+		"connectionString": "postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_v5"
+	},
+	"clusterdb": {
+		"connectionString": "postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_cluster"
+	},
+    "services": {
+        "ranker_runtime": {
+            "addr": "{{groups.master[0]}}:9812"
+        },
+        "ranker_black": {
+            "addr": "{{groups.master[0]}}:9808"
+        },
+        "matrix_rfcn": {
+            "addr": "{{groups.master[0]}}:9800"
+        },
+        "matrix_fcn": {
+            "addr": "{{groups.master[0]}}:9814"
+        },
+        "matrix_feature": {
+            "addr": "{{groups.master[0]}}:9804"
+        },
+        "sax": {
+            "addr": "http://{{groups.master[0]}}:50051"
+        },
+        "thor": {
+            "addr": "http://{{groups.master[0]}}:9876"
+        },
+        "arcee": {
+            "addr": "{{groups.master[0]}}:8502"
+        },
+        "hercules": {
+			"addr": "http://{{groups.master[0]}}:1315"
+		},
+		"megvii": {
+            "addr": "http://104.35.96.231:81",
+            "needTestData": false
+        },
+        "mserver": {
+            "run_addr": "http://{{groups.master[0]}}:9009",
+			"out_addr":"{{groups.master[0]}}:8905"
+        },
+        "link": {
+			"addr": "http://{{groups.master[0]}}:30233"
+        },
+        "vse_face":{
+			"addr": "{{groups.master[0]}}:30457"
+		},
+		"vse_vehicle": {
+			"addr": "{{groups.master[0]}}:30459"
+		},
+		"vse_allobj": {
+			"addr": "{{groups.master[0]}}:38080"
+        },
+        "redis":{
+			"addrs": [
+				"{{groups.master[0]}}:30379"
+			]
+		},
+		"matrix_config":{
+			"addr": "{{groups.master[0]}}:6504",
+			"face_grpc_addr":"{{groups.master[0]}}:6504",
+			"face_http_schema":"http://{{groups.master[0]}}:38080/vse/face/rec/image",
+			"http_addr":"http://{{groups.master[0]}}:38080/vse/vehicle/rec/image"
+		},
+		"olympus_config":{
+			"schema":"http://{{groups.master[0]}}:30233/link/v1/instances/%s/info"
+		}
+    },
+    "cronjob": {	
+		"partition": {
+			"sax_switcher": false
+		}
+    },
+    "pool": {
+		"capacity": 100
+	},
+    "platform": {
+		"kafkaAddress": [
+			"{{groups.master[0]}}:32400",
+			"{{groups.master[0]}}:32401",
+			"{{groups.master[0]}}:32402"
+		],
+		"needSync": false,
+		"consumer": false,
+		"producer": false
+	},
+	"switcher": {
+		"person_file_compare": false,
+		"repo_collision": false,
+		"repo_statistics": false,
+		"vid_combine": false
+	}
+}

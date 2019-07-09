@@ -1,0 +1,22 @@
+
+- name: untar mutischeduler to ---->>> /home/{{ansible_user}}/platformTG/run/mutischeduler-1.0.0
+  unarchive:
+    src: package/mutischeduler-1.0.0.tar.gz
+    dest: /home/{{ansible_user}}/platformTG/run
+    creates: /home/{{ansible_user}}/platformTG/run/mutischeduler-1.0.0
+
+
+
+
+- name: config mutischeduler
+  template:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/mutischeduler/config.json',dest: '/home/{{ansible_user}}/platformTG/run/mutischeduler-1.0.0' }
+  # - { src: 'conf/mutischeduler/config.json',dest: '/home/{{ansible_user}}/platformTG/run/mutischeduler-1.0.0/config.json' }  
+
+- name: run mutischeduler
+  shell: bash run_image.sh
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/run/mutischeduler-1.0.0

@@ -1,7 +1,7 @@
 ---
 
 - name: config nginx
-  copy:
+  template:
     src: '{{ item.src }}' 
     dest: '{{ item.dest }}' 
   with_items:
@@ -10,3 +10,18 @@
     - nginx reload
 
 - meta: flush_handlers
+
+- name: copy service config file 
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'serviceConfig/arcee_captured.json',dest: '/home/{{ansible_user}}/platformTG/arcee_captured/latest/arcee_captured.json' }
+    - { src: 'serviceConfig/arcee_registered.json',dest: '/home/{{ansible_user}}/platformTG/arcee_captured/latest/arcee_registered.json' }
+    - { src: 'serviceConfig/croatia_config.txt',dest: '/home/{{ansible_user}}/platformTG/croatia/latest/config/croatia_config.txt' }
+    - { src: 'serviceConfig/isdconfig.txt',dest: '/home/{{ansible_user}}/platformTG/isd/latest/tmp/isdconfig.txt' }
+    - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }
+    - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
+#    - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
+    - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
+    - { src: 'serviceConfig/saxconfig.txt',dest: '/home/{{ansible_user}}/platformTG/sax/latest/tmp/saxconfig.txt' }

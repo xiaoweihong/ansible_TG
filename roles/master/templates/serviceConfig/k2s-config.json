@@ -1,0 +1,74 @@
+{
+	"ApiHttpConfig": {
+		"Host": "0.0.0.0:8082"
+	},
+	"KafkaCaptureInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.master[0]}}:32400"
+			],
+			"Topics": [
+				"devo-face-capture-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaWarnInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.master[0]}}:32400"
+			],
+			"Topics": [
+				"devo-face-warn-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaWhiteInputServiceConfig": {
+		"IsOpen": false,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.master[0]}}:32400"
+			],
+			"Topics": [
+				"white-push"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"DBServiceConfig": {
+		"IsOpen": true,
+		"ConfigType": 1,
+		"ConfigInfo": {
+			"ClientNum": 1,
+			"Host": "{{groups.master[0]}}",
+			"Port": 5432,
+			"UserName": "postgres",
+			"PassWord": "Zstvgcs@9102",
+			"DBName": "deepface_v5",
+			"MaxOpenConnsPerClient": 20,
+			"MaxIdleConnsPerClient": 20,
+			"MaxLifeTimeSeconds": 60,
+			"ShowSQL": false
+		}
+	},
+	"CaptureAuthServiceConfig": {
+		"IsOpen": true,
+		"TimeIntervalMillSecond": 2000
+	},
+	"WarnAuthServiceConfig": {
+		"IsOpen": true,
+		"TimeIntervalMillSecond": 2000
+	}
+}
