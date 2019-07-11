@@ -6,6 +6,7 @@
     dest: '{{ item.dest }}' 
   with_items:
     - { src: 'nginx/jormougand.nginx.conf',dest: '/etc/nginx/conf.d/jormougand.nginx.conf' }
+    - { src: 'nginx/sql.conf',dest: '/etc/nginx/sql.conf' }
   notify:
     - nginx reload
 
