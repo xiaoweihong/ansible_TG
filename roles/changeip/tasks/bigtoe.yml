@@ -1,0 +1,45 @@
+---
+
+
+
+- name: reset bigtoe
+  shell: ./bigtoe-tools reset
+  args:
+    chdir: /opt/bigtoe
+
+- name: change ip for config file
+  template:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }   
+
+- name: execute install bigtoe
+  shell: ./install_master.sh DeepEngine-4.0.1.ini 
+  args:
+    chdir: /opt/bigtoe
+
+- name: copy config_app.sh ----> /opt/bigtoe
+  template:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/bigtoe/app_config',dest: '/etc/bigtoe/flags/app_config' }  
+
+
+- name: execute config_app for vse
+  shell: ./config_app.sh 
+  args:
+    chdir: /opt/bigtoe
+
+- name: kubectl replace -f config file
+  shell: ls vse-daemonset-*|xargs -i kubectl replace -f {}; ls vse-configmap-*|xargs -i kubectl replace -f {}
+  args:
+    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
+
+- name: restart vse
+  shell: ./restart_pods.sh vse
+  async: 10
+  poll: 0
+  args:
+    chdir: /opt/bigtoe

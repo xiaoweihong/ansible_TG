@@ -1,6 +1,6 @@
 kafka_addr#bootstrap.kafka.svc.cluster.local:9092
-kafka_video_topic#index-vehicle2
-kafka_image_topic#index-vehicle
+kafka_video_topic#index-vehicle
+kafka_image_topic#index-vehicle2
 image_storage#{{ansible_host_ip}}:8502
 local_license#京
 param_version#DV
