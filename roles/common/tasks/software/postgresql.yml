@@ -85,5 +85,6 @@
 
 ##TODO 防止多次刷库，做限制
 - name: create database
-  shell: su - postgres -c "psql -f /home/ubuntu/platformTG/loki/latest/deepface_partition.sql"
-
+  shell: su - postgres -c "psql -f /home/ubuntu/platformTG/loki/latest/deepface_partition.sql"; touch /home/{{ansible_user}}/platformTG/loki/flag
+  args:
+    creates: /home/{{ansible_user}}/platformTG/loki/flag

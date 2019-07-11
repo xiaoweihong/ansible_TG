@@ -21,16 +21,12 @@
     path: /home/{{ansible_user}}{{platformPath}}/{{ item }}
     state: directory
     recurse: yes
-  with_items: [redis,kafka,logs,fse,weedfs,http_server]
-
-  #- name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG
-  #  unarchive:
-  #    src: package/platformTG.tgz
-  #    dest: /home/{{ansible_user}}
-  ##    creates: /opt/software_package
-  #- name: mkdir for fse
-  #  file:
-  #    path: /home/{{ansible_user}}/platformTG/{{ item }}
-  #    state: directory
-  #    recurse: yes
-  #  with_items: [fse]
+  #with_items: [redis,kafka,logs,fse,weedfs,http_server,loki/upload/assets/images]
+  with_items: 
+    - redis
+    - kafka
+    - logs
+    - fse
+    - weedfs
+    - http_server
+    - loki/upload/assets/images

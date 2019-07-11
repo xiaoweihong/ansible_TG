@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DOWNLOAD_URL="192.168.2.189:8050"
+DOWNLOAD_URL="192.168.2.189:8050/platformSoftware"
 
-func downloadPackage(){
+function downloadPackage(){
 
    wget ${DOWNLOAD_URL}/bigtoe_DeepEngine-4.0.1-all.tar.gz
    wget ${DOWNLOAD_URL}/software_package.tgz
@@ -12,4 +12,4 @@ func downloadPackage(){
    wget ${DOWNLOAD_URL}/map.tgz
 
 }
-
+downloadPackage
