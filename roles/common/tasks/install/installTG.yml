@@ -16,3 +16,5 @@
       tags:
       - fse
   tags: [always]
+
+- include: installMap.yml

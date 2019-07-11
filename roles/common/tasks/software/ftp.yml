@@ -17,6 +17,8 @@
   with_items:
     - { src: 'conf/ftp/vsftpd_user.txt',dest: '/etc/vsftpd_user.txt' } 
 
+   
+   
 
 - name: create dir
   file:

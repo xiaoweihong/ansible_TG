@@ -18,20 +18,27 @@
 - include: prepare/software_prepare.yml
   tags: [postgresql]
 
+- name: Check vsftpd
+  command: dpkg-query -l vsftpd
+  register: vsftpd_check
+  ignore_errors: True
+
 - include_tasks:
     file: software/ftp.yml 
     apply:
       tags:
       - ftp
+  when: vsftpd_check.stderr.find('no packages found') != -1
   tags: [always]
 
 
 - include: software/install_software.yml
 
+- include: install/installTG.yml
+
 - include: software/postgresql.yml
   tags: [postgresql]
 
-- include: install/installTG.yml
 
   #- include: install/installMutischeduler.yml
   #  tags: [hhh]

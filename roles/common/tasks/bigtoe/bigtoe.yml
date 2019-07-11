@@ -59,7 +59,15 @@
   args:
     chdir: /opt/bigtoe
 
-  #- name: restart vse
-  #  shell: ./restart_pods.sh vse
-  #  args:
-  #    chdir: /opt/bigtoe
+
+- name: kubectl replace -f config file
+  shell: ls vse-daemonset-*|xargs -i kubectl replace -f {}; ls vse-configmap-*|xargs -i kubectl replace -f {}
+  args:
+    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
+
+- name: restart vse
+  shell: ./restart_pods.sh vse
+  async: 10
+  poll: 0
+  args:
+    chdir: /opt/bigtoe
