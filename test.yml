@@ -1,0 +1,23 @@
+---
+
+
+- hosts: all
+  roles:
+    - role: test 
+#  vars_prompt:
+#      - name: "var1"
+#        prompt: "input value for var1"
+#        private: no
+#      - name: "var2"
+#        prompt: "input value for var2"
+#        private: yes
+#        default: 'test var2'
+#
+#- hosts: client 
+#  roles:
+#    - role: client 
+#- hosts: test 
+##strategy: debug
+#  #gather_facts: no
+#  roles:
+#    - role: test 

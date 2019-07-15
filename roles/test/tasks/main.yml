@@ -1,12 +1,28 @@
 ---
-- name: show all
-  debug: msg={{groups}}
-
-- name: show master ip
-  debug: msg={{groups.master[0]}}
-
-- name: show current use group name
-  debug: msg={{group_names}}
+#- name: show all
+#  debug: msg={{groups}}
+#
+#- name: show master ip
+#  debug: msg={{groups.master[0]}}
+#
+#- name: show current use group name
+#  debug: msg={{group_names}}
 
   #- name: show hostvars
   #  debug: msg={{hostvars}}
+  #
+  # - name: check port
+  #   wait_for:
+  #     host: 0.0.0.0
+  #     port: 8080
+  #     state: present
+
+- name: Check SSH Version
+  command: ssh -V
+  register: SSH_check
+  ignore_errors: True
+   
+   
+- name: update SSH
+  debug: msg={{SSH_check}}
+  when: SSH_check.stderr.find('OpenSSH_8.0p1') == -1
