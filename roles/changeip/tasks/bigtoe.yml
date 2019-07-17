@@ -15,7 +15,7 @@
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }   
 
 - name: execute install bigtoe
-  shell: ./install_master.sh DeepEngine-4.0.1.ini 
+  shell: ./install_master.sh DeepEngine-{{bigtoe_version}}.ini 
   args:
     chdir: /opt/bigtoe
 
