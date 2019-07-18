@@ -54,6 +54,17 @@
     - { src: 'conf/bigtoe/app_config',dest: '/etc/bigtoe/flags/app_config' }  
 
 
+- include: updateImporter.yml
+- include: updateLink.yml
+
+- name: copy config_app.sh to /opt/bigtoe
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'package/config_app.sh',dest: '/opt/bigtoe/config_app.sh' } 
+
+
 - name: execute config_app for vse
   shell: ./config_app.sh 
   args:
@@ -61,7 +72,7 @@
 
 
 - name: kubectl replace -f config file
-  shell: ls vse-daemonset-*|xargs -i kubectl replace -f {}; ls vse-configmap-*|xargs -i kubectl replace -f {}
+  shell: php generate.php 32; ls vse-daemonset-*|xargs -i kubectl replace -f {};
   args:
     chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
 
