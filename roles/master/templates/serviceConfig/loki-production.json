@@ -2,7 +2,7 @@
     "api": {
         "upload": {
             "path": "/home/{{ansible_user}}/platformData/loki/upload",
-            "bigtoe_video": "/data/bigtoe/upload-videos"
+            "bigtoe_video": "/data/upload_videos"
         }
     },
     "app": {

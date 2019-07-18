@@ -7,3 +7,12 @@
 - name: IF failed exit
   fail: msg="/data目录未挂载磁盘或者/data目录未创建"
   when: returnmsg_data.rc != 0
+
+- name: Check /platformData for TG
+  shell: test -d /platformData
+  register: returnmsg_platformData
+  ignore_errors: True
+  
+- name: IF failed exit2
+  fail: msg="/platformData目录未挂载磁盘或者/platformData目录未创建"
+  when: returnmsg_platformData.rc != 0
