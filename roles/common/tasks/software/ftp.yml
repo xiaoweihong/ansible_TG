@@ -1,6 +1,5 @@
 ---
 
-#- include: software/software_prepare.yml
 
 - name: install ftp package 
   apt:
@@ -17,23 +16,14 @@
   with_items:
     - { src: 'conf/ftp/vsftpd_user.txt',dest: '/etc/vsftpd_user.txt' } 
 
-   
-   
 
 - name: create dir
   file:
-    path: /data/ftp/{{ item }}
+    path: /platformData/ftp/{{ item }}
     state: directory
     owner: ftp
     group: ftp
   with_items: [ftp1,ftp2,ftp3]
-
-#- name: create dir_upload_user
-#  file:
-#    path: /data/upload_videos
-#    state: directory
-#    owner: ftp
-#    group: ftp
 
 
 - name: mkdir /etc/vsftpd_user_conf
@@ -45,15 +35,10 @@
 
 - name: create user vsftpd_user_conf files
   copy:
-   content: "local_root=/data/ftp/{{ item }}\n"
+   content: "local_root=/platformData/ftp/{{ item }}\n"
    dest: /etc/vsftpd_user_conf/{{ item }}
   with_items: [ftp1,ftp2,ftp3]
 
-#- name: create user vsftpd_user_conf upload_videos
-#  copy:
-#   content: "local_root=/home/{{ansible_user}}/data/{{ item }}\n"
-#   dest: /etc/vsftpd_user_conf/{{ item }}
-#  with_items: [upload_videos]
 
 - name: rm /etc/vsftpd_login.db
   file:
@@ -79,13 +64,3 @@
     src: conf/ftp/vsftpd.conf
     dest: /etc/vsftpd.conf
   notify: vsftpd restarted
-
-#- name: rm -f /etc/vsftpd_user.txt
-#  file:
-#   path: /etc/vsftpd_user.txt
-#   state: absent
-
-#- name: kill `pgrep -f /usr/sbin/vsftpd`
-#  script: conf/vsftpd/reloadVsftpd.sh
-#  ignore_errors: True
-

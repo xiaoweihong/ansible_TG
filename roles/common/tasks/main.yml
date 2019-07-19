@@ -51,19 +51,3 @@
 - include: software/postgresql.yml
   tags: [postgresql]
 
-
-  #- include: install/installMutischeduler.yml
-  #  tags: [hhh]
-
-
-#- name: Check supervisor
-#  command: dpkg-query -l supervisor 
-#  register: supervisor_check
-#  ignore_errors: True
-#   
-#   
-#- name: Install supervisor
-#  apt:
-#    name: supervisor 
-#    state: present
-#  when: supervisor_check.stderr.find('no packages found') != -1

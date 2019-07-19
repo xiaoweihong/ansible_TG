@@ -14,5 +14,5 @@
     chdir: /opt/bigtoe
 
 
-- name: load importer-1.3.6 image
+- name: config importer-1.3.6
   shell: sed -i "s#dockerhub.deepglint.com/deepvideo/importer:1.3.3.1_vse#dockerhub.deepglint.com/deepvideo/importer:1.3.6#g" /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-configmap.yaml;kubectl replace -f /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-configmap.yaml;kubectl delete pods -n link --all
