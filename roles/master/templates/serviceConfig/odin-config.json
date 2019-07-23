@@ -65,7 +65,9 @@
 	"FaceVidHeartbeatCacheServiceConfig":{
 		"IsOpen": true,
 		"SlidingWindowMilSecond": 60000,
-		"SaxHttpUrl": "http://{{groups.master[0]}}:50051/api/face/clusteradd"
+		"SaxHttpUrl": "http://{{groups.master[0]}}:50051/api/face/clusteradd",
+	        "TimeoutSecond": 2,
+		"MaxConnectionNum":5
 	},
 	"SensorInfoCacheServiceConfig": {
 		"IsOpen": true,
@@ -135,8 +137,8 @@
 			"IsOpen": true,
 			"SlidingWindowMilSecond": 10000,
 			"TopNum": 5,
-			"PlateSimilarityThreshold": 1.5,
-			"FeaturesSimilarityThreshold": 0.95,
+			"PlateSimilarityThreshold": 1,
+			"FeaturesSimilarityThreshold": 0.93,
 			"VehiclePlateTextSimilarNumGroup": [
 				[
 					"E",
