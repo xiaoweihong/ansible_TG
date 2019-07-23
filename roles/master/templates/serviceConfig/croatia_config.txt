@@ -23,7 +23,7 @@
 		}
 	},
 	"RankerConfig": {
-		"WarnRankerAddr": "{{groups.master[0]}}:9808",
+		"WarnRankerAddr": "{{groups.master[0]}}:9812",
 		"WarnRankerConnectNumber": 10,
 		"TimeoutSecond": 5,
 		"TryTimes": 3,

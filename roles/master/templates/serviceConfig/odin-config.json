@@ -36,7 +36,7 @@
 	},
 	"FaceWarnRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "{{groups.master[0]}}:9808",
+		"RankerAddr": "{{groups.master[0]}}:9812",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
