@@ -15,6 +15,7 @@ fi
 USER=$1
 PASSWORD=$2
 IPADDR=`hostname -I | cut -f1 -d' '`
+IPADDR=192.168.100.118
 
 #[[ $UID -eq 0 ]] || { echo "please sudo exec or exec by root" ; exit 1 ; }
 
