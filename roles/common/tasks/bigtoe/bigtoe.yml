@@ -72,7 +72,7 @@
 
 
 - name: kubectl replace -f config file
-  shell: php generate.php 32; ls vse-daemonset-*|xargs -i kubectl replace -f {};
+shell: php generate.php 32; ls vse-daemonset-*|xargs -i kubectl replace -f {};ls vse-configmap-*|xargs -i kubectl replace -f {};
   args:
     chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
 
