@@ -49,7 +49,7 @@
 		"KafkaAddress": [
 			"{{groups.master[0]}}:32400"
 		],
-		"KafkaTopic": "index-vehicle",
+		"KafkaTopic": "index-vehicle2",
 		"MaxMessageBytes": "104857600",
 		"KafkaSentMaxThread": 100,
 		"IsCompression": false

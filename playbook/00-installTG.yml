@@ -1,30 +1,20 @@
 ---
 
-- hosts: all 
+- name: "Check OS Version"
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Check OS Version
+      fail: msg="OS {{ ansible_lsb.description }} is not support"
+      when:
+        - ansible_lsb.description != "Ubuntu 16.04.5 LTS"
+
+- hosts: all
+  gather_facts: false
   roles:
     - role: common
 
-- hosts: master 
+- hosts: master
+  gather_facts: false
   roles:
-    - role: master 
-
-  #- hosts: master 
-  #  roles:
-  #    - role: test 
-#  vars_prompt:
-#      - name: "var1"
-#        prompt: "input value for var1"
-#        private: no
-#      - name: "var2"
-#        prompt: "input value for var2"
-#        private: yes
-#        default: 'test var2'
-#
-#- hosts: client 
-#  roles:
-#    - role: client 
-#- hosts: test 
-##strategy: debug
-#  #gather_facts: no
-#  roles:
-#    - role: test 
+    - role: master

@@ -1,18 +1,17 @@
 ---
 
 
-- name: copy image to /opt/bigtoe
+- name: copy image and config file to /opt/bigtoe/pkg/docker-images and /opt/bigtoe/pkg/k8s-conf/deepengine/link
   copy:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}' 
   with_items:
-    - { src: 'package/link-0.19.0-job-hostnetwork.img',dest: '/opt/bigtoe/' } 
-
-- name: load link-0.19.0-job-hostnetwork.img
-  shell: docker load -i link-0.19.0-job-hostnetwork.img
-  args:
-    chdir: /opt/bigtoe
+    - { src: 'package/link-0.19.0-job-hostnetwork.tar',dest: '/opt/bigtoe/pkg/docker-images' }
+    - { src: 'package/hm_importer-0.12.5.tar',dest: '/opt/bigtoe/pkg/docker-images' } 
+    - { src: 'package/hw_importer-0.8.0.tar',dest: '/opt/bigtoe/pkg/docker-images' } 
+    - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' } 
 
 
-- name: link config update
-  shell: sed -i "s#dockerhub.deepglint.com/arch/link:0.16.4#dockerhub.deepglint.com/arch/link:0.19.0-job-hostnetwork#g" /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-deployment.yaml;kubectl replace -f /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-deployment.yaml;kubectl delete pods -n link --all
+#- name: link config update
+##  shell: sed -i "s#dockerhub.deepglint.com/arch/link:0.16.4#dockerhub.deepglint.com/arch/link:0.19.0-job-hostnetwork#g" /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-deployment.yaml
+#  shell: sed -i "s#dockerhub.deepglint.com/arch/link:0.16.4#dockerhub.deepglint.com/arch/link:0.19.0-job-hostnetwork#g" /opt/bigtoe/DeepEngine-4.0.1.ini
