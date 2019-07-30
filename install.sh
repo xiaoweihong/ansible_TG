@@ -5,13 +5,13 @@ SHELL_LOG="${SHELL_DIR}/logs/install.log"
 LOCK_FILE="/tmp/TG.lock"
 
 
-if [[ $# -ne 2 || "$1" == "-h" || "$1" == "--help" ]]                                                                 
-then                                                                                                                  
-	echo "Select a user with sudo permissions"                                                                          
-	echo "Usage: sudo bash `basename $0` USER PASSWORD"                                                                 
-	exit 1                                                                                                              
-fi                                                                                                                    
-                                                                                                                      
+if [[ $# -ne 2 || "$1" == "-h" || "$1" == "--help" ]]
+then
+  echo "Select a user with sudo permissions"
+  echo "Usage: sudo bash `basename $0` USER PASSWORD"
+  exit 1
+fi
+
 USER=$1
 PASSWORD=$2
 IPADDR=`hostname -I | cut -f1 -d' '`
@@ -20,8 +20,8 @@ IPADDR=192.168.100.118
 #[[ $UID -eq 0 ]] || { echo "please sudo exec or exec by root" ; exit 1 ; }
 
 if [[ $HOME != "/root" ]];then
-	echo "please use sudo su - change root privilage"
-	exit
+  echo "please use sudo su - change root privilage"
+  exit
 fi
 
 function lock(){
@@ -53,81 +53,78 @@ function kill_exit() {
 }
 
 function logging(){
-	if [[ ! -d ${SHELL_DIR}"/logs" ]];then
-	    mkdir -p ${SHELL_DIR}"/logs"
-	fi
-	LOG_INFO="[$(date "+%Y-%m-%d") $(date "+%H:%M:%S")] $1"
-	echo ${LOG_INFO}
-	echo ${LOG_INFO} >> ${SHELL_LOG}
+  if [[ ! -d ${SHELL_DIR}"/logs" ]];then
+      mkdir -p ${SHELL_DIR}"/logs"
+  fi
+  LOG_INFO="[$(date "+%Y-%m-%d") $(date "+%H:%M:%S")] $1"
+  echo ${LOG_INFO}
+  echo ${LOG_INFO} >> ${SHELL_LOG}
 }
 
 function run() {
-    $1 | tee -a $SHELL_LOG
-    return ${PIPESTATUS[0]}
+  $1 | tee -a $SHELL_LOG
+  return ${PIPESTATUS[0]}
 }
 
 function checkAnsible(){
-	ansible --version >/dev/null 2>&1
-	return $?
+  ansible --version >/dev/null 2>&1
+  return $?
 }
 
 function installAnsible(){
-	tar zxvf ${basedir}/software_package.tgz -C /opt/
-	cp ${basedir}/ansible/roles/common/files/conf/apt/sources.list_local /etc/apt/sources.list
-	cp ${basedir}/ansible/roles/common/files/conf/apt/02allow-unsigned /etc/apt/apt.conf.d/
-	apt-get update
-	apt-get -y install ansible
-	if [ $? -ne 0 ];then
-		echo "install error"
-		exit 500
-	fi
-	mv /etc/ansible /etc/ansible_bak
-	ln -s ${basedir}/ansible /etc/ansible
+  tar zxvf ${SHELL_DIR}/software_package.tgz -C /opt/
+  cp ${SHELL_DIR}/ansible/roles/common/files/conf/apt/sources.list_local /etc/apt/sources.list
+  cp ${SHELL_DIR}/ansible/roles/common/files/conf/apt/02allow-unsigned /etc/apt/apt.conf.d/
+  apt-get update
+  apt-get -y install ansible
+  if [ $? -ne 0 ];then
+    echo "install error"
+    exit 500
+  fi
+  mv /etc/ansible /etc/ansible_bak
+  ln -s ${SHELL_DIR}/ansible /etc/ansible
 }
 
 function menu(){
 echo "+-------------------------------------------------------------------+"
-echo "|                     瞳镜平台部署								  |"
+echo "|                     瞳镜平台部署                                  |"
 echo "+-------------------------------------------------------------------+"
 echo "|        A tool to auto-compile & install TG platform on Linux      |"
 echo "+-------------------------------------------------------------------+"
 echo "|           For more information please read document               |"
 echo "+-------------------------------------------------------------------+"
-echo "|			1. 单机部署												  |"
+echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
-echo "|			2. 集群部署												  |"
+echo "|                    2. 集群部署                                    |"
 echo "+-------------------------------------------------------------------+"
-echo "|			q. 退出     											  |"
+echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
-#    echo "1.单机部署"
-#    echo "2.集群部署"
-#    echo "q.退出"
-#    echo "请选择:"
+echo "请选择:"
 }
 
 function singleDeploy(){
 
-	echo "[master]
+  echo "[master]
 ${IPADDR}
 " > /etc/ansible/hosts
-	echo "---
+  echo "---
 
-ansible_become: yes                                                                                                   
-ansible_become_method: sudo                                                                                           
-ansible_user: $USER                                                                                                   
-ansible_password: $PASSWORD                                                                                           
+ansible_become: yes
+ansible_become_method: sudo
+ansible_user: $USER
+ansible_password: $PASSWORD
 ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
-fse_version: 3.5.1 " > /etc/ansible/group_vars/all.yml                              
+fse_version: 3.5.1 " > /etc/ansible/group_vars/all.yml
 
 cd /etc/ansible
 ansible-playbook playbook/00-installTG.yml
 }
 
 function clusterDeploy(){
-	echo "cluster deploy"
+  echo "cluster deploy"
 }
 
 
@@ -139,16 +136,16 @@ function main(){
         exit 1
     fi
     lock
-	run checkAnsible
-	if [[ $? != 0 ]];then
-		logging "Ansible Is Not Installed, Install Ansible "
-		installAnsible
-		if [[ $? != 0 ]]; then
-		    fatal_exit
-		fi
-	else
-	    logging "Ansible Aleady Installed."
-	fi
+  run checkAnsible
+  if [[ $? != 0 ]];then
+    logging "Ansible Is Not Installed, Install Ansible "
+    installAnsible
+    if [[ $? != 0 ]]; then
+        fatal_exit
+    fi
+  else
+    logging "Ansible Aleady Installed."
+  fi
 
     while true
     do
@@ -156,34 +153,32 @@ function main(){
     read choose
         case $choose in
         1)
-		clear
-        logging "单机部署"
-		singleDeploy
-		if [[ $? == 0 ]]; then
-			normal_exit
-	    else
-			fatal_exit
-		fi
-        #source scripts/config_weedfs.sh
+  clear
+      logging "单机部署"
+  singleDeploy
+  if [[ $? == 0 ]]; then
+    normal_exit
+  else
+    fatal_exit
+  fi
         ;;
         2)
-		clear
-        logging "集群部署"
-		echo "功能暂未实现"
-		normal_exit
-        # ./scripts/config_arcee.sh
-        ;;
-        [qQ])
-        logging "退出"
-		unlock
-        exit 0
-        ;;
-        *)
-        logging "请选择[1-2]"
-          menu
-        esac
-    done              
-
+  clear
+      logging "集群部署"
+  echo "功能暂未实现"
+  normal_exit
+      # ./scripts/config_arcee.sh
+      ;;
+      [qQ])
+      logging "退出"
+  unlock
+      exit 0
+      ;;
+      *)
+      logging "请选择[1-2]"
+        menu
+      esac
+  done
 }
 trap "kill_exit" HUP INT QUIT TSTP
 logging ""
@@ -191,21 +186,3 @@ echo "-------" >> $SHELL_LOG
 params=$@
 logging "COMMAND: $0 $params"
 main $@
-#checkAnsible
-##rm -rf /etc/ansible
-#mv /etc/ansible /etc/ansible_bak
-#ln -s ${basedir}/ansible /etc/ansible
-#echo "---
-#
-#ansible_become: yes                                                                                                   
-#ansible_become_method: sudo                                                                                           
-#ansible_user: $USER                                                                                                   
-#ansible_password: $PASSWORD                                                                                           
-#ansible_become_pass: $PASSWORD
-#platformPath: /platformData
-#ansible_host_ip: '{{ ansible_default_ipv4.address }}'
-#bigtoe_version: 4.0.1
-#fse_version: 3.5.1 " > /etc/ansible/group_vars/all.yml                              
-
-#cd /etc/ansible
-#ansible-playbook playbook/00-installTG.yml
