@@ -1,16 +1,9 @@
 ---
 
-- name: Check OS Version 
-  fail: msg="OS {{ ansible_lsb.description }} is not correct" 
-  when:
-    - ansible_distribution != "Ubuntu"
-#   - ansible_lsb.description != "Ubuntu 14.04.5 LTS"
-    - ansible_lsb.description != "Ubuntu 16.04.5 LTS"                                                                 
-
 - include: bigtoe/bigtoe_check.yml
   tags: [bigtoe]
 
-- include: bigtoe/bigtoe.yml 
+- include: bigtoe/bigtoe.yml
   tags: [bigtoe]
 
 - include: prepare/directory_prepare.yml
@@ -38,8 +31,7 @@
   command: ssh -V
   register: SSH_check
   ignore_errors: True
-   
-   
+
 - name: update SSH
   #debug: msg={{SSH_check}}
   include: software/updateSSH.yml
