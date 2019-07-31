@@ -1,6 +1,13 @@
 ---
 
-- name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG
+- name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG local
+  unarchive:
+    src: package/platformTG.tgz
+    dest: /home/{{ansible_user}}
+    creates: /home/{{ansible_user}}/platformTG
+  connection: local
+
+- name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG remote
   unarchive:
     src: package/platformTG.tgz
     dest: /home/{{ansible_user}}
