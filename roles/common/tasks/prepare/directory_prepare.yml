@@ -42,5 +42,5 @@
     src: '{{ item.src }}' 
     dest: '{{ item.dest }}' 
   with_items:
-    - { src: 'rulevoice',dest: '/platformData/loki' }
-    - { src: 'syslogo.png', dest: '/platformData/loki/assets/images' } 
+    - { src: 'rulevoice',dest: '/platformData/loki/upload' }
+    - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' } 
