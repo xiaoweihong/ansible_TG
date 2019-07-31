@@ -1,10 +1,16 @@
 
-- name: transport apt software package
+- name: transport apt software package local
   unarchive:
     src: package/software_package.tgz
     dest: /opt/
     creates: /opt/software_package
+  connection: local
 
+- name: transport apt software package remote
+  unarchive:
+    src: package/software_package.tgz
+    dest: /opt/
+    creates: /opt/software_package
 
 - name: update sources.list                                                                                           
   copy:

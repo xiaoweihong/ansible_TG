@@ -1,6 +1,13 @@
 ---
 
-- name: untar bigtoe ---->/opt/
+- name: untar bigtoe ---->/opt/ local
+  unarchive:
+    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
+    dest: /opt/
+    creates: /opt/bigtoe
+  connection: local
+
+- name: untar bigtoe ---->/opt/ remote
   unarchive:
     src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
     dest: /opt/
