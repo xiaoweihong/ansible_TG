@@ -36,3 +36,11 @@
     path: /platformData/loki/upload/videos
     src: /data/bigtoe/upload-videos
     state: link
+
+- name: copy logo and sound file to /platformData/loki
+  copy:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'rulevoice',dest: '/platformData/loki' }
+    - { src: 'syslogo.png', dest: '/platformData/loki/assets/images' } 
