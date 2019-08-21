@@ -8,6 +8,7 @@ echo "clean package"
 cd roles/common/files/package
 rm -f *gz
 rm -f *.img
+rm -f *.tar
 
 if [  -d ${PUBLISH_PATH} ];then
    rm  -rf ${PUBLISH_PATH}

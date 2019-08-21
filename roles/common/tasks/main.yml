@@ -38,8 +38,6 @@
   when: SSH_check.stderr.find('OpenSSH_8.0p1') == -1
 
 
-- include: install/installTG.yml
-
 - include: software/postgresql.yml
   tags: [postgresql]
 

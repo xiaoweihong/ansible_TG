@@ -18,3 +18,17 @@
   gather_facts: false
   roles:
     - role: master
+    - role: postgres
+    - role: TG
+
+
+- hosts: postgresNode
+  gather_facts: false
+  roles:
+    - role: postgres
+
+- hosts: node
+  gather_facts: false
+  roles:
+    - role: node
+    - role: TG

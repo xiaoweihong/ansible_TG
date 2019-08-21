@@ -1,6 +1,6 @@
 
 - name: Check /data for bigtoe
-  shell: test -d /data 
+  shell: test -d /data
   register: returnmsg_data
   ignore_errors: True
   

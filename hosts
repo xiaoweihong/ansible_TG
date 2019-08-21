@@ -1,2 +1,15 @@
 [master]
 192.168.100.118
+
+[node]
+192.168.2.25
+
+[postgresql]
+192.168.100.118
+
+
+[postgresqlNode]
+192.168.2.25
+
+
+[weedfs_node]

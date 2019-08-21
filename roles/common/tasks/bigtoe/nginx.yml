@@ -5,26 +5,26 @@
   args:
     chdir: /etc/nginx/
 
-- name: update nginx ----> nginx-1.16.0 for safe
+- name: update nginx ----> nginx-1.17.1 for safe
   copy:
-    src: '{{ item.src }}' 
-    dest: '{{ item.dest }}' 
-    backup: yes 
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    backup: yes
   with_items:
-    - { src: 'conf/nginx/nginx',dest: '/usr/sbin/nginx' } 
+    - { src: 'conf/nginx/nginx',dest: '/usr/sbin/nginx' }
 
 
-- name: remove some no used .so file 
+- name: remove some no used .so file
   file:
-    dest: '{{ item.dest }}' 
+    dest: '{{ item.dest }}'
     state: absent
   with_items:
-    - { dest: '/etc/nginx/modules-enabled/50-mod-http-subs-filter.conf' } 
-    - { dest: '/etc/nginx/modules-enabled/50-mod-http-upstream-fair.conf' } 
+    - { dest: '/etc/nginx/modules-enabled/50-mod-http-subs-filter.conf' }
+    - { dest: '/etc/nginx/modules-enabled/50-mod-http-upstream-fair.conf' }
 
 - name: update nginx modules
   copy:
-    src: '{{ item.src }}' 
-    dest: '{{ item.dest }}' 
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
   with_items:
-    - { src: 'conf/nginx/modules',dest: '/usr/lib/nginx/' } 
+    - { src: 'conf/nginx/modules',dest: '/usr/lib/nginx/' }

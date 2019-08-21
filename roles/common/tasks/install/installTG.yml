@@ -17,7 +17,7 @@
 
 - include: installMutischeduler.yml
 
-- include_tasks: 
+- include_tasks:
     file: installFse.yml
     apply:
       tags:
