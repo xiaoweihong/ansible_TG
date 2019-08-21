@@ -1,0 +1,8 @@
+---
+- include: install/installTG.yml
+
+- include: serviceConfig.yml
+
+- include: serviceSupervisor.yml
+
+- include: serviceChangeip.yml

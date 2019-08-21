@@ -1,18 +1,11 @@
 ---
-#- command: test -f /etc/bigtoe/flags/init_done
-#  register: result
-#  ignore_errors: true
-#
-#
-#- name: execute install_web.sh
-#  shell: bash install_web.sh
-#  args:
-#    chdir: /opt/bigtoe
-#  when: result|failed
-#
+- command: test -f /etc/bigtoe/flags/init_done
+  register: result
+  ignore_errors: true
+
 
 - name: execute install bigtoe master
-  shell: ./install_master.sh DeepEngine-4.0.1.ini 
+  shell: ./install_master.sh DeepEngine-4.0.1.ini
   args:
     chdir: /opt/bigtoe
   when: result|failed
@@ -21,15 +14,13 @@
   shell: kubeadm token create --print-join-command | sudo tee /etc/bigtoe/join-token
   register: jointoken
   when: cluster == true
-  tags: [token]
 
 
 - name: setting facet
   set_fact:
     token: "{{jointoken.stdout}}"
+  when: cluster == true
 
-- name : show token
-  debug: var=token
 
 - name: copy config_app.sh ----> /opt/bigtoe
   template:
@@ -42,7 +33,7 @@
 - name: copy config_app.sh to /opt/bigtoe
   copy:
     src: '{{ item.src }}'
-    dest: '{{ item.dest }}' 
+    dest: '{{ item.dest }}'
   with_items:
     - { src: 'package/config_app.sh',dest: '/opt/bigtoe/config_app.sh' }
 
@@ -54,6 +45,8 @@
 
 - name: kubectl replace -f config file
   shell: php generate.php 32; ls vse-daemonset-*|xargs -i kubectl replace -f {};ls vse-configmap-*|xargs -i kubectl replace -f {};
+#  async: 10
+#  poll: 0
   args:
     chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
 

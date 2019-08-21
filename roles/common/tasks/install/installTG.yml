@@ -12,16 +12,3 @@
     src: package/platformTG.tgz
     dest: /home/{{ansible_user}}
     creates: /home/{{ansible_user}}/platformTG
-
-- include: installMserverMcluster.yml
-
-- include: installMutischeduler.yml
-
-- include_tasks:
-    file: installFse.yml
-    apply:
-      tags:
-      - fse
-  tags: [always]
-
-- include: installMap.yml

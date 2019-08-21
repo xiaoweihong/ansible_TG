@@ -25,10 +25,16 @@
 - hosts: postgresNode
   gather_facts: false
   roles:
+    - role: postgresNode
+    - role: node
+
+- hosts: personalFileNode
+  gather_facts: false
+  roles:
     - role: postgres
+    - role: personalFile
 
 - hosts: node
   gather_facts: false
   roles:
     - role: node
-    - role: TG

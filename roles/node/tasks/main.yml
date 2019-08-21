@@ -1,18 +1,7 @@
 ---
 
-- name: node bigtoe init
-  shell: bash install_minion.sh
-  args:
-    chdir: /opt/bigtoe
-
-- name: install_minion command
-  shell:  echo "{{groups.master[0]}}" >/etc/bigtoe/flags/master_ip
-  args:
-    chdir: /opt/bigtoe
-
-- name: join cluster
-  command: "{{hostvars[hostvars[inventory_hostname]['groups']['master'][0]]['token']}}"
-#  debug: var={{token}}
-#  debug: var=hostvars[hostvars[inventory_hostname]['groups']['master'][0]]['token']
-#  debug: var=hostvars[inventory_hostname]['groups']['master']
-  tags: [token]
+- include: bigtoe.yml
+- include: install/installTG.yml
+#- include: serviceChangeip.yml
+#- include: serviceConfig.yml
+- include: serviceSupervisor.yml

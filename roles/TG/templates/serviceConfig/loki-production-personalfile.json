@@ -1,0 +1,79 @@
+{
+    "api": {
+        "upload": {
+            "path": "/home/{{ansible_user}}/platformData/loki/upload",
+            "bigtoe_video": "/data/upload_videos"
+        }
+    },
+    "app": {
+        "tmpPath": "/home/{{ansible_user}}/platformData/loki/tmp"
+    },
+    "database": {
+		"connectionString": "postgres://postgres:Zstvgcs@9102@127.0.0.1/deepface_v5"
+	},
+	"clusterdb": {
+		"connectionString": "postgres://postgres:Zstvgcs@9102@127.0.0.1/deepface_cluster"
+	},
+    "services": {
+        "ranker_runtime": {
+            "addr": "127.0.0.1:9812"
+        },
+        "ranker_black": {
+            "addr": "127.0.0.1:9808"
+        },
+        "sax": {
+            "addr": "http://{{groups.personalFileNode[0]}}:50051"
+        },
+        "arcee": {
+            "addr": "127.0.0.1:8502"
+        },
+        "hercules": {
+			"addr": "http://192.168.2.222:1315"
+		},
+		"megvii": {
+            "addr": "http://104.35.96.231:81",
+            "needTestData": false
+        },
+        "mserver": {
+            "run_addr": "http://127.0.0.1:9009",
+			"out_addr":"127.0.0.1:8905"
+        },
+        "link": {
+			"addr": "http://127.0.0.1:30233"
+        },
+        "vse_face":{
+			"addr": "http://127.0.0.1:38080"
+		},
+		"vse_vehicle": {
+			"addr": "http://127.0.0.1:38080"
+		},
+        "elasticsearch": {
+            "url":"http://192.168.2.174:9209",
+            "inuse": false
+        }
+    },
+    "cronjob": {	
+		"partition": {
+			"sax_switcher": false
+		}
+    },
+    "pool": {
+		"capacity": 100
+	},
+    "platform": {
+		"kafkaAddress": [
+			"127.0.0.1:32400",
+			"127.0.0.1:32401",
+			"127.0.0.1:32402"
+		],
+		"needSync": false,
+		"consumer": false,
+		"producer": false
+	},
+	"switcher": {
+		"person_file_compare": false,
+		"repo_collision": false,
+		"repo_statistics": false,
+		"vid_combine": false
+	}
+}

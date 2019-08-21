@@ -1,0 +1,25 @@
+{
+    "Debug": true,
+    "VrrpAddr": "{{groups.master[0]}}:8501",
+    "UseVrrp": true,
+    "HttpServiceAddr": "0.0.0.0:8501",
+    "GrpcServerAddr": "0.0.0.0:8502",
+    "WeedConfig": {
+        "AsyncConfig":{
+            "Enable": true,
+            "FidChanLen": 100,
+            "JobChanLen": 10000,
+            "JobNums": 10
+        },
+        "Master": "127.0.0.1:9333",
+        "Ttl": "3M",
+        "MaxMB": 5
+    },
+    "RedisConfig": {
+        "Addrs": [
+            "127.0.0.1:6379"
+        ],
+        "SingleNode": true
+    },
+    "CacheTTL": 0
+}

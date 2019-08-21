@@ -1,0 +1,14 @@
+---
+
+- name: copy service config file 
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'supervisor/supervisord.conf',dest: '/etc/supervisor/supervisord.conf' }
+    - { src: 'supervisor/conf.d/weedfs.conf',dest: '/etc/supervisor/conf.d/weedfs.conf' }
+    - { src: 'supervisor/conf.d/weedfs-repo.conf',dest: '/etc/supervisor/conf.d/weedfs-repo.conf' }
+    - { src: 'supervisor/conf.d/sax.conf',dest: '/etc/supervisor/conf.d/sax.conf' }
+
+- name: supervisord restart
+  service: name=supervisor state=restarted

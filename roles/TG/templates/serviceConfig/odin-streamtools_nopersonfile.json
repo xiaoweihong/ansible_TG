@@ -1,0 +1,702 @@
+{
+	"Blocks": [
+		{
+			"Id": "1",
+			"Type": "KafkaAllObjectInput",
+			"Rule": null,
+			"Position": {
+				"X": 750,
+				"Y": 80
+			}
+		},
+		{
+			"Id": "2",
+			"Type": "FaceCaptureFilter",
+			"Rule": null,
+			"Position": {
+				"X": 950,
+				"Y": 150
+			}
+		},
+		{
+			"Id": "3",
+			"Type": "FaceCaptureDeweight",
+			"Rule": null,
+			"Position": {
+				"X": 950,
+				"Y": 220
+			}
+		},
+		{
+			"Id": "4",
+			"Type": "FaceCaptureFeatureStorage",
+			"Rule": null,
+			"Position": {
+				"X": 852,
+				"Y": 291
+			}
+		},
+		{
+			"Id": "5",
+			"Type": "FaceCaptureStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1049,
+				"Y": 290
+			}
+		},
+		{
+			"Id": "6",
+			"Type": "FaceVidAcquire",
+			"Rule": null,
+			"Position": {
+				"X": 1200,
+				"Y": 290
+			}
+		},
+		{
+			"Id": "7",
+			"Type": "KafkaFaceCaptureOutput",
+			"Rule": null,
+			"Position": {
+				"X": 852,
+				"Y": 360
+			}
+		},
+		{
+			"Id": "8",
+			"Type": "FaceCaptureIndexStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1200,
+				"Y": 360
+			}
+		},
+		{
+			"Id": "9",
+			"Type": "PersonFileStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1049,
+				"Y": 360
+			}
+		},
+		{
+			"Id": "10",
+			"Type": "KafkaAllObjectFerryOutput",
+			"Rule": null,
+			"Position": {
+				"X": 1686,
+				"Y": 154.5
+			}
+		},
+		{
+			"Id": "11",
+			"Type": "KafkaAllObjectFerryInput",
+			"Rule": null,
+			"Position": {
+				"X": 1100,
+				"Y": 80
+			}
+		},
+		{
+			"Id": "12",
+			"Type": "FaceWarnCreate",
+			"Rule": null,
+			"Position": {
+				"X": 1049,
+				"Y": 420
+			}
+		},
+		{
+			"Id": "13",
+			"Type": "FaceWarnDeweight",
+			"Rule": null,
+			"Position": {
+				"X": 1100,
+				"Y": 490
+			}
+		},
+		{
+			"Id": "14",
+			"Type": "FaceWarnStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1100,
+				"Y": 630
+			}
+		},
+		{
+			"Id": "15",
+			"Type": "FaceWarnIndexStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1200,
+				"Y": 560
+			}
+		},
+		{
+			"Id": "16",
+			"Type": "KafkaFaceWarnOutput",
+			"Rule": null,
+			"Position": {
+				"X": 1100,
+				"Y": 700
+			}
+		},
+		{
+			"Id": "17",
+			"Type": "FaceWhiteWarnDeweight",
+			"Rule": null,
+			"Position": {
+				"X": 852,
+				"Y": 490
+			}
+		},
+		{
+			"Id": "18",
+			"Type": "FaceWhiteWarnStorage",
+			"Rule": null,
+			"Position": {
+				"X": 852,
+				"Y": 630
+			}
+		},
+		{
+			"Id": "19",
+			"Type": "FaceWhiteWarnIndexStorage",
+			"Rule": null,
+			"Position": {
+				"X": 900,
+				"Y": 560
+			}
+		},
+		{
+			"Id": "20",
+			"Type": "KafkaFaceWhiteWarnOutput",
+			"Rule": null,
+			"Position": {
+				"X": 852,
+				"Y": 700
+			}
+		},
+		{
+			"Id": "21",
+			"Type": "KafkaFaceCaptureIndexOutput",
+			"Rule": null,
+			"Position": {
+				"X": 1200,
+				"Y": 420
+			}
+		},
+		{
+			"Id": "100",
+			"Type": "VehicleCaptureFilter",
+			"Rule": null,
+			"Position": {
+				"X": 575,
+				"Y": 150
+			}
+		},
+		{
+			"Id": "101",
+			"Type": "VehicleCaptureDeweight",
+			"Rule": null,
+			"Position": {
+				"X": 575,
+				"Y": 220
+			}
+		},
+		{
+			"Id": "102",
+			"Type": "VehicleCaptureStorage",
+			"Rule": null,
+			"Position": {
+				"X": 488,
+				"Y": 290
+			}
+		},
+		{
+			"Id": "103",
+			"Type": "VehicleCaptureIndexStorage",
+			"Rule": null,
+			"Position": {
+				"X": 656,
+				"Y": 290
+			}
+		},
+		{
+			"Id": "104",
+			"Type": "VehicleChemicalCreate",
+			"Rule": null,
+			"Position": {
+				"X": 488,
+				"Y": 412.5
+			}
+		},
+		{
+			"Id": "105",
+			"Type": "VehicleFacialShadedCreate",
+			"Rule": null,
+			"Position": {
+				"X": 662,
+				"Y": 413.5
+			}
+		},
+		{
+			"Id": "106",
+			"Type": "VehicleChemicalStorage",
+			"Rule": null,
+			"Position": {
+				"X": 489,
+				"Y": 488.5
+			}
+		},
+		{
+			"Id": "107",
+			"Type": "VehicleFacialShadedStorage",
+			"Rule": null,
+			"Position": {
+				"X": 661,
+				"Y": 487.5
+			}
+		},
+		{
+			"Id": "108",
+			"Type": "VehicleCaptureFeatureStorage",
+			"Rule": null,
+			"Position": {
+				"X":  270,
+				"Y": 290
+			}
+		},
+		{
+			"Id": "109",
+			"Type": "KafkaVehicleCaptureIndexOutput",
+			"Rule": null,
+			"Position": {
+				"X": 656,
+				"Y": 360
+			}
+		},
+
+		{
+			"Id": "200",
+			"Type": "NonmotorCaptureFilter",
+			"Rule": null,
+			"Position": {
+				"X": 1422,
+				"Y": 153
+			}
+		},
+		{
+			"Id": "201",
+			"Type": "NonmotorCaptureStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1423,
+				"Y": 288
+			}
+		},
+		{
+			"Id": "202",
+			"Type": "NonmotorIllegalMannedCreate",
+			"Rule": null,
+			"Position": {
+				"X": 1586,
+				"Y": 409.5
+			}
+		},
+		{
+			"Id": "203",
+			"Type": "NonmotorWithoutHelmetCreate",
+			"Rule": null,
+			"Position": {
+				"X": 1376,
+				"Y": 410.5
+			}
+		},
+		{
+			"Id": "204",
+			"Type": "NonmotorIllegalMannedStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1586,
+				"Y": 483.5
+			}
+		},
+		{
+			"Id": "205",
+			"Type": "NonmotorWithoutHelmetStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1376,
+				"Y": 482.5
+			}
+		},
+		{
+			"Id": "206",
+			"Type": "NonmotorCaptureFeatureStorage",
+			"Rule": null,
+			"Position": {
+				"X": 1612,
+				"Y": 287.5
+			}
+		},
+		{
+			"Id": "207",
+			"Type": "KafkaNonmotorCaptureOutput",
+			"Rule": null,
+			"Position": {
+				"X": 1612,
+				"Y": 360
+			}
+		},
+		{
+			"Id": "300",
+			"Type": "PedestrianCaptureFilter",
+			"Rule": null,
+			"Position": {
+				"X": 250,
+				"Y": 150
+			}
+		},
+		{
+			"Id": "301",
+			"Type": "PedestrianCaptureStorage",
+			"Rule": null,
+			"Position": {
+				"X": 60,
+				"Y": 220
+			}
+		},
+		{
+			"Id": "302",
+			"Type": "PedestrianCaptureFeatureStorage",
+			"Rule": null,
+			"Position": {
+				"X": 250,
+				"Y": 220
+			}
+		},
+		{
+			"Id": "303",
+			"Type": "KafkaPedestrianCaptureOutput",
+			"Rule": null,
+			"Position": {
+				"X": 60,
+				"Y": 290
+			}
+		}
+	],
+	"Connections": [
+		{
+			"Id": "0001",
+			"FromId": "11",
+			"FromRoute": "face_out",
+			"ToId": "2",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "0002",
+			"FromId": "11",
+			"FromRoute": "vehicle_out",
+			"ToId": "100",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "0003",
+			"FromId": "11",
+			"FromRoute": "nonmotor_out",
+			"ToId": "200",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "0004",
+			"FromId": "11",
+			"FromRoute": "pedestrian_out",
+			"ToId": "300",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1001",
+			"FromId": "1",
+			"FromRoute": "face_out",
+			"ToId": "2",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1002",
+			"FromId": "2",
+			"FromRoute": "face_capture_filter_out",
+			"ToId": "3",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1003",
+			"FromId": "3",
+			"FromRoute": "face_capture_feature_storage_out",
+			"ToId": "4",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1004",
+			"FromId": "3",
+			"FromRoute": "face_capture_out",
+			"ToId": "5",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1005",
+			"FromId": "3",
+			"FromRoute": "face_capture_index_out",
+			"ToId": "8",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1007",
+			"FromId": "5",
+			"FromRoute": "kafka_out",
+			"ToId": "7",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1008",
+			"FromId": "6",
+			"FromRoute": "face_capture_index_out",
+			"ToId": "8",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1009",
+			"FromId": "6",
+			"FromRoute": "new_vid_out",
+			"ToId": "9",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1010",
+			"FromId": "5",
+			"FromRoute": "warn_create_out",
+			"ToId": "12",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1011",
+			"FromId": "12",
+			"FromRoute": "face_warn_deweight_out",
+			"ToId": "13",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1012",
+			"FromId": "13",
+			"FromRoute": "face_warn_storage_out",
+			"ToId": "14",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1013",
+			"FromId": "13",
+			"FromRoute": "face_warn_index_storage_out",
+			"ToId": "15",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1014",
+			"FromId": "14",
+			"FromRoute": "kafka_out",
+			"ToId": "16",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1015",
+			"FromId": "12",
+			"FromRoute": "face_white_warn_out",
+			"ToId": "17",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1016",
+			"FromId": "17",
+			"FromRoute": "face_white_warn_out",
+			"ToId": "18",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1017",
+			"FromId": "17",
+			"FromRoute": "face_white_warn_index_out",
+			"ToId": "19",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1018",
+			"FromId": "18",
+			"FromRoute": "kafka_out",
+			"ToId": "20",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1019",
+			"FromId": "8",
+			"FromRoute": "kafka_out",
+			"ToId": "21",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1100",
+			"FromId": "1",
+			"FromRoute": "vehicle_out",
+			"ToId": "100",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1101",
+			"FromId": "100",
+			"FromRoute": "vehicle_filter_out",
+			"ToId": "101",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1102",
+			"FromId": "101",
+			"FromRoute": "vehicle_capture_out",
+			"ToId": "102",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1103",
+			"FromId": "101",
+			"FromRoute": "vehicle_capture_index_out",
+			"ToId": "103",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1104",
+			"FromId": "102",
+			"FromRoute": "vehicle_chemical_create_out",
+			"ToId": "104",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1105",
+			"FromId": "102",
+			"FromRoute": "vehicle_facial_shaded_create_out",
+			"ToId": "105",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1106",
+			"FromId": "104",
+			"FromRoute": "vehicle_chemical_create_out",
+			"ToId": "106",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1107",
+			"FromId": "105",
+			"FromRoute": "vehicle_facial_shaded_create_out",
+			"ToId": "107",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1108",
+			"FromId": "101",
+			"FromRoute": "vehicle_capture_feature_out",
+			"ToId": "108",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1109",
+			"FromId": "103",
+			"FromRoute": "kafka_out",
+			"ToId": "109",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1200",
+			"FromId": "1",
+			"FromRoute": "nonmotor_out",
+			"ToId": "200",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1201",
+			"FromId": "200",
+			"FromRoute": "nonmotor_filter_out",
+			"ToId": "201",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1202",
+			"FromId": "201",
+			"FromRoute": "nonmotor_illegal_manned_out",
+			"ToId": "202",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1203",
+			"FromId": "201",
+			"FromRoute": "nonmotor_without_helmet_out",
+			"ToId": "203",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1204",
+			"FromId": "202",
+			"FromRoute": "nonmotor_illegal_manned_create_out",
+			"ToId": "204",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1205",
+			"FromId": "203",
+			"FromRoute": "nonmotor_without_helmet_create_out",
+			"ToId": "205",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1206",
+			"FromId": "200",
+			"FromRoute": "nonmotor_capture_feature_out",
+			"ToId": "206",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1207",
+			"FromId": "201",
+			"FromRoute": "kafka_out",
+			"ToId": "207",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1300",
+			"FromId": "1",
+			"FromRoute": "pedestrian_out",
+			"ToId": "300",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1301",
+			"FromId": "300",
+			"FromRoute": "pedestrian_filter_out",
+			"ToId": "301",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1302",
+			"FromId": "300",
+			"FromRoute": "pedestrian_capture_feature_out",
+			"ToId": "302",
+			"ToRoute": "in"
+		},
+		{
+			"Id": "1303",
+			"FromId": "301",
+			"FromRoute": "kafka_out",
+			"ToId": "303",
+			"ToRoute": "in"
+		}
+	]
+}
