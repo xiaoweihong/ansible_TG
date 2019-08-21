@@ -1,0 +1,15 @@
+---
+
+- name: load fse docker img
+  shell: ./load_image.sh
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}
+
+- name: start fse
+  shell: ./run_runtime.sh
+#  shell: ./run_black.sh;./run_runtime.sh
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}
+
+- name: sleep 3 second for fse start successfully
+  pause: seconds=3

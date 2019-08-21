@@ -1,0 +1,14 @@
+---
+
+- include: installMserverMcluster.yml
+
+- include: installMutischeduler.yml
+
+- include_tasks:
+    file: installFse.yml
+    apply:
+      tags:
+      - fse
+  tags: [always]
+
+- include: installMap.yml

@@ -1,13 +1,4 @@
 ---
- 
-- name: Check /platformData
-  shell: test -d {{ platformPath }} 
-  register: returnmsg
-  ignore_errors: True
-  
-- name: IF failed exit
-  fail: msg="/{{platformPath}}目录未挂载磁盘或者/platformPath目录未创建"
-  when: returnmsg.rc != 0
 
 - name: make softlink for {{platformPath}} ---> /home/{{ansible_user}}/{{platformPath}}
   file:
@@ -16,13 +7,13 @@
     state: link
 
 
-- name: mkdir for {{platformPath}} 
+- name: mkdir for {{platformPath}}
   file:
     path: /home/{{ansible_user}}{{platformPath}}/{{ item }}
     state: directory
     recurse: yes
   #with_items: [redis,kafka,logs,fse,weedfs,http_server,loki/upload/assets/images]
-  with_items: 
+  with_items:
     - redis
     - kafka
     - logs
@@ -36,11 +27,12 @@
     path: /platformData/loki/upload/videos
     src: /data/bigtoe/upload-videos
     state: link
+    force: true
 
 - name: copy logo and sound file to /platformData/loki
   copy:
-    src: '{{ item.src }}' 
-    dest: '{{ item.dest }}' 
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
   with_items:
     - { src: 'rulevoice',dest: '/platformData/loki/upload' }
-    - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' } 
+    - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' }

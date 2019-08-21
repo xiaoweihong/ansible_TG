@@ -1,4 +1,0 @@
----
-
-- name: get key from master
-  shell: kubeadm token create --print-join-command | sudo tee /etc/bigtoe/join-token
