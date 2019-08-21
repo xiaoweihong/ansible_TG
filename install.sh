@@ -15,7 +15,6 @@ fi
 USER=$1
 PASSWORD=$2
 IPADDR=`hostname -I | cut -f1 -d' '`
-IPADDR=192.168.100.118
 
 #[[ $UID -eq 0 ]] || { echo "please sudo exec or exec by root" ; exit 1 ; }
 
@@ -103,6 +102,7 @@ echo "请选择:"
 }
 
 function singleDeploy(){
+. ansible/scripts/config_arcee.sh
 
   echo "[master]
 ${IPADDR}
@@ -117,7 +117,9 @@ ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
-fse_version: 3.5.1 " > /etc/ansible/group_vars/all.yml
+fse_version: 3.5.1 
+cluster: false
+personfile: false" > /etc/ansible/group_vars/all.yml
 
 cd /etc/ansible
 ansible-playbook playbook/00-installTG.yml
@@ -125,6 +127,41 @@ ansible-playbook playbook/00-installTG.yml
 
 function clusterDeploy(){
   echo "cluster deploy"
+. ansible/scripts/config_arcee.sh
+. ansible/scripts/personfile.sh
+
+  echo "---
+
+ansible_become: yes
+ansible_become_method: sudo
+ansible_user: $USER
+ansible_password: $PASSWORD
+ansible_become_pass: $PASSWORD
+platformPath: /platformData
+ansible_host_ip: '{{ ansible_default_ipv4.address }}'
+bigtoe_version: 4.0.1
+fse_version: 3.5.1
+cluster: true
+personfile: $personfile" > /etc/ansible/group_vars/all.yml
+
+if [[ $personfile == "false" ]];then
+   cd ansible/scripts
+   ./setup.sh
+   if [[ $? -ne 0 ]];then
+      fatal_exit 
+   fi
+   cp hosts /etc/ansible/hosts
+else
+   cd ansible/scripts
+   ./setupPersonfile.sh
+   if [[ $? -ne 0 ]];then
+      fatal_exit 
+   fi
+   cp hosts /etc/ansible/hosts
+fi
+   cd /etc/ansible
+   ansible-playbook playbook/00-installTG.yml
+   
 }
 
 
@@ -147,6 +184,11 @@ function main(){
     logging "Ansible Aleady Installed."
   fi
 
+ if [ -f /etc/ansible ];then
+    rm -f /etc/ansible
+ fi
+ ln -s ${SHELL_DIR}/ansible /etc/ansible
+
     while true
     do
         menu
@@ -165,9 +207,12 @@ function main(){
         2)
   clear
       logging "集群部署"
-  echo "功能暂未实现"
-  normal_exit
-      # ./scripts/config_arcee.sh
+      clusterDeploy
+  if [[ $? == 0 ]]; then
+    normal_exit
+  else
+    fatal_exit
+  fi
       ;;
       [qQ])
       logging "退出"

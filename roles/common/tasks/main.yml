@@ -17,7 +17,7 @@
   ignore_errors: True
 
 - include_tasks:
-    file: software/ftp.yml 
+    file: software/ftp.yml
     apply:
       tags:
       - ftp
@@ -26,6 +26,7 @@
 
 
 - include: software/install_software.yml
+- include: install/installTG.yml
 
 - name: Check SSH Version
   command: ssh -V
@@ -36,8 +37,3 @@
   #debug: msg={{SSH_check}}
   include: software/updateSSH.yml
   when: SSH_check.stderr.find('OpenSSH_8.0p1') == -1
-
-
-- include: software/postgresql.yml
-  tags: [postgresql]
-

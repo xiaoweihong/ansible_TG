@@ -1,13 +1,13 @@
 ---
 
-#- name: untar bigtoe ---->/opt/ local
-#  unarchive:
-#    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
-#    dest: /opt/
-#    creates: /opt/bigtoe
-#  connection: local
+- name: untar bigtoe ---->/opt/ local take long time
+  unarchive:
+    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
+    dest: /opt/
+    creates: /opt/bigtoe
+  connection: local
 
-- name: untar bigtoe ---->/opt/ remote
+- name: untar bigtoe ---->/opt/ remote take long time
   unarchive:
     src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
     dest: /opt/
@@ -17,7 +17,7 @@
   register: result
   ignore_errors: true
 
-
+# TODO 重复执行判断
 - name: execute install_web.sh
   shell: bash install_web.sh
   args:
@@ -25,6 +25,8 @@
   when: result|failed
 
 
+- include: updateNginx.yml
+- include: updateKafka.yml
 - include: updateLink.yml
 - include: updateImporter.yml
 

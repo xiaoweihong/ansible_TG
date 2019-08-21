@@ -1,0 +1,6 @@
+---
+
+- include: bigtoe.yml
+- include: install/installTG.yml
+- include: serviceConfig.yml
+- include: serviceSupervisor.yml

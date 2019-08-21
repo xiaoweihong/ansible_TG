@@ -22,7 +22,7 @@
     - http_server
     - loki/upload/assets/images
 
-- name: make softlink for /platformData/loki/upload/videos 
+- name: make softlink for /platformData/loki/upload/videos
   file:
     path: /platformData/loki/upload/videos
     src: /data/bigtoe/upload-videos

@@ -44,6 +44,7 @@ configVse () {
     sed -i -r "/\"LocalProvince\":/s#\"LocalProvince\":.*#\"LocalProvince\": \"$LOCAL_LICENSE\"#" $WORK_DIR/pkg/k8s-conf/deepengine/vse/vse-configmap*
     sed -r -i "s#- \"-pb_always_print_primitive_fields=.*#- \"-pb_always_print_primitive_fields=$PB_ALWAYS\"#" $WORK_DIR/pkg/k8s-conf/deepengine/vse/generate.php
     sed -r -i "s#- \"-pb_enum_as_number=.*#- \"-pb_enum_as_number=$PB_ENUM\"#" $WORK_DIR/pkg/k8s-conf/deepengine/vse/generate.php
+    sed -i "s/\"FaceFastMode\":\( .*\),/\"FaceFastMode\": true,/g" $WORK_DIR/pkg/k8s-conf/deepengine/vse/vse-configmap-video-face.yaml
 
     VSE_BeltPhone="$(cat $CONFIG_FILE | awk -F '#' '{if($1=="VSE_BeltPhone") print $2}')"
     VSE_DangerCar="$(cat $CONFIG_FILE | awk -F '#' '{if($1=="VSE_DangerCar") print $2}')"

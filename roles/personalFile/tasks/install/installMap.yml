@@ -1,0 +1,6 @@
+---
+
+- name: install docker-compose
+  shell: ./map_install.sh
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/map

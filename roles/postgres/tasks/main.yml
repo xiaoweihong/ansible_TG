@@ -1,0 +1,94 @@
+---
+
+- name: clean config file
+  file:
+    dest: /etc/postgresql/11/main/pg_hba.conf
+    state: absent
+
+- name: install postgresql-11 package
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - postgresql-11
+
+- name: mkdir postgresql data directory
+  file:
+    path: /{{platformPath}}/postgresql
+    state: directory
+    recurse: yes
+    owner: postgres
+    group: postgres
+
+- name: init postgresql
+  shell: su  - postgres -c "/usr/lib/postgresql/11/bin/initdb  -D /{{platformPath}}/postgresql/11/main"
+  args:
+    creates: /{{platformPath}}/postgresql/11/main/base
+
+  
+- name: copy pipedb package
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'package/pipelinedb-postgresql-11_1.0.0-13~ubuntu14_amd64.deb',dest: '/tmp/' }
+
+- name: install pipedb 
+  shell: dpkg -i /tmp/pipelinedb-postgresql-11_1.0.0-13~ubuntu14_amd64.deb
+
+- name: kill postgres first
+  shell: killall postgres
+  ignore_errors: True
+
+
+- name: sleep 5 second for postgresql stopped
+  pause: seconds=5
+
+- name: start postgresql
+  shell: su -  postgres -c "/usr/lib/postgresql/11/bin/pg_ctl -D /{{platformPath}}/postgresql/11/main -l /{{platformPath}}/postgresql/postgres.log -s start" 
+  args:
+    creates: /{{platformPath}}/postgresql/postgres.log 
+
+- name: kill postgres second
+  shell: killall postgres
+  ignore_errors: True
+
+- name: config postgresql config file
+  template:
+    src: '{{ item.src }}' 
+    dest: '{{ item.dest }}' 
+  with_items:
+    - { src: 'conf/postgresql/postgresql.conf',dest: '/etc/postgresql/11/main/postgresql.conf' }  
+    - { src: 'conf/postgresql/pg_hba.conf',dest: '/etc/postgresql/11/main/pg_hba.conf' }  
+
+
+- name: remote can connect
+  lineinfile:
+    line: "host    all             all             0.0.0.0/0                 md5"
+    regexp: 'host    all             all             127.0.0.1/32            md5'
+    dest: /etc/postgresql/11/main/pg_hba.conf
+  notify:
+     postgres restarted
+
+
+- name: add replica auth
+  lineinfile:
+    line: 'host    replication     postgres            0.0.0.0/0        trust'
+    insertafter: 'replication privilege'
+    dest: /etc/postgresql/11/main/pg_hba.conf
+
+- meta: flush_handlers
+
+- name: add postgresql password
+  shell: sudo -u postgres /usr/bin/psql  -U postgres -c "ALTER USER postgres PASSWORD 'Zstvgcs@9102';"
+
+##TODO 防止多次刷库，做限制
+- name: create database deepface_v5
+  shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/loki/latest/deepface_partition.sql"; touch /home/{{ansible_user}}/platformTG/loki/flag
+  args:
+    creates: /home/{{ansible_user}}/platformTG/loki/flag
+
+- name: create database deepface_v5
+  shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/sax/latest/cluster.sql"; touch /home/{{ansible_user}}/platformTG/sax/flag
+  args:
+    creates: /home/{{ansible_user}}/platformTG/sax/flag

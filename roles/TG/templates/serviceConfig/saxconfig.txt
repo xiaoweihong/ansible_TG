@@ -1,0 +1,201 @@
+{
+	"StreamToolsConfig": {
+		"Port": "7074"
+	},
+	"SaxSimilarityServiceConfig": {
+		"IsOpen": true,
+		"BirdageNumThreshold": 2,
+		"CacheItemMaintainSecond": 10,
+		"RequestDelaySecond": 3,
+		"CosThreashold": 0.9,
+		"CosAParams": [
+			1.29032258,
+			1.29032258,
+			1.29032258
+		],
+		"CosBParams": [
+			-0.06774194,
+			-0.06774194,
+			-0.06774194
+		],
+		"ThresParams": [
+			0.6725,
+			0.75
+		],
+		"LinearAlpha": 1,
+		"LinearBeta": 0
+	},
+	"DBSaxServiceConfig": {
+		"IsOpen": true,
+		"ConfigType": 1,
+		"ConfigInfo": {
+			"ClientNum": 1,
+			"Host": "127.0.0.1",
+			"Port": 5432,
+			"UserName": "postgres",
+			"PassWord": "Zstvgcs@9102",
+			"DBName": "deepface_cluster",
+			"MaxOpenConnsPerClient": 20,
+			"MaxIdleConnsPerClient": 20,
+			"MaxLifeTimeSeconds": 60
+		}
+	},
+	"ClusterRankerServiceConfig": {
+		"IsOpen": true,
+		"RankerAddr": "127.0.0.1:9808",
+		"RankerConnectNumber": 10,
+		"TimeoutSecond": 5,
+		"TryTimes": 3,
+		"RepoUpdateTimeSecond": 30,
+		"IsLibraryUpdate": false,
+		"IsCacheOpen": true,
+		"RankCacheParams": {
+			"CosAParams": [
+				1.29032258,
+				1.29032258,
+				1.29032258
+			],
+			"CosBParams": [
+				-0.06774194,
+				-0.06774194,
+				-0.06774194
+			],
+			"ThresParams": [
+				0.6725,
+				0.75
+			],
+			"LinearAlpha": 1,
+			"LinearBeta": 0,
+			"CacheMilSeconds": 2000
+		}
+	},
+	"MatrixServiceConfig": {
+		"IsOpen": true,
+		"Addr": "http://127.0.0.1:38080/vse/face/rec/image",
+		"ConnectNumber": 10,
+		"TimeoutSecond": 15,
+		"TryTimes": 3
+	},
+	"SaxServiceConfig": {
+		"IsOpen": true,
+		"GrpcPort": 50050,
+		"HttpClusterUrl": "/api/face/clusteradd",
+		"HttpSearchUrl": "/api/face/clustersearch",
+		"HttpTargetVidUrl": "/api/face/targetvid",
+		"HttpGetVidCombieUrl": "/api/face/vidcombines",
+		"HttpUpdateUrl": "/api/face/update",
+		"TimeoutSecond": 20,
+		"RepoId": "cluster",
+		"SaxClusterPipelineDataCacheNum": 1000,
+		"SaxSearchPipelineDataCacheNum": 1000
+	},
+	"SaxCascadeServiceConfig": {
+		"IsOpen": true,
+		"NativeIp": "127.0.0.1",
+		"NativeUserName": "admin",
+		"NativePassword": "admin123",
+		"NativeHttpPort": 50053,
+		"ParentIp": "",
+		"ParentUserName": "admin",
+		"ParentPassword": "admin123",
+		"ParentHttpPort": 50053,
+		"ParentGrpcPort": 50050,
+		"RegisterUrl": "/api/face/register",
+		"TimeoutSecond": 3,
+		"TimeIntervalMillSecond": 5000
+	},
+	"SaxDeleteCacheServiceConfig": {
+		"IsOpen": true,
+		"TimeoutSeconds": 30
+	},
+	"SaxDBCacheServiceConfig": {
+		"IsOpen": true,
+		"InsertDataCacheNum": 100,
+		"DeleteDataCacheNum": 100,
+		"TimeIntervalMillSecond": 100
+	},
+	"SaxCombineMapServiceConfig": {},
+	"SaxFeatureQualityNodeConfig": {
+		"MaxThread": 100,
+		"RfcnContext": {
+			"SessionId": "rfcn",
+			"Functions": [
+				200
+			],
+			"Type": 2,
+			"Params": {
+				"detect_mode": "1"
+			}
+		},
+		"AlignContext": {},
+		"FeatureContext": {},
+		"ClusterQualityParams": {
+			"BlurThreashold": 0.3,
+			"LocalIsFaceThreashold": 0.9,
+			"GlobalIsFaceThreashold": 0,
+			"GlobalFrontFaceThreashold": 0,
+			"YawThreashold": 20,
+			"PitchThreashold": 20,
+			"Aspect": 0,
+			"Border": 0,
+			"DetectScore": 0,
+			"Roll": 0,
+			"Size": 0,
+			"MinCutboardWidth": 80,
+			"MinCutboardHeight": 80
+		},
+		"CandiateQualityParams": {
+			"BlurThreashold": 0.5,
+			"LocalIsFaceThreashold": 0.9,
+			"GlobalIsFaceThreashold": 0,
+			"GlobalFrontFaceThreashold": 0,
+			"YawThreashold": 15,
+			"PitchThreashold": 15,
+			"Aspect": 0,
+			"Border": 0,
+			"DetectScore": 0,
+			"Roll": 0,
+			"Size": 0,
+			"MinCutboardWidth": 80,
+			"MinCutboardHeight": 80
+		}
+	},
+	"SaxRankerCandidateNodeConfig": {
+		"MaxThread": 100,
+		"CandidateNum": 5,
+		"Threshold": 0.9
+	},
+	"SaxRankerNoMatchNodeConfig": {
+		"MaxThread": 500
+	},
+	"SaxRankerMatchNodeConfig": {
+		"MaxThread": 500,
+		"ClusterStrategyConfig": {
+			"IsOpen": false,
+			"ConfigType": 2,
+			"ConfigInfo": {}
+		}
+	},
+	"SaxFeatureNodeConfig": {
+		"MaxThread": 100,
+		"RfcnContext": {
+			"SessionId": "rfcn",
+			"Functions": [
+				200
+			],
+			"Type": 2,
+			"Params": {
+				"detect_mode": "1"
+			}
+		},
+		"AlignContext": {},
+		"FeatureContext": {}
+	},
+	"SaxSearchNodeConfig": {
+		"MaxThread": 100,
+		"CandidateNum": 100
+	},
+	"SaxClusterSimilarityNodeConfig": {
+		"MaxThread": 100
+	}
+}

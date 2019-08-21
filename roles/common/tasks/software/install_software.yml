@@ -1,7 +1,7 @@
 ---
 
 
-- name: install dependence_software 
+- name: install dependence_software
   apt:
     name: "{{ item }}"
     update_cache: yes
@@ -15,15 +15,17 @@
     - cpufrequtils
     - htop
     - nmon
-    - zip 
-    - rar 
-    - unrar 
+    - zip
+    - rar
+    - unrar
     - libbz2-dev
-    - bc 
+    - bc
     - coreutils
-    - open-iscsi 
+    - open-iscsi
     - multipath-tools
-    - nfs-common
+    - default-jre
+    - openjdk-8-jdk
+      #    - nfs-common
     - libltdl7
     - nload
     - iotop

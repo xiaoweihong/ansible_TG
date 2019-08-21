@@ -1,0 +1,7 @@
+---
+
+- name: supervisord restart
+  service: name=supervisor state=restarted
+
+- name: nginx reload
+  service: name=nginx state=reloaded

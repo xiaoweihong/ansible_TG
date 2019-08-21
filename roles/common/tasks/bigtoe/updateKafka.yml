@@ -1,0 +1,9 @@
+---
+
+- name:  update kafka config and gb scripts for more data to transtate
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'conf/zk-kafka/10broker-config.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/zk-kafka/kafka/10broker-config.yaml' }
+    - { src: 'package/switch_gb.sh',dest: '/opt/bigtoe/switch_gb.sh' }
