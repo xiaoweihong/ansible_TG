@@ -1,6 +1,7 @@
 #!/bin/bash
 PUBLISH_DATE=$(date +%Y%m%d)
-PUBLISH_PATH=/backup/xiaowei/project/release/platformTG/release/platform_${PUBLISH_DATE}
+VERSION_TAG=$(git reflog |head -1|awk '{print $1}')
+PUBLISH_PATH=/backup/xiaowei/project/release/platformTG/release/platform_${VERSION_TAG}-${PUBLISH_DATE}
 BASEDIR=$(cd $(dirname $0); pwd)
 
 
@@ -30,4 +31,4 @@ cd ${PUBLISH_PATH}/ansible/roles/common/files/package/ && bash downPackage.sh
 cd ${PUBLISH_PATH}
 
 cd ../
-tar zcvf platform_${PUBLISH_DATE}.tgz platform_${PUBLISH_DATE}
+tar zcvf platform_${VERSION_TAG}-${PUBLISH_DATE}.tar.gz platform_${VERSION_TAG}-${PUBLISH_DATE}
