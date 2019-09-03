@@ -37,4 +37,4 @@
   with_items:
     - { src: 'rulevoice',dest: '/platformData/loki/upload' }
     - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' }
-    - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images/logo.png' }
+    - { src: 'logo.png', dest: '/platformData/loki/upload/assets/images/logo.png' }
