@@ -21,6 +21,7 @@
     - weedfs
     - http_server
     - loki/upload/assets/images
+    - loki/upload/civilpackages
 
 - name: make softlink for /platformData/loki/upload/videos
   file:
@@ -36,3 +37,4 @@
   with_items:
     - { src: 'rulevoice',dest: '/platformData/loki/upload' }
     - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' }
+    - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images/logo.png' }

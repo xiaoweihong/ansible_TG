@@ -121,8 +121,13 @@ fse_version: 3.5.1
 cluster: false
 personfile: false" > /etc/ansible/group_vars/all.yml
 
-cd /etc/ansible
-ansible-playbook playbook/00-installTG.yml
+    cd /etc/ansible
+    ansible-playbook playbook/02-check.yml
+    if [ $? -ne 0 ];then
+         fatal_exit
+    fi
+
+    ansible-playbook playbook/00-installTG.yml
 }
 
 function clusterDeploy(){
@@ -160,8 +165,13 @@ else
    cp hosts /etc/ansible/hosts
 fi
    cd /etc/ansible
+   ansible-playbook playbook/02-check.yml
+   if [ $? -ne 0 ];then
+     fatal_exit
+   fi
+
    ansible-playbook playbook/00-installTG.yml
-   
+
 }
 
 

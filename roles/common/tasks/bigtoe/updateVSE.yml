@@ -1,0 +1,7 @@
+---
+
+- name: untar vse-3.7.1-p2.tar.gz patch---->/opt/bigtoe
+  unarchive:
+    src: package/vse-3.7.1-p2.tar.gz
+    dest: /opt/bigtoe
+    creates: /opt/bigtoe/vse

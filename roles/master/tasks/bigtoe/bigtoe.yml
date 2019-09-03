@@ -10,6 +10,10 @@
     chdir: /opt/bigtoe
   when: result|failed
 
+- name: update vse patch
+  shell: cp /opt/bigtoe/vse /data/bigtoe/vse/patches
+
+
 - name: get cluster token
   shell: kubeadm token create --print-join-command | sudo tee /etc/bigtoe/join-token
   register: jointoken
