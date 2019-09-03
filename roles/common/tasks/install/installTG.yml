@@ -12,3 +12,8 @@
     src: package/platformTG.tgz
     dest: /home/{{ansible_user}}
     creates: /home/{{ansible_user}}/platformTG
+
+- name: copy tools to /platformData/http_server
+  copy:
+    src: package/tools.zip
+    dest: /platformData/http_server

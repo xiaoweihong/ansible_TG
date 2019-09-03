@@ -25,13 +25,13 @@
             "addr": "http://127.0.0.1:50051"
         },
         "arcee": {
-            "addr": "127.0.0.1:8502"
+            "addr": "127.0.0.1:7502"
         },
         "hercules": {
-			"addr": "http://192.168.2.222:1315"
+			"addr": "http://127.0.0.1:1315"
 		},
 		"megvii": {
-            "addr": "http://104.35.96.231:81",
+            "addr": "http://127.0.0.1:81",
             "needTestData": false
         },
         "mserver": {
@@ -48,7 +48,7 @@
 			"addr": "http://127.0.0.1:38080"
 		},
         "elasticsearch": {
-            "url":"http://192.168.2.174:9209",
+            "url":"http://127.0.0.1:9209",
             "inuse": false
         }
     },

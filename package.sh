@@ -9,6 +9,7 @@ cd roles/common/files/package
 rm -f *gz
 rm -f *.img
 rm -f *.tar
+rm -f *.zip
 
 if [  -d ${PUBLISH_PATH} ];then
    rm  -rf ${PUBLISH_PATH}
@@ -28,5 +29,5 @@ ln -s ansible/install.sh install.sh
 cd ${PUBLISH_PATH}/ansible/roles/common/files/package/ && bash downPackage.sh
 cd ${PUBLISH_PATH}
 
-#cd ../
-#tar zcvf platform_${PUBLISH_DATE}.tgz platform_${PUBLISH_DATE}
+cd ../
+tar zcvf platform_${PUBLISH_DATE}.tgz platform_${PUBLISH_DATE}
