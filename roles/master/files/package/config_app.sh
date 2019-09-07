@@ -85,6 +85,7 @@ configVse () {
     sed -i -r  "/\"NonvFeature\":/s#\"NonvFeature\":.*#\"NonvFeature\": \"$NonvFeature\",#" $WORK_DIR/pkg/k8s-conf/deepengine/vse/vse-configmap*
     sed -i -r  "/\"PersonFeature\":/s#\"PersonFeature\":.*#\"PersonFeature\": \"$PersonFeature\",#" $WORK_DIR/pkg/k8s-conf/deepengine/vse/vse-configmap*
     sed -i -r  "/\"FaceFeature\":/s#\"FaceFeature\":.*#\"FaceFeature\": \"$FaceFeature\"#" $WORK_DIR/pkg/k8s-conf/deepengine/vse/vse-configmap*
+    cp /opt/bigtoe/vse /data/bigtoe/vse/patches/
 
 }
 

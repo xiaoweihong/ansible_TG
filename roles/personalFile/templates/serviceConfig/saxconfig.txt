@@ -4,19 +4,23 @@
 	},
 	"SaxSimilarityServiceConfig": {
 		"IsOpen": true,
-		"CacheItemMaintainSecond": 20,
 		"BirdageNumThreshold": 2,
-		"RequestDelaySecond": 0,
+		"CacheItemMaintainSecond": 10,
+		"RequestDelaySecond": 3,
 		"CosThreashold": 0.9,
 		"CosAParams": [
-			1.33333333,
-			1.33333333,
-			1.33333333
+			1.29032258,
+			1.29032258,
+			1.29032258
 		],
-		"CosBParams": [-0.05533333, -0.05533333, -0.05533333],
+		"CosBParams": [
+			-0.06774194,
+			-0.06774194,
+			-0.06774194
+		],
 		"ThresParams": [
-			0.6415,
-			0.7165
+			0.6725,
+			0.75
 		],
 		"LinearAlpha": 1,
 		"LinearBeta": 0
@@ -29,7 +33,7 @@
 			"Host": "127.0.0.1",
 			"Port": 5432,
 			"UserName": "postgres",
-			"PassWord": "123456",
+			"PassWord": "Zstvgcs@9102",
 			"DBName": "deepface_cluster",
 			"MaxOpenConnsPerClient": 20,
 			"MaxIdleConnsPerClient": 20,
@@ -40,35 +44,35 @@
 		"IsOpen": true,
 		"RankerAddr": "127.0.0.1:9808",
 		"RankerConnectNumber": 10,
-		"TimeoutSecond": 20,
+		"TimeoutSecond": 5,
 		"TryTimes": 3,
 		"RepoUpdateTimeSecond": 30,
 		"IsLibraryUpdate": false,
 		"IsCacheOpen": true,
 		"RankCacheParams": {
 			"CosAParams": [
-				1.33333333,
-				1.33333333,
-				1.33333333
+				1.29032258,
+				1.29032258,
+				1.29032258
 			],
-			"CosBParams": [-0.05533333, -0.05533333, -0.05533333],
+			"CosBParams": [
+				-0.06774194,
+				-0.06774194,
+				-0.06774194
+			],
 			"ThresParams": [
-				0.6415,
-				0.7165
+				0.6725,
+				0.75
 			],
 			"LinearAlpha": 1,
 			"LinearBeta": 0,
-			"CacheMilSeconds": 10000
+			"CacheMilSeconds": 2000
 		}
 	},
 	"MatrixServiceConfig": {
 		"IsOpen": true,
-		"RfcnAddr": "127.0.0.1:9800",
-		"AlignAddr": "127.0.0.1:9814",
-		"FeatureAddr": "127.0.0.1:9804",
-		"RfcnConnectNumber": 10,
-		"AlignConnectNumber": 10,
-		"FeatureConnectNumber": 10,
+		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
+		"ConnectNumber": 10,
 		"TimeoutSecond": 15,
 		"TryTimes": 3
 	},
@@ -77,9 +81,9 @@
 		"GrpcPort": 50050,
 		"HttpClusterUrl": "/api/face/clusteradd",
 		"HttpSearchUrl": "/api/face/clustersearch",
-		"HttpUpdateUrl": "/api/face/update",
 		"HttpTargetVidUrl": "/api/face/targetvid",
 		"HttpGetVidCombieUrl": "/api/face/vidcombines",
+		"HttpUpdateUrl": "/api/face/update",
 		"TimeoutSecond": 20,
 		"RepoId": "cluster",
 		"SaxClusterPipelineDataCacheNum": 1000,
@@ -110,6 +114,7 @@
 		"DeleteDataCacheNum": 100,
 		"TimeIntervalMillSecond": 100
 	},
+	"SaxCombineMapServiceConfig": {},
 	"SaxFeatureQualityNodeConfig": {
 		"MaxThread": 100,
 		"RfcnContext": {
@@ -117,48 +122,47 @@
 			"Functions": [
 				200
 			],
-			"Type": 2
+			"Type": 2,
+			"Params": {
+				"detect_mode": "1"
+			}
 		},
-		"AlignContext": {
-			"SessionId": "align",
-			"Functions": [
-				201,
-				202,
-				203
-			],
-			"Type": 2
-		},
-		"FeatureContext": {
-			"SessionId": "feature",
-			"Functions": [
-				204
-			],
-			"Type": 2
-		},
+		"AlignContext": {},
+		"FeatureContext": {},
 		"ClusterQualityParams": {
-			"BlurThreashold": 0.1,
-			"LocalIsFaceThreashold": 0.7,
-			"GlobalIsFaceThreashold": 0.3,
-			"GlobalFrontFaceThreashold": 0.3,
-			"YawThreashold": 25,
-			"PitchThreashold": 25,
+			"BlurThreashold": 0.3,
+			"LocalIsFaceThreashold": 0.9,
+			"GlobalIsFaceThreashold": 0,
+			"GlobalFrontFaceThreashold": 0,
+			"YawThreashold": 20,
+			"PitchThreashold": 20,
+			"Aspect": 0,
+			"Border": 0,
+			"DetectScore": 0,
+			"Roll": 0,
+			"Size": 0,
 			"MinCutboardWidth": 80,
 			"MinCutboardHeight": 80
 		},
 		"CandiateQualityParams": {
-			"BlurThreashold": 0.1,
-			"LocalIsFaceThreashold": 0.8,
-			"GlobalIsFaceThreashold": 0.3,
-			"GlobalFrontFaceThreashold": 0.3,
-			"YawThreashold": 25,
-			"PitchThreashold": 25,
+			"BlurThreashold": 0.5,
+			"LocalIsFaceThreashold": 0.9,
+			"GlobalIsFaceThreashold": 0,
+			"GlobalFrontFaceThreashold": 0,
+			"YawThreashold": 15,
+			"PitchThreashold": 15,
+			"Aspect": 0,
+			"Border": 0,
+			"DetectScore": 0,
+			"Roll": 0,
+			"Size": 0,
 			"MinCutboardWidth": 80,
 			"MinCutboardHeight": 80
 		}
 	},
 	"SaxRankerCandidateNodeConfig": {
 		"MaxThread": 100,
-		"CandidateNum": 100,
+		"CandidateNum": 5,
 		"Threshold": 0.9
 	},
 	"SaxRankerNoMatchNodeConfig": {
@@ -168,7 +172,7 @@
 		"MaxThread": 500,
 		"ClusterStrategyConfig": {
 			"IsOpen": false,
-			"ConfigType": 3,
+			"ConfigType": 2,
 			"ConfigInfo": {}
 		}
 	},
@@ -179,24 +183,13 @@
 			"Functions": [
 				200
 			],
-			"Type": 2
+			"Type": 2,
+			"Params": {
+				"detect_mode": "1"
+			}
 		},
-		"AlignContext": {
-			"SessionId": "align",
-			"Functions": [
-				201,
-				202,
-				203
-			],
-			"Type": 2
-		},
-		"FeatureContext": {
-			"SessionId": "feature",
-			"Functions": [
-				204
-			],
-			"Type": 2
-		}
+		"AlignContext": {},
+		"FeatureContext": {}
 	},
 	"SaxSearchNodeConfig": {
 		"MaxThread": 100,

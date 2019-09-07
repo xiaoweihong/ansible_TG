@@ -45,6 +45,7 @@ do
       break
 done
 
+if [[ $machineNum -gt 3 ]];then
 while true
 do
   echo "请输入node节点ip(不包括主节点ip和数据库从节点ip)"
@@ -56,6 +57,7 @@ do
     fi
       break
 done
+fi
 fi
 
 clear
