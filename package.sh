@@ -13,7 +13,7 @@ rm -f *.tar
 rm -f *.zip
 
 if [  -d ${PUBLISH_PATH} ];then
-   rm  -rf ${PUBLISH_PATH}
+   rm  -rf ${PUBLISH_PATH}*
 fi
 
 mkdir ${PUBLISH_PATH}/ansible -p
