@@ -21,6 +21,7 @@
     - { src: 'supervisor/conf.d/k2s.conf',dest: '/etc/supervisor/conf.d/k2s.conf' }
     - { src: 'supervisor/conf.d/loki.conf',dest: '/etc/supervisor/conf.d/loki.conf' }
     - { src: 'supervisor/conf.d/odin.conf',dest: '/etc/supervisor/conf.d/odin.conf' }
+    - { src: 'supervisor/conf.d/sax.conf',dest: '/etc/supervisor/conf.d/sax.conf' }
   tags: [master]
 
 - name: supervisord restart

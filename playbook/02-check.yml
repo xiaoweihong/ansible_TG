@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: master
   gather_facts: no
   tasks:
     - name: check machine can connect

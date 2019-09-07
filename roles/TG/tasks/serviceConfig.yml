@@ -25,7 +25,12 @@
     - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }
     - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
     - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
-#    - { src: 'serviceConfig/saxconfig.txt',dest: '/home/{{ansible_user}}/platformTG/sax/latest/tmp/saxconfig.txt' }
+    - { src: 'serviceConfig/huimu.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/huimu.json' }
+    - { src: 'serviceConfig/dahua.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/dahua.json' }
+    - { src: 'serviceConfig/haikangsdk.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/haikangsdk.json' }
+    - { src: 'serviceConfig/importer.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/importer.json' }
+    - { src: 'serviceConfig/importer_libraF.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/importer_libraF.json' }
+    - { src: 'serviceConfig/saxconfig.txt',dest: '/home/{{ansible_user}}/platformTG/sax/latest/tmp/saxconfig.txt' }
 
 - name: config sax and jormougand for personfile
   template:

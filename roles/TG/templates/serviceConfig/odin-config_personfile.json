@@ -74,7 +74,7 @@
 	"FaceVidHeartbeatCacheServiceConfig":{
 		"IsOpen": true,
 		"SlidingWindowMilSecond": 60000,
-		"SaxHttpUrl": "http://{{groups.personalFileNode[0]}}:50051/api/face/clusteradd",
+		"SaxHttpUrl": "http://127.0.0.1:50051/api/face/clusteradd",
 		"TimeoutSecond": 2,
 		"MaxConnectionNum":5
 	},
@@ -192,7 +192,7 @@
 	},
 	"KafkaAllObjInputNodeConfig": {
 		"Brokers": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"Topics": [
 			"index-vehicle2"
@@ -203,7 +203,7 @@
 	},
 	"KafkaAllObjectFerryOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "ferry_topic",
 		"MaxMessageBytes": "104857600",
@@ -212,7 +212,7 @@
 	},
 	"KafkaAllObjectFerryInputNodeConfig":{
 		"Brokers": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"Topics": [
 			"all_object_ferry_topic"
@@ -226,7 +226,7 @@
 		"MaxThread": 100,
 		"FaceCaptureQualityParams": {
 			"BlurThreshold": 0.1,
-			"LocalIsFaceThreshold": 0.7,
+			"LocalIsFaceThreshold": 0.3,
 			"GlobalIsFaceThreshold": 0,
 			"GlobalFrontFaceThreshold": 0,
 			"YawThreshold": 30,
@@ -273,7 +273,7 @@
 		"YoungThreshold": 0.92,
 		"WhiteWarnQualityParams": {
 			"BlurThreshold": 0.3,
-			"LocalIsFaceThreshold": 0.7,
+			"LocalIsFaceThreshold": 0.3,
 			"GlobalIsFaceThreshold": 0,
 			"GlobalFrontFaceThreshold": 0,
 			"YawThreshold": 10,
@@ -297,7 +297,7 @@
 	},
 	"KafkaFaceCaptureOutputNodeConfig": {
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "devo-face-capture-topic",
 		"MaxMessageBytes": "104857600",
@@ -306,7 +306,7 @@
 	},
 	"KafkaFaceCaptureIndexOutputNodeConfig": {
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "devo-face-capture-index-topic",
 		"MaxMessageBytes": "104857600",
@@ -315,7 +315,7 @@
 	},
 	"KafkaFaceWarnOutputNodeConfig": {
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "devo-face-warn-topic",
 		"MaxMessageBytes": "104857600",
@@ -338,7 +338,7 @@
 	},
 	"KafkaFaceWhiteWarnOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "devo-face-white-warn-topic",
 		"MaxMessageBytes": "104857600",
@@ -384,7 +384,7 @@
 	},
 	"KafkaVehicleCaptureIndexOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "devo-vehicle-capture-index-topic",
 		"MaxMessageBytes": "104857600",
@@ -422,7 +422,7 @@
 	},
 	"KafkaNonmotorCaptureOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "devo-nonmotor-capture-topic",
 		"MaxMessageBytes": "104857600",
@@ -444,7 +444,7 @@
 	},
 	"KafkaPedestrianCaptureOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.personalFileNode[0]}}:32400"
 		],
 		"KafkaTopic": "devo-pedestrian-capture-topic",
 		"MaxMessageBytes": "104857600",

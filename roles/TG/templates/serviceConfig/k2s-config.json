@@ -7,7 +7,7 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.personalFileNode[0]}}:32400"
 			],
 			"Topics": [
 				"devo-face-capture-topic"
@@ -22,7 +22,7 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.personalFileNode[0]}}:32400"
 			],
 			"Topics": [
 				"devo-face-warn-topic"
@@ -37,7 +37,7 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.personalFileNode[0]}}:32400"
 			],
 			"Topics": [
 				"white-push"
