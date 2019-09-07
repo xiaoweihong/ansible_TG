@@ -22,7 +22,7 @@
             "addr": "127.0.0.1:9808"
         },
         "sax": {
-            "addr": "http://{{groups.personalFileNode[0]}}:50051"
+            "addr": "http://127.0.0.1:50051"
         },
         "arcee": {
             "addr": "127.0.0.1:7502"
@@ -39,13 +39,13 @@
 			"out_addr":"127.0.0.1:8905"
         },
         "link": {
-			"addr": "http://127.0.0.1:30233"
+			"addr": "http://{{groups.personalFileNode[0]}}:30233"
         },
         "vse_face":{
-			"addr": "http://127.0.0.1:38080"
+			"addr": "http://{{groups.personalFileNode[0]}}:38080"
 		},
 		"vse_vehicle": {
-			"addr": "http://127.0.0.1:38080"
+			"addr": "http://{{groups.personalFileNode[0]}}:38080"
 		},
         "elasticsearch": {
             "url":"http://127.0.0.1:9209",
@@ -62,9 +62,9 @@
 	},
     "platform": {
 		"kafkaAddress": [
-			"127.0.0.1:32400",
-			"127.0.0.1:32401",
-			"127.0.0.1:32402"
+			"{{groups.personalFileNode[0]}}:32400",
+			"{{groups.personalFileNode[0]}}:32401",
+			"{{groups.personalFileNode[0]}}:32402"
 		],
 		"needSync": false,
 		"consumer": false,

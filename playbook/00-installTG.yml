@@ -1,7 +1,7 @@
 ---
 
 - name: "Check OS Version"
-  hosts: all
+  hosts: master
   gather_facts: true
   tasks:
     - name: Check OS Version
@@ -9,32 +9,34 @@
       when:
         - ansible_lsb.description != "Ubuntu 16.04.5 LTS"
 
-- hosts: all
-  gather_facts: false
-  roles:
-    - role: common
+#- hosts: all
+#  gather_facts: false
+#  roles:
+#    - role: common
 
 - hosts: master
   gather_facts: false
   roles:
+    - role: common
     - role: master
     - role: postgres
     - role: TG
+#    - role: personalFile
 
 
-- hosts: postgresNode
-  gather_facts: false
-  roles:
-    - role: postgresNode
-    - role: node
+#- hosts: postgresNode
+#  gather_facts: false
+#  roles:
+#    - role: postgresNode
+#    - role: node
 
-- hosts: personalFileNode
-  gather_facts: false
-  roles:
-    - role: postgres
-    - role: personalFile
+#- hosts: personalFileNode
+#  gather_facts: false
+#  roles:
+#    - role: postgres
+#    - role: personalFile
 
-- hosts: node
-  gather_facts: false
-  roles:
-    - role: node
+#- hosts: node
+#  gather_facts: false
+#  roles:
+#    - role: node

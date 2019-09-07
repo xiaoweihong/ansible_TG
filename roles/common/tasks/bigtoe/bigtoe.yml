@@ -2,34 +2,33 @@
 
 - name: untar bigtoe ---->/opt/ local take long time
   unarchive:
-    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
+    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-noengine.tar.gz
     dest: /opt/
     creates: /opt/bigtoe
   connection: local
 
 - name: untar bigtoe ---->/opt/ remote take long time
   unarchive:
-    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
+    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-noengine.tar.gz
     dest: /opt/
     creates: /opt/bigtoe
 
-- command: test -f /etc/bigtoe/flags/init_done
-  register: result
-  ignore_errors: true
-
-# TODO 重复执行判断
+#- command: test -f /etc/bigtoe/flags/init_done
+#  register: result
+#  ignore_errors: true
+#
+## TODO 重复执行判断
 - name: execute install_web.sh
   shell: bash install_web.sh
   args:
     chdir: /opt/bigtoe
-  when: result|failed
 
 
 - include: updateNginx.yml
-- include: updateKafka.yml
-- include: updateLink.yml
-- include: updateImporter.yml
-- include: updateVSE.yml
+#- include: updateKafka.yml
+#- include: updateLink.yml
+#- include: updateImporter.yml
+#- include: updateVSE.yml
 
 
 - name: change ip for config file

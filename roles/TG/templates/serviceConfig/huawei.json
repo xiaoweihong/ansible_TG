@@ -1,0 +1,24 @@
+{
+    "config":
+    {
+        "type":"huawei",
+        "ip":"{{groups.master[0]}}",
+        "port":"6060",
+        "user_name":"admin",
+        "passwd":"HuaWei123",
+        "back_ground_width":"1920",
+        "back_ground_height":"1080",
+        "kafkaconfig":{
+            "kafka_addr":"{{groups.personalFileNode[0]}}:32400",
+            "kafka_topic":"face-importer",
+            "kafka_max_size_bytes":"104857600"
+                      },
+
+        "reconnect_time":"",
+        "max_thread":"",
+        "is_removeduplication":"true",
+        "sensor_id":"571d31b4-c556-4691-b4e4-4091c73481c2"
+
+    }
+
+}

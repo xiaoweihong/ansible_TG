@@ -89,12 +89,9 @@ echo "+-------------------------------------------------------------------+"
 echo "|                     瞳镜平台部署                                  |"
 echo "+-------------------------------------------------------------------+"
 echo "|        A tool to auto-compile & install TG platform on Linux      |"
-echo "+-------------------------------------------------------------------+"
 echo "|           For more information please read document               |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    1. 单机部署                                    |"
-echo "+-------------------------------------------------------------------+"
-echo "|                    2. 集群部署                                    |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
@@ -103,6 +100,7 @@ echo "请选择:"
 
 function singleDeploy(){
 . ansible/scripts/config_arcee.sh
+personfile=true
 
   echo "[master]
 ${IPADDR}
@@ -119,8 +117,14 @@ ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
 fse_version: 3.5.1 
 cluster: false
-personfile: false" > /etc/ansible/group_vars/all.yml
+personfile: true" > /etc/ansible/group_vars/all.yml
 
+   cd ansible/scripts
+   ./setupPersonfile.sh
+   if [[ $? -ne 0 ]];then
+      fatal_exit 
+   fi
+   cp hosts /etc/ansible/hosts
     cd /etc/ansible
     ansible-playbook playbook/02-check.yml
     if [ $? -ne 0 ];then
@@ -194,8 +198,8 @@ function main(){
     logging "Ansible Aleady Installed."
   fi
 
- if [ -f /etc/ansible ];then
-    rm -f /etc/ansible
+ if [ -d /etc/ansible ];then
+    rm -d /etc/ansible
  fi
  ln -s ${SHELL_DIR}/ansible /etc/ansible
 
@@ -217,7 +221,7 @@ function main(){
         2)
   clear
       logging "集群部署"
-      clusterDeploy
+#      clusterDeploy
   if [[ $? == 0 ]]; then
     normal_exit
   else
@@ -230,7 +234,7 @@ function main(){
       exit 0
       ;;
       *)
-      logging "请选择[1-2]"
+      logging "请选择[1]"
         menu
       esac
   done
