@@ -6,13 +6,15 @@
     chdir: /opt/bigtoe
     creates: /etc/bigtoe/flags/init_done
 
-- name: join cluster
-  shell: "{{hostvars[hostvars[inventory_hostname]['groups']['master'][0]]['token']}}"
-  args:
-    creates: /etc/bigtoe/flags/master_ip
-
-- name: install_minion command
-  shell:  echo "{{groups.master[0]}}" >/etc/bigtoe/flags/master_ip
+#- name: join cluster
+#  shell: "{{hostvars[hostvars[inventory_hostname]['groups']['master'][0]]['token']}}"
+#  args:
+#    creates: /etc/bigtoe/flags/master_ip
+#  when: cluster == true
+#
+#- name: install_minion command
+#  shell:  echo "{{groups.master[0]}}" >/etc/bigtoe/flags/master_ip
+#  when: cluster == true
 
 #  debug: var={{token}}
 #  debug: var=hostvars[hostvars[inventory_hostname]['groups']['master'][0]]['token']
