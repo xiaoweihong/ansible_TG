@@ -123,7 +123,7 @@ ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
-fse_version: 3.5.1 
+fse_version: 3.5.1
 cluster: false
 personfile: false" > /etc/ansible/group_vars/all.yml
 
@@ -166,7 +166,7 @@ else
    cd ansible/scripts
    ./setupPersonfile.sh
    if [[ $? -ne 0 ]];then
-      fatal_exit 
+      fatal_exit
    fi
    cp hosts /etc/ansible/hosts
 fi
