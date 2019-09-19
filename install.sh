@@ -103,11 +103,6 @@ echo "请选择:"
 
 function singleDeploy(){
 
-  if [ -d /etc/ansible ];then
-    rm -f /etc/ansible
-  else
-    ln -s ${SHELL_DIR}/ansible /etc/ansible
-  fi
 . ansible/scripts/config_arcee.sh
 
   echo "[master]

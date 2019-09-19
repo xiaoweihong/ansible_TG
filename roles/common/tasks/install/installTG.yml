@@ -4,7 +4,7 @@
   unarchive:
     src: package/platformTG.tgz
     dest: /home/{{ansible_user}}
-    creates: /home/{{ansible_user}}/platformTG
+    creates: /home/{{ansible_user}}/platformTG/VERSION
   connection: local
 
 - name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG remote

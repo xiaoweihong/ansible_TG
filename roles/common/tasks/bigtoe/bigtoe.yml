@@ -11,7 +11,7 @@
   unarchive:
     src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
     dest: /opt/
-    creates: /opt/bigtoe
+    creates: /opt/bigtoe/bigtoe-tools
 
 - command: test -f /etc/bigtoe/flags/init_done
   register: result
