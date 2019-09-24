@@ -11,5 +11,5 @@
   args:
     chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}
 
-- name: sleep 3 second for fse start successfully
-  pause: seconds=3
+- name: sleep 35 second for fse start successfully
+  pause: seconds=35

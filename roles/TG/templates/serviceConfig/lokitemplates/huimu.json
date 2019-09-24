@@ -1,0 +1,22 @@
+{
+    "config":
+    {
+        "type":"huimu",
+        "ip":"192.168.1.19",
+        "port":"9902",
+        "user_name":"123",
+        "passwd":"123",
+        "kafkaconfig":{
+            "kafka_addr":"127.0.0.1:32400",
+            "kafka_topic":"face-importer",
+            "kafka_max_size_bytes":"4000000"
+                      },
+
+        "reconnect_time":"",
+        "max_thread":"",
+        "is_removeduplication":"true",
+        "sensor_id":"b0a02737-c7de-4e62-9745-6c4c78773fd5"
+
+    }
+
+}

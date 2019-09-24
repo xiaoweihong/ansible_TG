@@ -88,7 +88,12 @@
   args:
     creates: /home/{{ansible_user}}/platformTG/loki/flag
 
-- name: create database deepface_v5
+- name: create database deepface_cluster
   shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/sax/latest/cluster.sql"; touch /home/{{ansible_user}}/platformTG/sax/flag
   args:
     creates: /home/{{ansible_user}}/platformTG/sax/flag
+
+- name: create database sax_vehicle
+  shell: su - postgres -c "psql -c 'create database sax_vehicle'"; touch /home/{{ansible_user}}/platformTG/sax_vehicle/flag
+  args:
+    creates: /home/{{ansible_user}}/platformTG/sax_vehicle/flag

@@ -25,7 +25,20 @@
     - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }
     - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
     - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
-#    - { src: 'serviceConfig/saxconfig.txt',dest: '/home/{{ansible_user}}/platformTG/sax/latest/tmp/saxconfig.txt' }
+
+- name: copy loki template file
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'serviceConfig/lokitemplates/dahua.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/dahua.json' }
+    - { src: 'serviceConfig/lokitemplates/haikangsdk.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/haikangsdk.json' }
+    - { src: 'serviceConfig/lokitemplates/huawei.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/huawei.json' }
+    - { src: 'serviceConfig/lokitemplates/huimu.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/huimu.json' }
+    - { src: 'serviceConfig/lokitemplates/importer.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/importer.json' }
+    - { src: 'serviceConfig/lokitemplates/importer_libraF.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/importer_libraF.json' }
+    - { src: 'serviceConfig/lokitemplates/link_video.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/link_video.json' }
+    - { src: 'serviceConfig/config.js',dest: '/home/{{ansible_user}}/platformTG/jormougand/latest/config.js' }
 
 - name: config sax and jormougand for personfile
   template:
@@ -33,9 +46,7 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'serviceConfig/loki-production-personalfile.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
-    - { src: 'serviceConfig/odin-streamtools_personfile.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/streamtools.json' }
     - { src: 'serviceConfig/odin-config_personfile.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
-    - { src: 'serviceConfig/config.js',dest: '/home/{{ansible_user}}/platformTG/jormougand/latest/config.js' }
   when: personfile == true
 
 - name: config sax and jormougand for no personfile
@@ -44,6 +55,4 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
-    - { src: 'serviceConfig/odin-streamtools_nopersonfile.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/streamtools.json' }
-    - { src: 'serviceConfig/config-nopersonfile.js',dest: '/home/{{ansible_user}}/platformTG/jormougand/latest/config.js' }
   when: personfile == false

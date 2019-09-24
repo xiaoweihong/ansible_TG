@@ -38,3 +38,11 @@
     - { src: 'rulevoice',dest: '/platformData/loki/upload' }
     - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' }
     - { src: 'logo.png', dest: '/platformData/loki/upload/assets/images/logo.png' }
+
+- name: copy kafka_tool file to /usr/bin
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode }}'
+  with_items:
+    - { src: 'package/kafka_tool_20190726', dest: '/usr/bin', mode: 755 }
