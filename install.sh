@@ -118,7 +118,7 @@ ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
-fse_version: 3.5.1
+fse_version: 3.5.1-Turing-Proxy
 cluster: false
 personfile: false" > /etc/ansible/group_vars/all.yml
 
@@ -146,7 +146,7 @@ ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
-fse_version: 3.5.1
+fse_version: 3.5.1-Turing-Proxy
 cluster: true
 personfile: $personfile" > /etc/ansible/group_vars/all.yml
 

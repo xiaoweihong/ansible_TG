@@ -4,9 +4,9 @@
 - name: copy image and config file to /opt/bigtoe/pkg/docker-images and /opt/bigtoe/pkg/k8s-conf/deepengine/link
   copy:
     src: '{{ item.src }}'
-    dest: '{{ item.dest }}' 
+    dest: '{{ item.dest }}'
   with_items:
-    - { src: 'package/link-0.19.0-job-hostnetwork.tar',dest: '/opt/bigtoe/pkg/docker-images' }
+    - { src: 'package/link-0.21.0.tar',dest: '/opt/bigtoe/pkg/docker-images' }
     - { src: 'package/hm_importer-0.12.5.tar',dest: '/opt/bigtoe/pkg/docker-images' } 
     - { src: 'package/hw_importer-0.8.0.tar',dest: '/opt/bigtoe/pkg/docker-images' } 
     - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' } 

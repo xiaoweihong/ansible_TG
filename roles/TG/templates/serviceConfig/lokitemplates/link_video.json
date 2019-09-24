@@ -1,0 +1,49 @@
+{
+    "task_id":"a",
+    "video_input":{
+        "uri":"rtsp://192.168.2.123:554/live/t1031",
+        "params":{
+
+        }
+    },
+    "task_type":"live",
+    "task_key_frame":true,
+    "end_time":-1,
+    "speedx":1,
+    "function":{
+        "motor_vehicle_detect":2,
+        "non_motor_vehicle_detect":2,
+        "pedestrian_detect":2,
+        "face_detect":2
+    },
+    "rois":[
+
+    ],
+    "sys_event_output":{
+        "uri":"http://192.168.6.106/callback",
+        "params":{
+
+        }
+    },
+    "render_output":{
+
+    },
+    "vsd_output":{
+        "params":{
+            "RepoId":"",
+            "deviceGBid":"50010800041310050222",
+            "IsSceneImage":"1",
+            "FeatureImageSaveDay":"7",
+            "SceneImageSaveDay":"7",
+            "IsFeatureImage":"1",
+            "SensorId":""
+        }
+    },
+    "user_data":{
+
+    },
+    "extends":{
+
+    }
+}
+

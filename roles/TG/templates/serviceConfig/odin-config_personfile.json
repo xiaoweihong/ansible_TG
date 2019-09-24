@@ -7,7 +7,7 @@
 		"ConfigType": 1,
 		"ConfigInfo": {
 			"DBType": "postgres",
-			"Host": "127.0.0.1",
+			"Host": "{{groups.master[0]}}",
 			"Port": 5432,
 			"UserName": "postgres",
 			"PassWord": "Zstvgcs@9102",
@@ -38,35 +38,35 @@
 	},
 	"FaceCaptureRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "127.0.0.1:9812",
+		"RankerAddr": "{{groups.master[0]}}:9812",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"FaceWarnRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "127.0.0.1:9808",
+		"RankerAddr": "{{groups.master[0]}}:9808",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"VehicleCaptureRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "127.0.0.1:9812",
+		"RankerAddr": "{{groups.master[0]}}:9812",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"PedestrianCaptureRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "127.0.0.1:9812",
+		"RankerAddr": "{{groups.master[0]}}:9812",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"NonmotorCaptureRankerServiceConfig":{
 		"IsOpen": true,
-		"RankerAddr": "127.0.0.1:9812",
+		"RankerAddr": "{{groups.master[0]}}:9812",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
@@ -75,6 +75,13 @@
 		"IsOpen": true,
 		"SlidingWindowMilSecond": 60000,
 		"SaxHttpUrl": "http://{{groups.personalFileNode[0]}}:50051/api/face/clusteradd",
+		"TimeoutSecond": 2,
+		"MaxConnectionNum":5
+	},
+	"VehicleVidHeartbeatCacheServiceConfig":{
+		"IsOpen": true,
+		"SlidingWindowMilSecond": 60000,
+		"SaxHttpUrl": "http://{{groups.master[0]}}:8084/api/vehicle/clustersearch",
 		"TimeoutSecond": 2,
 		"MaxConnectionNum":5
 	},
@@ -146,7 +153,7 @@
 			"IsOpen": true,
 			"SlidingWindowMilSecond": 30000,
 			"TopNum": 5,
-			"PlateSimilarityThreshold": 0.9,
+			"PlateSimilarityThreshold": 0,
 			"FeaturesSimilarityThreshold": 0.93,
 			"VehiclePlateTextSimilarNumGroup": [
 				[
@@ -192,7 +199,7 @@
 	},
 	"KafkaAllObjInputNodeConfig": {
 		"Brokers": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"Topics": [
 			"index-vehicle2"
@@ -203,7 +210,7 @@
 	},
 	"KafkaAllObjectFerryOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"KafkaTopic": "ferry_topic",
 		"MaxMessageBytes": "104857600",
@@ -212,7 +219,7 @@
 	},
 	"KafkaAllObjectFerryInputNodeConfig":{
 		"Brokers": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"Topics": [
 			"all_object_ferry_topic"
@@ -256,6 +263,7 @@
 		"MaxThread":100
 	},
 	"FaceVidAcquireNodeConfig":{
+		"IsVidOpen": true,
 		"MaxThread": 100
 	},
 	"PersonFileStorageNodeConfig":{
@@ -297,25 +305,16 @@
 	},
 	"KafkaFaceCaptureOutputNodeConfig": {
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"KafkaTopic": "devo-face-capture-topic",
 		"MaxMessageBytes": "104857600",
 		"KafkaSentMaxThread": 100,
 		"IsCompression": false
 	},
-	"KafkaFaceCaptureIndexOutputNodeConfig": {
-		"KafkaAddress": [
-			"127.0.0.1:32400"
-		],
-		"KafkaTopic": "devo-face-capture-index-topic",
-		"MaxMessageBytes": "104857600",
-		"KafkaSentMaxThread": 100,
-		"IsCompression": false
-	},
 	"KafkaFaceWarnOutputNodeConfig": {
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"KafkaTopic": "devo-face-warn-topic",
 		"MaxMessageBytes": "104857600",
@@ -323,7 +322,7 @@
 		"IsCompression": false
 	},
 	"FaceWhiteWarnDeweightNodeConfig":{
-		"MaxThread":100,          
+		"MaxThread":100,
 		"SlidingWindowMilSecond": 20000
 	},
 	"FaceWhiteWarnStorageNodeConfig":{
@@ -338,7 +337,7 @@
 	},
 	"KafkaFaceWhiteWarnOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"KafkaTopic": "devo-face-white-warn-topic",
 		"MaxMessageBytes": "104857600",
@@ -361,32 +360,27 @@
 		"MaxThread": 100,
 		"TimeIntervalMillSecond": 50
 	},
+	"VehicleVidAcquireNodeConfig":{
+		"IsVidOpen": true,
+		"MaxThread": 100,
+		"PlateQualityMinConfidence": 0.85,
+		"ReIdSlidingWindowMilSecond": 60000
+	},
 	"VehicleCaptureIndexStorageNodeConfig": {
 		"CacheNum": 500,
 		"MaxThread": 100,
 		"TimeIntervalMillSecond": 50
 	},
-	"VehicleChemicalCreateNodeConfig": {
-		"MaxThread": 100
-	},
-	"VehicleChemicalStorageNodeConfig": {
+	"VehicleFileStorageNodeConfig":{
 		"CacheNum": 500,
-		"MaxThread": 100,
-		"TimeIntervalMillSecond": 50
+		"TimeIntervalMillSecond": 50,
+		"MaxThread":100
 	},
-	"VehicleFacialShadedCreateNodeConfig": {
-		"MaxThread": 100
-	},
-	"VehicleFacialShadedStorageNodeConfig": {
-		"CacheNum": 500,
-		"MaxThread": 100,
-		"TimeIntervalMillSecond": 50
-	},
-	"KafkaVehicleCaptureIndexOutputNodeConfig":{
+	"KafkaVehicleCaptureOutputNodeConfig": {
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
-		"KafkaTopic": "devo-vehicle-capture-index-topic",
+		"KafkaTopic": "devo-vehicle-capture-topic",
 		"MaxMessageBytes": "104857600",
 		"KafkaSentMaxThread": 100,
 		"IsCompression": false
@@ -404,25 +398,9 @@
 		"MaxThread": 100,
 		"TimeIntervalMillSecond": 50
 	},
-	"NonmotorWithoutHelmetCreateNodeConfig": {
-		"MaxThread": 100
-	},
-	"NonmotorWithoutHelmetStorageNodeConfig": {
-		"CacheNum": 500,
-		"MaxThread": 100,
-		"TimeIntervalMillSecond": 50
-	},
-	"NonmotorIllegalMannedCreateNodeConfig": {
-		"MaxThread": 100
-	},
-	"NonmotorIllegalMannedStorageNodeConfig": {
-		"CacheNum": 500,
-		"MaxThread": 100,
-		"TimeIntervalMillSecond": 50
-	},
 	"KafkaNonmotorCaptureOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"KafkaTopic": "devo-nonmotor-capture-topic",
 		"MaxMessageBytes": "104857600",
@@ -444,7 +422,7 @@
 	},
 	"KafkaPedestrianCaptureOutputNodeConfig":{
 		"KafkaAddress": [
-			"127.0.0.1:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"KafkaTopic": "devo-pedestrian-capture-topic",
 		"MaxMessageBytes": "104857600",

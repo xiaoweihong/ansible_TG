@@ -1,0 +1,23 @@
+
+{
+    "config":
+    {
+        "type":"haikang",
+        "ip":"192.168.19.125",
+        "port":"8000",
+        "user_name":"admin",
+        "passwd":"admin123",
+        "kafkaconfig":{
+            "kafka_addr":"{{groups.master[0]}}:32400",
+            "kafka_topic":"face-importer",
+            "kafka_max_size_bytes":"104857600"
+                      },
+        
+        "reconnect_time":"",
+        "max_thread":"",
+        "is_removeduplication":"true",
+        "sensor_id":"b0a02737-c7de-4e62-9745-6c4c78773fd5"
+        
+    }
+    
+}
