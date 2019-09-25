@@ -55,4 +55,5 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
+    - { src: 'serviceConfig/config-nopersonfile.js',dest: '/home/{{ansible_user}}/platformTG/jormougand/latest/config.js' }
   when: personfile == false
