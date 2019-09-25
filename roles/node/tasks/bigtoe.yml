@@ -13,6 +13,8 @@
 
 - name: install_minion command
   shell:  echo "{{groups.master[0]}}" >/etc/bigtoe/flags/master_ip
+  args:
+    creates: /etc/bigtoe/flags/master_ip
 
 #  debug: var={{token}}
 #  debug: var=hostvars[hostvars[inventory_hostname]['groups']['master'][0]]['token']

@@ -54,8 +54,13 @@
   args:
     chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
 
-- name: restart vse
-  shell: ./restart_pods.sh vse
+- name: update link and restart
+  shell: kubectl apply -f link-configmap.yaml ; kubectl apply -f link-deployment.yaml
+  args:
+    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/link/
+
+- name: restart vse and link
+  shell: ./restart_pods.sh vse ; ./restart_pods.sh link
   async: 10
   poll: 0
   args:

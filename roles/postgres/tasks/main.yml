@@ -25,7 +25,7 @@
   args:
     creates: /{{platformPath}}/postgresql/11/main/base
 
-  
+
 - name: copy pipedb package
   copy:
     src: '{{ item.src }}'
@@ -97,3 +97,10 @@
   shell: su - postgres -c "psql -c 'create database sax_vehicle'"; touch /home/{{ansible_user}}/platformTG/sax_vehicle/flag
   args:
     creates: /home/{{ansible_user}}/platformTG/sax_vehicle/flag
+
+
+- name: update database 820 to 930
+  shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/loki/820to930update.sql" ; touch /home/{{ansible_user}}/platformTG/loki/update820to930_flag
+  args:
+    creates: /home/{{ansible_user}}/platformTG/loki/update820to930_flag
+  when: update == True
