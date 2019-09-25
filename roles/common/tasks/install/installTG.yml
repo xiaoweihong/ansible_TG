@@ -7,11 +7,15 @@
 #    creates: /home/{{ansible_user}}/platformTG/VERSION
 #  connection: local
 
+- name: remove old version package
+  shell: rm -rf /home/{{ansible_user}}/platformTG
+  when: update == True
+
 - name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG remote
   unarchive:
     src: package/platformTG.tgz
     dest: /home/{{ansible_user}}
-    creates: /home/{{ansible_user}}/platformTG
+    creates: /home/{{ansible_user}}/platformTG/VERSION
 
 - name: copy tools to /platformData/http_server
   copy:

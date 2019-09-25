@@ -1,0 +1,32 @@
+---
+
+
+- hosts: all
+  gather_facts: false
+  roles:
+    - role: common
+
+- hosts: master
+  gather_facts: false
+  roles:
+    - role: master
+    - role: postgres
+    - role: TG
+
+
+- hosts: postgresNode
+  gather_facts: false
+  roles:
+    - role: postgresNode
+    - role: node
+
+- hosts: personalFileNode
+  gather_facts: false
+  roles:
+    - role: postgres
+    - role: personalFile
+
+- hosts: node
+  gather_facts: false
+  roles:
+    - role: node

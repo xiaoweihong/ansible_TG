@@ -96,6 +96,8 @@ echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    2. 集群部署                                    |"
 echo "+-------------------------------------------------------------------+"
+echo "|                    3. 820更新到930
+echo "+-------------------------------------------------------------------+"
 echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
 echo "请选择:"
@@ -120,6 +122,7 @@ ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
 fse_version: 3.5.1-Turing-Proxy
 cluster: false
+update: false
 personfile: false" > /etc/ansible/group_vars/all.yml
 
     cd /etc/ansible
@@ -148,6 +151,7 @@ ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.0.1
 fse_version: 3.5.1-Turing-Proxy
 cluster: true
+update: false
 personfile: $personfile" > /etc/ansible/group_vars/all.yml
 
 if [[ $personfile == "false" ]];then
@@ -175,6 +179,12 @@ fi
 
 }
 
+function update(){
+
+   ansible-playbook playbook/03-updateTG.yml
+
+}
+
 
 function main(){
 
@@ -195,9 +205,7 @@ function main(){
     logging "Ansible Aleady Installed."
   fi
 
- if [ -f /etc/ansible ];then
-    rm -f /etc/ansible
- fi
+ rm -f /etc/ansible
  ln -s ${SHELL_DIR}/ansible /etc/ansible
 
     while true
@@ -224,6 +232,9 @@ function main(){
   else
     fatal_exit
   fi
+        2)
+  clear
+      logging "820升级到930"
       ;;
       [qQ])
       logging "退出"
@@ -231,7 +242,7 @@ function main(){
       exit 0
       ;;
       *)
-      logging "请选择[1-2]"
+      logging "请选择[1-3]"
         menu
       esac
   done
