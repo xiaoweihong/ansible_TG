@@ -2,7 +2,7 @@
 
 
 - hosts: all
-  gather_facts: false
+  gather_facts: True
   roles:
     - role: common
 

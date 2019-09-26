@@ -1,5 +1,13 @@
 ---
 
+- name: copy 
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode }}'
+  with_items:
+    - { src: 'bigtoe-tools', dest: '/opt/bigtoe', mode: 755 }
+
 - name: node bigtoe init
   shell: bash install_minion.sh;
   args:

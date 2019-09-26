@@ -1,0 +1,1068 @@
+#!/bin/bash
+
+SHELL_DIR="/opt/bigtoe"
+SHELL_LOG="${SHELL_DIR}/logs/bigtoe-tools.log"
+ROLES_FILE="${SHELL_DIR}/role"
+LOCK_FILE="/tmp/bigtoe.lock"
+AUTO_INSTALL_ANSIBLE="false"
+IP=`ifconfig -a $(route -n | awk '$1 ~ /^0.0.0.0$/ {print $NF}') | awk -F ":" '$1 ~ /inet addr/ {print $2}' | awk '{print $1}'`
+SUDO="sudo -H "
+
+logging(){
+    if [[ ! -d ${SHELL_DIR}"/logs" ]];then
+        mkdir -p ${SHELL_DIR}"/logs"
+    fi
+    LOG_INFO="[$(date "+%Y-%m-%d") $(date "+%H:%M:%S")] $1"
+    echo ${LOG_INFO}
+    echo ${LOG_INFO} >> ${SHELL_LOG}
+}
+
+usage(){
+    echo ""
+    echo "Usage: bigtoe-tools COMMAND [OPTION]"
+    echo ""
+    echo "Commands:"
+    echo "    init"
+    echo "    install (out of k8s cluster)"
+    echo "    deploy  (in k8s cluster)"
+    echo "    authorize"
+    echo "    reset"
+    echo "    reset-app"
+    echo "    status"
+    echo "    count-gpu"
+    echo ""
+    echo "Install Options:"
+    echo "    web"
+    echo "    k8s-master"
+    echo "    k8s-minion"
+    #echo "    data-center"
+    #echo "    registry"
+    echo "    nfs-server"
+    echo "    ftp"
+    echo "    ..."
+    echo ""
+    echo "Deploy Options:"
+    echo "    dashboard"
+    echo "    pgsql"
+    echo "    redis"
+    echo "    weedfs"
+    echo "    zk-kafka"
+    echo "    ..."
+    echo ""
+}
+
+run() {
+    $1 | tee -a $SHELL_LOG
+    return ${PIPESTATUS[0]}
+}
+
+lock(){
+    touch ${LOCK_FILE}
+}
+
+unlock(){
+    rm -f ${LOCK_FILE}
+}
+
+mark_roles() {
+    echo $1 > ${ROLES_FILE}
+}
+
+fatal_exit() {
+    logging "Fatal Exit."
+    unlock
+    exit 1
+}
+
+normal_exit() {
+    logging "Normal Exit."
+    unlock
+    exit 0
+}
+
+kill_exit() {
+    logging "Receive Kill Signal."
+    unlock
+    exit 1
+}
+
+check_roles() {
+    MARK=`cat ${ROLES_FILE}`
+    if [[ ${MARK} != "master" ]];then
+        return 1
+    fi
+    return 0
+}
+
+mountVolume() {
+    if [[ ! -d "/data" ]];then
+        mkdir -p "/data"
+    fi
+
+#    if [[ `mount | grep '/data type ext4'` ]];then
+#        echo "/data Already Mount"
+#    else 
+#        SDBUUID=`blkid -s UUID /dev/sdb | awk '{print $2}' | sed "s/\"//g"`;
+#        echo "$SDBUUID /data ext4 defaults 0 0" >> /etc/fstab;
+#        mount $SDBUUID /data
+#    fi 
+}
+
+replace_source_list() {
+    file="/etc/apt/sources.list"
+    tmpfile="/tmp/sources.list.tmp"
+
+    if [[ ! -d ${SHELL_DIR}"/backup" ]];then
+        mkdir -p ${SHELL_DIR}"/backup"
+    fi
+
+    copyfile="${SHELL_DIR}/backup/sources.list"
+    if [[ ! -f $copyfile ]]; then
+        cp $file $copyfile
+    fi
+
+    while read line 
+    do
+        if [[ "$line" == *bigtoe* ]]; then
+            echo $line >> $tmpfile
+        else
+            echo "#FFF "$line >> $tmpfile
+        fi
+    done < $file
+
+    mv -f $tmpfile $file
+}
+
+disable_swap() {
+    swapoff -a
+    grep swap /etc/fstab | grep -v '#' | xargs -i sed 's#{}##g' -i /etc/fstab
+}
+
+recover_source_list() {
+    file="/etc/apt/sources.list"
+    tmpfile="/tmp/sources.list.tmp"
+    while read line 
+    do
+        if [[ "$line" != *bigtoe* ]]; then
+            echo $line | sed 's/\#FFF //g' >> $tmpfile
+        fi
+    done < $file
+
+    mv -f $tmpfile $file
+}
+
+check_ansible() {
+    ansible --version 2>&1 > /dev/null
+    return $?
+}
+
+install_ansible() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  ansible/' >> /etc/apt/sources.list
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  python-apt/' >> /etc/apt/sources.list
+    replace_source_list
+    apt-get update
+    apt-get install -y ansible python-apt
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install Ansible Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    return $ret
+}
+
+check_gcc() {
+    gcc --version 2>&1 > /dev/null
+    return $?
+}
+
+install_libc6-amd64() {
+    apt-get purge -y libc6-i386
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  libc6-amd64/' >> /etc/apt/sources.list
+    replace_source_list
+    apt update
+    apt-get install -y libc6-amd64
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install libc6-amd64 Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    return $ret
+}
+
+install_gcc() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  gcc/' >> /etc/apt/sources.list
+    replace_source_list
+    apt update
+    apt install -y gcc make
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install gcc Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    return $ret
+}
+
+
+check_docker() {
+    VERSION=`docker --version | awk -F "," '{print $1}'`
+    if [[ ${VERSION} == "Docker version 18.06.1-ce" ]]; then
+        return 0
+    fi
+    return 1
+}
+
+install_docker() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  docker/' >> /etc/apt/sources.list
+    replace_source_list
+    apt update
+    apt install -y docker-ce
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install Docker Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    mkdir -p /etc/docker
+    cp $WORKDIR/pkg/k8s-conf/daemon.json /etc/docker/daemon.json
+
+    mkdir -p /data/docker
+    mkdir -p /etc/systemd/system/docker.service.d/
+    cp $WORKDIR/pkg/k8s-conf/docker.root.conf /etc/systemd/system/docker.service.d/
+    systemctl daemon-reload
+    service docker restart
+    return $ret
+}
+
+check_nvidia_docker() {
+    nvidia-docker version 2>&1 > /dev/null
+    return $?
+}
+
+install_nvidia_docker() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  nvidia-docker/' >> /etc/apt/sources.list
+    replace_source_list
+    apt update
+    apt -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y nvidia-docker2
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install Nvidia Docker Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+
+    return $ret
+}
+
+check_nvidia_driver() {
+    nvidia-smi 2>&1 > /dev/null
+    return $?
+}
+
+check_nvidia_driver_version() {
+    VERSION=`nvidia-smi -q | grep 'Driver Version' | awk -F ":"  '{print $2}' | awk '{$1=$1};1'`
+    if [[ $VERSION == "418.56" ]]; then
+        return 0
+    fi
+    return 1
+}
+
+uninstall_nvidia_driver() {
+    /usr/bin/nvidia-uninstall -s
+}
+
+install_nvidia_driver() {
+    bash ${SHELL_DIR}/pkg/nvidia-driver/NVIDIA-Linux-x86_64-418.56.run -s
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install Nvidia Driver Error..."
+        return 1
+    fi
+    return 0
+}
+
+check_nginx() {
+    nginx -V 2>&1 > /dev/null
+    return $?
+}
+
+install_nginx() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  nginx/' >> /etc/apt/sources.list
+    replace_source_list
+    apt update
+    apt install -y nginx
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install Nginx Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    return $ret
+}
+
+
+load_docker_images() {
+    #dir=${SHELL_DIR}"/pkg/docker-images/base/"
+    #for file in `ls $dir`
+    #do
+    #    docker load < $dir$file
+    #done
+    find ${SHELL_DIR}/pkg/docker-images/ -name *.tar | xargs -i docker load -i {}
+}
+
+check_k8s_dependence() {
+    kubeadm version 2>&1 > /dev/null
+    return $?
+}
+
+install_k8s_dependence() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  k8s/' >> /etc/apt/sources.list
+    replace_source_list
+    apt-get update
+    apt install -y kubelet kubeadm kubectl
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install K8S Dependence Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    return $ret
+}
+
+install_nfs_server() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  nfs/' >> /etc/apt/sources.list
+    replace_source_list
+    apt-get update
+    apt -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y nfs-kernel-server
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install NFS Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    return $ret
+}
+
+check_ftp() {
+    if [[ -f /usr/sbin/vsftpd ]]
+    then
+        return 0
+    fi
+    return 1
+}
+
+install_ftp_server() {
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/  ftp/' >> /etc/apt/sources.list
+    replace_source_list
+    apt-get update
+    apt install -y vsftpd db-util
+
+    if [[ $? != 0 ]];then
+        logging "ERROR: Install FTP Error..."
+        ret=1
+    else
+        ret=0
+    fi
+    recover_source_list
+    return $ret
+}
+
+install_bigtoe_web() {
+    run install_gcc
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/web  nginx/' >> /etc/apt/sources.list
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/web  php7.2/' >> /etc/apt/sources.list
+    echo 'deb [ trusted=yes ]  file:///opt/bigtoe/pkg/web  mysql/' >> /etc/apt/sources.list
+    replace_source_list
+    apt-get update
+
+    apt-get install -y nginx
+    apt-get install -y php7.2-dev php7.2-mysql php7.2-mbstring php7.2-curl php7.2-xml php7.2-zip  php7.2-fpm php-pear gcc make autoconf libc-dev pkg-config libmcrypt-dev
+
+    printf "\n" | pecl install ${SHELL_DIR}/pkg/web/pecl/mcrypt-1.0.1.tgz
+    $SUDO bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/cli/conf.d/mcrypt.ini"
+    $SUDO bash -c "echo extension=/usr/lib/php/20170718/mcrypt.so > /etc/php/7.2/fpm/conf.d/mcrypt.ini"
+
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password password deepglint';
+    debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password deepglint';
+    apt-get install -y mysql-server
+    recover_source_list
+
+    rm -rf /var/www/
+    cp -rf ${SHELL_DIR}/src/var/www /var/
+    chown -R www-data:www-data /var/www
+
+    cp -f ${SHELL_DIR}/pkg/web/conf/* /etc/nginx/conf.d/
+    sed -i 's#max_execution_time = 30#max_execution_time = 1200#g' /etc/php/7.2/fpm/php.ini
+    sed -i 's#listen = /run/php/php7.2-fpm.sock#listen = 127.0.0.1:9000#g' /etc/php/7.2/fpm/pool.d/www.conf
+    sed -i 's#;request_terminate_timeout = 0#request_terminate_timeout = 1200#g' /etc/php/7.2/fpm/pool.d/www.conf
+    sed -i 's#include /etc/nginx/sites-enabled/\*;#\#include /etc/nginx/sites-enabled/\*;#g' /etc/nginx/nginx.conf
+    /etc/init.d/php7.2-fpm restart
+    /etc/init.d/nginx restart
+    grep "www-data ALL=(ALL) NOPASSWD:ALL" /etc/sudoers > /dev/null
+    if [[ $? -ne 0 ]];then
+        echo "www-data ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+    fi
+    mkdir -p /etc/bigtoe/flags/
+}
+
+reset_k8s() {
+    kubeadm reset -f
+    systemctl stop kubelet
+    systemctl stop docker
+    rm -rf /var/lib/cni/
+    rm -rf /var/lib/kubelet/*
+    rm -rf /etc/cni/
+    ifconfig cni0 down
+    ifconfig flannel.1 down
+    ifconfig docker0 down
+    ip link delete cni0
+    ip link delete flannel.1
+    systemctl start docker
+    rm -rf /etc/bigtoe/flags/*
+}
+
+change_hostname() {
+    backupfile="${SHELL_DIR}/backup/hostname"
+    if [[ ! -f $backupfile ]]; then
+        cat /etc/hostname > $backupfile
+    fi
+    hostname "$1"
+    echo "$1" > /etc/hostname
+
+    grep "$1" /etc/hosts > /dev/null
+    if [[ $? -ne 0 ]];then
+        echo "${IP} $1" >> /etc/hosts
+    fi
+}
+
+prepare_for_vse() {
+    for i in {0..31}
+    do
+        mkdir -p "/data/bigtoe/vse/logs/video/vehicle$i"
+        mkdir -p "/data/bigtoe/vse/logs/video/face$i"
+        mkdir -p "/data/bigtoe/vse/coredump/video/vehicle$i"
+        mkdir -p "/data/bigtoe/vse/coredump/video/face$i"
+
+        mkdir -p "/data/bigtoe/vse/logs/keyframe/vehicle$i"
+        mkdir -p "/data/bigtoe/vse/logs/keyframe/face$i"
+        mkdir -p "/data/bigtoe/vse/coredump/keyframe/vehicle$i"
+        mkdir -p "/data/bigtoe/vse/coredump/keyframe/face$i"
+
+        mkdir -p "/data/bigtoe/vse/logs/image/vehicle$i"
+        mkdir -p "/data/bigtoe/vse/logs/image/face$i"
+        mkdir -p "/data/bigtoe/vse/coredump/image/vehicle$i"
+        mkdir -p "/data/bigtoe/vse/coredump/image/face$i"
+    done
+
+    echo '/tmp/core.%t.%e.%p' > /proc/sys/kernel/core_pattern
+}
+
+install_k8s_master() {
+    kubeadm init --config ${SHELL_DIR}/pkg/k8s-conf/kubeadm-init-args.conf
+
+    if [[ $? != 0 ]]; then
+        logging "ERROR: Install K8S Master Error..."
+        return 1
+    fi
+
+    mkdir -p $HOME/.kube
+    $SUDO cp -f /etc/kubernetes/admin.conf $HOME/.kube/config
+    $SUDO chown $(id -u):$(id -g) $HOME/.kube/config
+    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/kube-flannel.yaml
+    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/nvidia-device-plugin.yaml
+    $SUDO kubectl -n kube-system get cm coredns -o yaml | sed '/loop/d' | kubectl replace -f -
+    $SUDO kubectl -n kube-system get pods | grep '^coredns' | awk '{print $1}' | xargs -i kubectl -n kube-system delete pod {}
+    return 0
+}
+
+main() {
+
+    WORKDIR=$(cd $(dirname $0); pwd)
+    if [[ ${WORKDIR} != ${SHELL_DIR} ]]; then
+        logging "Worker Dir Is Not ${SHELL_DIR}, Please Change Your Dir."
+        exit 1
+    fi
+
+    if [[ -f ${LOCK_FILE} ]];then 
+        logging "This Tool Is Running, Please Wait."
+        exit 1
+    fi
+    lock
+
+    # check_ansible
+    # if [[ $? != 0 ]]; then
+    #     if [[ ${AUTO_INSTALL_ANSIBLE} == "true" ]]; then
+    #         logging "Auto Install Ansible On This Node, This Node Will Become Master."
+    #         install_ansible
+    #     else
+    #         logging "Ansible Is Not Ready On This Node."
+    #         fatal_exit
+    #     fi
+    # fi
+
+    # check_roles
+    # if [[ $? != 0 ]];then
+    #     logging "Only Master Can Use This Tool."
+    #     fatal_exit
+    # fi
+
+    case $1 in
+        init)
+            logging "Init..."
+
+            logging "Step 0: Change Ulimit && ip_local_reserved_ports"
+            echo " * soft nofile 65535" > /etc/security/limits.conf
+            echo " * hard nofile 65535" >> /etc/security/limits.conf
+
+            grep "net.ipv4.ip_local_reserved_ports" /etc/sysctl.conf > /dev/null
+            if [[ $? -ne 0 ]];then
+                echo "net.ipv4.ip_local_reserved_ports=50000-59999" >> /etc/sysctl.conf
+            else
+                sed -i 's/net\.ipv4\.ip_local_reserved_ports.*/net\.ipv4\.ip_local_reserved_ports=50000-59999/' /etc/sysctl.conf
+            fi
+            sysctl -p
+
+            logging "Step 1: Disable Swap"
+            disable_swap
+
+            logging "Step 2: Install gcc make"
+            run check_gcc
+            if [[ $? != 0 ]];then
+                logging "GCC Is Not Ready, Install GCC MAKE..."
+                run install_gcc
+                if [[ $? != 0 ]]; then
+                    fatal_exit
+                fi
+            else
+                logging "GCC Aleady Exists."
+            fi
+
+            logging "Step 3: Mount /data && Prepare Dir"
+            run mountVolume
+
+            rm -rf /data/bigtoe
+            mkdir -p /data/bigtoe/weedfs/volume/pv0
+            mkdir -p /data/bigtoe/weedfs/volume/pv1
+            mkdir -p /data/bigtoe/postgres/pv0
+            mkdir -p /data/bigtoe/kafka/pv0
+            mkdir -p /data/bigtoe/kafka/pv1
+            mkdir -p /data/bigtoe/kafka/pv2
+            mkdir -p /data/bigtoe/zookeeper/pv0
+            mkdir -p /data/bigtoe/zookeeper/pv1
+            mkdir -p /data/bigtoe/zookeeper/pv2
+            mkdir -p /data/bigtoe/redis/pv0
+            mkdir -p /data/bigtoe/prometheus/pv0
+            chmod -R 775 /data/bigtoe/prometheus/
+
+            mkdir -p /data/bigtoe/logs
+            mkdir -p /data/bigtoe/upload-videos
+            mkdir -p /data/bigtoe/vse/patches
+            chmod -R 777 /data/bigtoe
+            mkdir -p /data/bigtoe/npsipgateway/db
+            mkdir -p /data/bigtoe/dgsipserver/coredump
+
+            logging "Step 4: Check && Install Docker"
+            run check_docker
+            if [[ $? != 0 ]];then
+                logging "Docker Is Not Ready Or Version Not Matched, Install Docker..."
+                run install_docker
+                if [[ $? != 0 ]]; then
+                    fatal_exit
+                fi
+            else
+                logging "Docker Aleady Exists."
+            fi
+
+            logging "Step 5: Load Docker Local Images"
+            #run load_docker_images
+
+            logging "Step 6: Install nvidia-driver"
+            run check_nvidia_driver
+            if [[ $? != 0 ]]; then
+                logging "Nvidia-Driver Is Not Ready, Install Nvidia-Driver..."
+                run install_nvidia_driver
+                if [[ $? != 0 ]]; then
+                    fatal_exit
+                fi
+            else
+                run check_nvidia_driver_version
+                if [[ $? != 0 ]]; then
+                    logging "Nvidia-Driver Version Error, Uninstall Nvidia-Driver And Install New Version."
+                    uninstall_nvidia_driver
+                    run install_nvidia_driver
+                    if [[ $? != 0 ]]; then
+                        fatal_exit
+                    fi
+                fi
+                logging "Nvidia-Driver Aleady Exists."
+            fi
+
+            logging "Step 7: Install nvidia-docker"
+            run check_nvidia_docker
+            if [[ $? != 0 ]];then
+                logging "Nvidia-Docker Is Not Ready, Install Nvidia-Docker..."
+                run install_nvidia_docker
+                if [[ $? != 0 ]]; then
+                    fatal_exit
+                fi
+            else
+                logging "Nvidia-Docker Aleady Exists."
+            fi
+
+            logging "Step 8: Check && Install K8S Dependence [kubelet, kubeadm, kubectl]"
+            run check_k8s_dependence
+            if [[ $? != 0 ]];then
+                logging "K8S Dependence Is Not Ready, Install K8S Dependence..."
+                run install_k8s_dependence
+                if [[ $? != 0 ]]; then
+                    fatal_exit
+                fi
+            else
+                logging "K8S Dependence Aleady Exists."
+            fi
+
+            logging "Step 9: Add Aksusbd Dependence"
+            run install_libc6-amd64
+            cd ${SHELL_DIR}/pkg/aksusbd/ && ./dunst
+            dpkg -i --force-architecture ${SHELL_DIR}/pkg/aksusbd/pkg/aksusbd_7.90-1_amd64.deb
+            cd ${SHELL_DIR}/pkg/aksusbd/ && ./dinst
+            cp ${SHELL_DIR}/pkg/aksusbd/hasplm.ini /etc/hasplm/
+            service aksusbd restart
+
+            logging "Step 10: Install NFS Common..."
+            run install_nfs_server
+            logging "Install NFS Common Done."
+
+            logging "Step 11: Run Prepare Vse..."
+            run prepare_for_vse
+            logging "Run Prepare Vse Done"
+
+            logging "Step 12: Set rc.local..."
+            bash ${SHELL_DIR}/set_nvidia_config.sh
+            cp -f ${SHELL_DIR}/pkg/k8s-conf/rc.local /etc/rc.local
+            logging "Run Set rc.local Done"
+
+            logging "Step 13: Set timezone..."
+            cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+            logging "Init Done."
+            ;;
+
+        install)
+            case $2 in
+                web)
+                    logging "Intall Bigtoe Web Service..."
+                    run install_bigtoe_web
+                    logging "Intall Bigtoe Web Service Done."
+                    ;;
+                k8s-master)
+                    run check_docker
+                    if [[ $? != 0 ]];then
+                        logging "Docker Is Not Ready, Please execute \"./bigtoe-tools init\" First"
+                        fatal_exit
+                    fi
+
+                    run check_k8s_dependence
+                    if [[ $? != 0 ]];then
+                        logging "K8S Dependence Is Not Ready, Please execute \"./bigtoe-tools init\" First"
+                        fatal_exit
+                    fi
+
+                    logging "Install Master..."
+                    mark_roles "master"
+
+                    logging "Step 1: Change Hostname To k8s-master"
+                    tag=`echo ${IP} | awk -F "." '{print $4}'`
+                    change_hostname "k8s-master-"$tag
+
+                    logging "Step 2: Kubeadm Init"
+                    run install_k8s_master
+                    if [[ $? != 0 ]]; then
+                        fatal_exit
+                    fi
+
+                    logging "Step 3: Set Schedule Pods On The Master"
+                    $SUDO kubectl taint nodes --all node-role.kubernetes.io/master-
+
+                    logging "Install Master Done."
+                    ;;
+
+                k8s-minion)
+                    run check_docker
+                    if [[ $? != 0 ]];then
+                        logging "Docker Is Not Ready, Please execute \"./bigtoe-tools init\" First"
+                        fatal_exit
+                    fi
+
+                    run check_k8s_dependence
+                    if [[ $? != 0 ]];then
+                        logging "K8S Dependence Is Not Ready, Please execute \"./bigtoe-tools init\" First"
+                        fatal_exit
+                    fi
+
+                    tag=`echo ${IP} | awk -F "." '{print $4}'`
+                    change_hostname "k8s-minion-"$tag
+
+                    logging "Install Minion..."
+                    mark_roles "minion"
+
+                    ;;
+
+                registry)
+                    run check_docker
+                    if [[ $? != 0 ]];then
+                        logging "Docker Is Not Ready, Please execute \"./bigtoe-tools init\" First"
+                        fatal_exit
+                    fi
+
+                    logging "Install Registry..."
+                    docker load < ${SHELL_DIR}/pkg/docker-images/registry/registry.tar
+                    docker run -d -p 5000:5000 --restart=always --name registry -v /data/registry:/var/lib/registry registry:2
+                    logging "Install Registry Done."
+                    ;;
+
+                nfs-server)
+                    logging "Install NFS Server..."
+
+                    echo '/data/bigtoe/upload-videos *(rw,sync,no_root_squash,no_subtree_check)' > /etc/exports
+                    echo '/data/bigtoe/vse/patches *(rw,sync,no_root_squash,no_subtree_check)' >> /etc/exports
+
+                    /etc/init.d/rpcbind restart
+                    /etc/init.d/nfs-kernel-server restart
+
+                    logging "Install NFS Server Done."
+                    ;;
+
+                ftp)
+                    run check_ftp	
+                    if [[ $? == 0 ]]; then
+                        fatal_exit
+                    fi
+                    logging "Install ftp..."
+                    run install_ftp_server
+                    if [[ $? != 0 ]]; then
+                        fatal_exit
+                    fi
+                    # create ftp user
+                    cp -f $SHELL_DIR/pkg/k8s-conf/ftp/vsftpd_user.txt /etc/vsftpd_user.txt
+                    mkdir -p /data/ftp/{'ftp1','ftp2','ftp3','user'}
+                    chmod 0777 /data/ftp/{'ftp1','ftp2','ftp3','user'}
+                    mkdir /etc/vsftpd_user_conf
+
+                    for user in {'ftp1','ftp2','ftp3','user'}
+                    do
+                        echo "local_root=/data/ftp/$user" > /etc/vsftpd_user_conf/$user
+                    done
+                    db_load -T -t hash -f /etc/vsftpd_user.txt /etc/vsftpd_login.db
+                    chmod 600 /etc/vsftpd_login.db
+                    cp -f $SHELL_DIR/pkg/k8s-conf/ftp/vsftpdPam /etc/pam.d/vsftpd
+                    cp -f $SHELL_DIR/pkg/k8s-conf/ftp/vsftpd.conf /etc/vsftpd.conf
+
+                    rm -f /etc/vsftpd_user.txt
+
+                    service vsftpd restart
+                    if [[ $? != 0 ]];then
+                        logging "ERROR: Restart FTP Error..."
+                        fatal_exit
+                    fi
+                    logging "Install FTP Server Done."
+                    ;;
+
+            esac
+            ;;
+
+        authorize)
+            ${SHELL_DIR}/pkg/aksusbd/hasp_update u $2
+            ;;
+        reset)
+            run reset_k8s
+            ;;
+        reset-app)
+            kubectl get namespace | awk 'NR>1 {print $1}' | grep -v kube-public | grep -v kube-system | grep -v default | xargs -i kubectl delete namespace {}
+            kubectl get pv | awk 'NR>1 {print $1}' | xargs -i kubectl delete pv {}
+            ;;
+        status)
+            $SUDO kubectl get namespace | awk 'NR>1' | grep -v default | awk '{print $1}' | xargs -i $SUDO kubectl get pods -o wide -n {}
+            ;;
+        count-gpu)
+            $SUDO kubectl get nodes -o jsonpath={.items[*].status.capacity.nvidia\\.com\\/gpu} | awk '{for(i=1;i<=NF;i++)sum+=$i; print sum;}'
+            ;;
+        deploy)
+            run check_docker
+            if [[ $? != 0 ]];then
+                logging "Docker Is Not Ready, Please execute \"./bigtoe-tools init\" First"
+                fatal_exit
+            fi
+
+            run check_k8s_dependence
+            if [[ $? != 0 ]];then
+                logging "K8S Dependence Is Not Ready, Please execute \"./bigtoe-tools init\" First"
+                fatal_exit
+            fi
+
+            check_roles
+            if [[ $? != 0 ]];then
+                logging "Only Master Can Use This Command."
+                fatal_exit
+            fi
+            case $2 in
+                dashboard)
+                    logging "Deploy Dashboard..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/dashboard/dashboard-admin.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/dashboard/kubernetes-dashboard.yaml
+                    logging "Deploy Dashboard Done."
+                    ;;
+                redis)
+                    logging "Deploy Redis..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/redis/00namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/redis/hostpath_pv.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/redis/hostpath_pvc.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/redis/10redis-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/redis/20redis-deploy.yaml
+                    logging "Deploy Redis Done, Please Use \"kubectl -n redis get pods\" Check Redis Status."
+                    ;; 
+
+                pgsql)
+                    logging "Deploy Postgresql..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pgsql/00namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pgsql/pgsql-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pgsql/hostpath_pv.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pgsql/pvc.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pgsql/30pgsql-deploy.yaml
+                    logging "Deploy Postgresql Done, Please Use \"kubectl -n pgsql get pods\" Check Postgresql Status."
+                    ;; 
+
+                zk-kafka)
+                    logging "Deploy Zookeeper Kafka..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/zk-kafka/00namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/zk-kafka/node-reader.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/zk-kafka/pod-labler.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/zk-kafka/hostpath_pv.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/zk-kafka/hostpath_pvc.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/zk-kafka/zookeeper/
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/zk-kafka/kafka/
+                    logging "Deploy Zookeeper Kafak Done, Please Use \"kubectl -n kafka get pods\" Check Zookeeper/Kafka Status."
+                    ;;
+
+                weedfs)
+                    logging "Deploy weedfs..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/weedfs/weedfs-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/weedfs/hostpath_pv.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/weedfs/hostpath_pvc.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/weedfs/weedfs-service.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/weedfs/weedfs-deployment.yaml
+                    logging "Deploy Weedfs Done, Please Use \"kubectl -n weedfs get pods\" Check Weedfs Status."
+                    ;;
+
+                importer)
+                    logging "Deploy Importer Namespace..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/importer/00namespace.yaml
+                    logging "Deploy Importer Done, Please Use \"kubectl -n importer get pods\" Check Importer Status."
+                    ;;
+
+                monitoring)
+                    logging "Deploy Monitoring Modules..."
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/monitoring/
+                    logging "Deploy Monitoring Modules Done, Please Use \"kubectl -n monitoring get pods\" Check Monitoring Status."
+                    ;;
+
+                pudge)
+                    logging "Deploy Pudge Modules..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pudge/pudge-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pudge/pudge-rbac.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pudge/pudge-configmap.yaml
+                    $SUDO kubectl create configmap ca --namespace=pudge --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.crt --from-file=/etc/kubernetes/pki/etcd/healthcheck-client.key --from-file=/etc/kubernetes/pki/etcd/ca.crt
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pudge/pudge-service.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/pudge/pudge-daemonset.yaml
+                    logging "Deploy Pudge Modules Done, Please Use \"kubectl -n pudge get pods\" Check Pudge Status."
+                    ;;
+
+                arale)
+                    logging "Deploy Arale..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/arale/00namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/arale/01arale-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/arale/02arale-rbac.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/arale/arale-daemonset.yaml
+                    logging "Deploy Arale Done, Please Use \"kubectl -n arale get pods\" Check Arale Status."
+                    ;;
+
+
+                syslog)
+                    logging "Deploy Syslog Modules..."
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/syslog/syslog-namespace.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/syslog/hostpath_pv.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/syslog/pvc.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/syslog/syslog-configmap.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/syslog/syslog-daemonset.yaml
+                    cp $WORKDIR/pkg/k8s-conf/syslog/logrotate /etc/cron.d/
+                    /etc/init.d/cron restart
+                    logging "Deploy Syslog Modules Done, Please Use \"kubectl -n syslog get pods\" Check Syslog Status."
+                    ;;
+
+                ingress-nginx)
+                    logging "Deploy Ingress-Nginx Modules..."
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/ingress-nginx/00namespace.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/ingress-nginx/ingress-configmap.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/ingress-nginx/ingress-rbac.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/ingress-nginx/ingress-deployment.yaml
+                    $SUDO kubectl create -f $WORKDIR/pkg/k8s-conf/ingress-nginx/ingress-service.yaml
+                    logging "Deploy Ingress-Nginx Modules Done, Please Use \"kubectl -n ingress-nginx get pods\" Check Ingress-Nginx Status."
+                    ;;
+
+                deepengine-cap)
+                    logging "Deploy Cap..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/cap/
+                    logging "Deploy Cap Done, Please Use \"kubectl -n cap get pods\" Check Cap Status."
+                    ;;
+
+                deepengine-link)
+                    logging "Deploy Link..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/link/link-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/link/link-rbac.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/link/link-service.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/link/link-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/link/link-deployment.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/monitoring/link-role-and-roleBinding.yaml
+                    logging "Deploy Link Done, Please Use \"kubectl -n link get pods\" Check Link Status."
+                    ;;
+
+                deepengine-vse)
+                    logging "Deploy Vse..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-configmap-image-vehicle.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-configmap-image-face.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-configmap-video-face.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-configmap-video-vehicle.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-configmap-keyframe-face.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-configmap-keyframe-vehicle.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/monitoring/vse-role-and-roleBinding.yaml
+                    $SUDO php /opt/bigtoe/pkg/k8s-conf/deepengine/vse/generate.php 32
+
+                    for DAEMONSET_YAML in `ls ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/ | grep vse-daemonset-`
+                    do
+                        $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/$DAEMONSET_YAML
+                    done
+
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-service.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/vse/vse-ingress.yaml
+
+                    logging "Deploy Vse Done, Please Use \"kubectl -n vse get pods\" Check Vse Status."
+                    ;;
+
+                deepengine-arcee)
+                    logging "Deploy Arcee..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/arcee/arcee-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/arcee/arcee-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/arcee/arcee-service.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/arcee/arcee-daemonset.yaml
+                    logging "Deploy Arcee Done, Please Use \"kubectl -n arcee get pods\" Check Arcee Status."
+                    ;;
+
+                deepengine-mserver)
+                    logging "Deploy Mserver..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/mserver/00mserver-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/mserver/mserver-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/mserver/mserver-daemonset.yaml
+                    logging "Deploy Mserver Done, Please Use \"kubectl -n mserver get pods\" Check Mserver Status."
+                    ;;
+
+                deepengine-xapi)
+                    logging "Deploy Xapi..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/xapi/xapi-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/xapi/xapi-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/xapi/xapi-service.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/xapi/xapi-deployment.yaml
+                    logging "Deploy Xapi Done, Please Use \"kubectl -n xapi get pods\" Check Xapi Status."
+                    ;;
+
+                deepengine-npsipgateway)
+                    logging "Deploy Npsipgateway..."
+                    $SUDO cp -p ${SHELL_DIR}/pkg/k8s-conf/deepengine/npsipgateway/npsipgateway.db /data/bigtoe/npsipgateway/db
+                    $SUDO cp -p ${SHELL_DIR}/pkg/k8s-conf/deepengine/npsipgateway/operation.db /data/bigtoe/npsipgateway/db
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/npsipgateway/npsipgateway-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/npsipgateway/npsipgateway-deployment.yaml
+                    logging "Deploy Npsipgateway Done, Please Use \"kubectl -n npsipgateway get pods\" Check Npsipgateway Status."
+                    ;;
+
+                deepengine-dgsipserver)
+                    logging "Deploy Dgsipserver..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/dgsipserver/dgsipserver-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/dgsipserver/dgsipserver-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/dgsipserver/dgsipserver-daemonset.yaml
+                    logging "Deploy Dgsipserver Done, Please Use \"kubectl -n dgsipserver get pods\" Check Dgsipserver Status."
+                    ;;
+
+                deepengine-lunx)
+                    logging "Deploy Lunx..."
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/lunx/lunx-namespace.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/lunx/lunx-configmap.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/lunx/lunx-deployment.yaml
+                    $SUDO kubectl apply -f ${SHELL_DIR}/pkg/k8s-conf/deepengine/lunx/lunx-service.yaml
+                    $SUDO kubectl --namespace=kafka run cmd-kafka --image=dockerhub.deepglint.com/arch/kafka:5.0.3 --image-pull-policy=IfNotPresent --rm -ti --command -- ./bin/kafka-topics.sh --create --zookeeper zookeeper:2181 --replication-factor 1 --partitions 10 --topic index-vehicle1400
+                    logging "Deploy Lunx Done, Please Use \"kubectl -n lunx get pods\" Check Lunx Status."
+                    ;;
+
+                deepengine-initDB)
+                    POD=`${SUDO} kubectl -n pgsql get pods | grep Running | grep '1/1' | awk '{print $1}'`
+                    if [[ $POD"x" == "x" ]]; then
+                        logging "ERROR: Database Not Ready..."
+                        fatal_exit
+                    fi
+                    $SUDO kubectl -n pgsql exec $POD -i -- psql -U postgres -l | grep 'link'
+                    if [[ $? == 0 ]]; then
+                        logging "WARN: Database exists, Droping..."
+                        $SUDO kubectl -n pgsql exec $POD -i -- psql -U postgres -c 'drop database link'
+                        $SUDO kubectl -n pgsql exec $POD -i -- psql -U postgres -l | grep 'link'
+                        if [[ $? == 0 ]]; then
+                            logging "ERROR: Drop Database Failed..."
+                            fatal_exit
+                        fi
+                    fi
+                    logging "Create DB..."
+                    $SUDO kubectl -n pgsql exec $POD -i -- psql -U postgres -c 'create database link'
+                    if [[ $? != 0 ]]
+                    then
+                        logging "ERROR: Create Database link Faild..."
+                        fatal_exit
+                    fi
+                    $SUDO kubectl -n pgsql exec $POD -i -- psql -U postgres < $WORKDIR/pkg/k8s-conf/deepengine/lunx/lunx.sql
+                    if [[ $? != 0 ]]
+                    then
+                        logging "ERROR: Execute lunx.sql Faild..."
+                        fatal_exit
+                    fi
+                    logging "Create Database Done."
+                    ;;
+
+                esac
+                ;;
+
+            *)
+                usage;
+        esac
+    normal_exit
+}
+
+trap "kill_exit" HUP INT QUIT TSTP
+echo "-------" >> $SHELL_LOG
+params=$@
+logging "COMMAND: $0 $params"
+
+main $@
