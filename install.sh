@@ -96,8 +96,10 @@ echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    2. 集群部署                                    |"
 echo "+-------------------------------------------------------------------+"
-echo "|                    3. 820更新到930
+echo "|                    3. 820升级到930                                |"
 echo "+-------------------------------------------------------------------+"
+#echo "|                    4. 更换ip                                      |"
+#echo "+-------------------------------------------------------------------+"
 echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
 echo "请选择:"
@@ -178,11 +180,20 @@ fi
    ansible-playbook playbook/00-installTG.yml
 
 }
-
 function update(){
-
+   supervisorctl stop all
+   grep "update" /etc/ansible/group_vars/all.yml >/dev/null || echo "update: true" >> /etc/ansible/group_vars/all.yml
+   grep "Turing" /etc/ansible/group_vars/all.yml >/dev/null || echo "fse_version: 3.5.1-Turing-Proxy" >> /etc/ansible/group_vars/all.yml
+   cd /etc/ansible
+   cp /tmp/hosts .
+   cp /tmp/all.yml group_vars
    ansible-playbook playbook/03-updateTG.yml
 
+}
+
+function changeip(){
+   cd /etc/ansible
+   ansible-playbook playbook/00-installTG.yml
 }
 
 
@@ -205,8 +216,12 @@ function main(){
     logging "Ansible Aleady Installed."
   fi
 
- rm -f /etc/ansible
- ln -s ${SHELL_DIR}/ansible /etc/ansible
+  if [ -d /etc/ansible/group_vars ];then
+    cp /etc/ansible/hosts /tmp
+    cp /etc/ansible/group_vars/all.yml /tmp
+  fi
+    rm -f /etc/ansible
+  ln -s ${SHELL_DIR}/ansible /etc/ansible
 
     while true
     do
@@ -232,10 +247,22 @@ function main(){
   else
     fatal_exit
   fi
-        2)
+        ;;
+        3)
   clear
       logging "820升级到930"
-      ;;
+      update
+  if [[ $? == 0 ]]; then
+    normal_exit
+  else
+    fatal_exit
+  fi
+        ;;
+#        4)
+#  clear
+#      logging "更换ip"
+#      changeip
+#      ;;
       [qQ])
       logging "退出"
   unlock

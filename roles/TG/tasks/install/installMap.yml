@@ -1,6 +1,11 @@
 ---
 
-- name: install docker-compose
+- name: stop old map if exists
+  shell: docker rm -f npgis postgis
+  ignore_errors: True
+
+- name: install Map
   shell: ./map_install.sh
   args:
     chdir: /home/{{ansible_user}}/platformTG/map
+  ignore_errors: True

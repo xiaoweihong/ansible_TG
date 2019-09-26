@@ -4,6 +4,7 @@
   file:
     dest: /etc/postgresql/11/main/pg_hba.conf
     state: absent
+  when: update == False
 
 - name: install postgresql-11 package
   apt:
@@ -11,6 +12,7 @@
     update_cache: yes
   with_items:
     - postgresql-11
+  when: update == False
 
 - name: mkdir postgresql data directory
   file:
@@ -19,11 +21,13 @@
     recurse: yes
     owner: postgres
     group: postgres
+  when: update == False
 
 - name: init postgresql
   shell: su  - postgres -c "/usr/lib/postgresql/11/bin/initdb  -D /{{platformPath}}/postgresql/11/main"
   args:
     creates: /{{platformPath}}/postgresql/11/main/base
+  when: update == False
 
 
 - name: copy pipedb package
@@ -32,26 +36,32 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'package/pipelinedb-postgresql-11_1.0.0-13~ubuntu14_amd64.deb',dest: '/tmp/' }
+  when: update == False
 
 - name: install pipedb
   shell: dpkg -i /tmp/pipelinedb-postgresql-11_1.0.0-13~ubuntu14_amd64.deb
+  when: update == False
 
 - name: kill postgres first
   shell: killall postgres
   ignore_errors: True
+  when: update == False
 
 
 - name: sleep 5 second for postgresql stopped
   pause: seconds=5
+  when: update == False
 
 - name: start postgresql
   shell: su -  postgres -c "/usr/lib/postgresql/11/bin/pg_ctl -D /{{platformPath}}/postgresql/11/main -l /{{platformPath}}/postgresql/postgres.log -s start" 
   args:
     creates: /{{platformPath}}/postgresql/postgres.log
+  when: update == False
 
 - name: kill postgres second
   shell: killall postgres
   ignore_errors: True
+  when: update == False
 
 - name: config postgresql config file
   template:
@@ -60,6 +70,7 @@
   with_items:
     - { src: 'conf/postgresql/postgresqlReplica.conf',dest: '/etc/postgresql/11/main/postgresql.conf' }
     - { src: 'conf/postgresql/pg_hba.conf',dest: '/etc/postgresql/11/main/pg_hba.conf' }
+  when: update == False
 
 
 - name: remote can connect
@@ -67,6 +78,7 @@
     line: "host    all             all             0.0.0.0/0                 md5"
     regexp: 'host    all             all             127.0.0.1/32            md5'
     dest: /etc/postgresql/11/main/pg_hba.conf
+  when: update == False
 
 
 - name: add replica auth
@@ -74,6 +86,7 @@
     line: 'host    replication     postgres            0.0.0.0/0        trust'
     insertafter: 'replication privilege'
     dest: /etc/postgresql/11/main/pg_hba.conf
+  when: update == False
 
 
 - name: command for postgresql to sysnc master postgres
@@ -82,13 +95,17 @@
     creates: "{{platformPath}}postgresql/11/init_done"
   notify:
      postgres restarted
+  when: update == False
 
 - name: sync to matster postgresql
   shell: /usr/bin/pg_basebackup -h {{groups.master[0]}} -U postgres -F p -X stream -P -R -D {{platformPath}}/postgresql/11/main/ -l replbackup
   args:
     creates: "{{platformPath}}postgresql/11/init_done"
+  when: update == False
 
 - name: change postgres privilage for {{platformPath}}/postgresql/11/main/
   shell: chown -R postgres {{platformPath}}/postgresql/11/main/
+  when: update == False
 
 - meta: flush_handlers
+  when: update == False
