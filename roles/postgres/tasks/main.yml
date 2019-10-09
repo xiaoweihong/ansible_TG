@@ -114,7 +114,6 @@
   shell: su - postgres -c "psql -c 'create database sax_vehicle'"; touch /home/{{ansible_user}}/platformTG/sax_vehicle/flag
   args:
     creates: /home/{{ansible_user}}/platformTG/sax_vehicle/flag
-  when: update == False
 
 
 - name: update database 820 to 930

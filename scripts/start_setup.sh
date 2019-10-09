@@ -39,7 +39,7 @@ done
 if [[ $machineNum -gt 2 ]];then
 while true
 do
-  echo "请输入node节点ip(不包括主节点ip和数据库从节点ip):"
+  echo "请输入node节点ip(不包括主节点ip和数据库从节点ip，多台服务器之间以空格分割):"
   read nodeip
     if [ ! -n "$nodeip" ];then
       continue

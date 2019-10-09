@@ -5,11 +5,16 @@
   args:
     chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}
 
-- name: start fse
+- name: start fse runtime black and cluster
 #  shell: ./run_runtime.sh
-  shell: ./run_black.sh;./run_runtime.sh
+  shell: ./run_black.sh;./run_runtime.sh;
   args:
     chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}
 
 - name: sleep 35 second for fse start successfully
   pause: seconds=35
+
+- name: create cluster fse db
+  shell: ./run_cluster.sh
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}

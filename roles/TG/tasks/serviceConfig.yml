@@ -40,13 +40,14 @@
     - { src: 'serviceConfig/lokitemplates/link_video.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/link_video.json' }
     - { src: 'serviceConfig/config.js',dest: '/home/{{ansible_user}}/platformTG/jormougand/latest/config.js' }
 
-- name: config sax and jormougand for personfile
+- name: config sax odin and jormougand for personfile
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'serviceConfig/loki-production-personalfile.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
-    - { src: 'serviceConfig/odin-config_personfile.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
+    - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
+    - { src: 'serviceConfig/saxconfig.txt',dest: '/home/{{ansible_user}}/platformTG/sax/latest/tmp/saxconfig.txt' }
   when: personfile == true
 
 - name: config sax and jormougand for no personfile

@@ -9,7 +9,7 @@ do
       continue
     fi
     if [ $machineNum -lt 2 ];then
-      echo "档案功能需要至少2台机器,请确认配置"
+      echo "集群功能需要至少2台机器,请确认配置"
       continue
     fi
     if [ ! -n "$machineNum" ]||[ -n "`echo $machineNum| sed 's/[0-9]//g'`" ]||[ $machineNum -le 0 ];then
@@ -20,19 +20,7 @@ do
 
       break
 done
-while true
-do
-  echo "请输入档案服务器节点ip(请勿输入主节点ip):"
-  read  personalFileNode
-    if [ ! -n "$personalFileNode" ];then
-      continue
-    else
-      echo "personalFileNode='$personalFileNode'" >> ./config.ini
-    fi
-      break
-done
 
-if [[ $machineNum -gt 2 ]];then
 while true
 do
   echo "请输入从数据库节点ip:"
@@ -45,10 +33,10 @@ do
       break
 done
 
-if [[ $machineNum -gt 3 ]];then
+if [[ $machineNum -gt 2 ]];then
 while true
 do
-  echo "请输入node节点ip(不包括主节点ip和数据库从节点ip)"
+  echo "请输入node节点ip(不包括主节点ip和数据库从节点ip，多台机器之前用空格分开。)"
   read nodeip
     if [ ! -n "$nodeip" ];then
       continue
@@ -57,7 +45,6 @@ do
     fi
       break
 done
-fi
 fi
 
 clear
