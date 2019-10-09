@@ -125,7 +125,7 @@ bigtoe_version: 4.0.1
 fse_version: 3.5.1-Turing-Proxy
 cluster: false
 update: false
-personfile: false" > /etc/ansible/group_vars/all.yml
+personfile: true" > /etc/ansible/group_vars/all.yml
 
     cd /etc/ansible
     ansible-playbook playbook/02-check.yml
@@ -139,7 +139,7 @@ personfile: false" > /etc/ansible/group_vars/all.yml
 function clusterDeploy(){
   echo "cluster deploy"
 . ansible/scripts/config_arcee.sh
-. ansible/scripts/personfile.sh
+#. ansible/scripts/personfile.sh
 
   echo "---
 
@@ -154,8 +154,9 @@ bigtoe_version: 4.0.1
 fse_version: 3.5.1-Turing-Proxy
 cluster: true
 update: false
-personfile: $personfile" > /etc/ansible/group_vars/all.yml
+personfile: true" > /etc/ansible/group_vars/all.yml
 
+personfile=true
 if [[ $personfile == "false" ]];then
    cd ansible/scripts
    ./setup.sh
@@ -182,11 +183,11 @@ fi
 }
 function update(){
    supervisorctl stop all
-   grep "update" /etc/ansible/group_vars/all.yml >/dev/null || echo "update: true" >> /etc/ansible/group_vars/all.yml
-   grep "Turing" /etc/ansible/group_vars/all.yml >/dev/null || echo "fse_version: 3.5.1-Turing-Proxy" >> /etc/ansible/group_vars/all.yml
    cd /etc/ansible
    cp /tmp/hosts .
    cp /tmp/all.yml group_vars
+   grep "update" /etc/ansible/group_vars/all.yml >/dev/null || echo "update: true" >> /etc/ansible/group_vars/all.yml
+   grep "Turing" /etc/ansible/group_vars/all.yml >/dev/null || echo "fse_version: 3.5.1-Turing-Proxy" >> /etc/ansible/group_vars/all.yml
    ansible-playbook playbook/03-updateTG.yml
 
 }
@@ -216,7 +217,7 @@ function main(){
     logging "Ansible Aleady Installed."
   fi
 
-  if [ -d /etc/ansible/group_vars ];then
+  if [ ! -f /etc/ansible/VERSION ];then
     cp /etc/ansible/hosts /tmp
     cp /etc/ansible/group_vars/all.yml /tmp
   fi

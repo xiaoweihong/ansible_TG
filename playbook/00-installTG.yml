@@ -31,7 +31,6 @@
 - hosts: personalFileNode
   gather_facts: false
   roles:
-    - role: postgres
     - role: personalFile
 
 - hosts: node

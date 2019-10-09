@@ -72,7 +72,7 @@
 		"TryTimes": 3
 	},
 	"FaceVidHeartbeatCacheServiceConfig":{
-		"IsOpen": false,
+		"IsOpen": true,
 		"SlidingWindowMilSecond": 60000,
 		"SaxHttpUrl": "http://{{groups.master[0]}}:50051/api/face/clusteradd",
 		"TimeoutSecond": 2,

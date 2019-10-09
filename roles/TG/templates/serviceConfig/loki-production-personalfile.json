@@ -12,7 +12,7 @@
         "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_v5"
     },
     "clusterdb":{
-        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.personalFileNode[0]}}/deepface_cluster"
+        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_cluster"
     },
     "services":{
         "ranker_runtime":{
@@ -22,7 +22,7 @@
             "addr":"{{groups.master[0]}}:9808"
         },
         "sax":{
-            "addr":"http://{{groups.personalFileNode[0]}}:50051"
+            "addr":"http://{{groups.master[0]}}:50051"
         },
         "arcee":{
             "addr":"{{groups.master[0]}}:7502"
