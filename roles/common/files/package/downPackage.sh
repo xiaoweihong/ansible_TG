@@ -10,7 +10,7 @@ function downloadPackage(){
  #  wget ${DOWNLOAD_URL}/mutischeduler-1.0.0.tar.gz
  #  wget ${DOWNLOAD_URL}/fse-3.5.1.tar.gz
  #  wget ${DOWNLOAD_URL}/map.tgz
-   wget ${DOWNLOAD_URL}/update_ssh_for_1604_20190715.tgz
+   wget ${DOWNLOAD_URL}/update_ssh_for_1604_20191016.tgz
    wget ${DOWNLOAD_URL}/importer-1.3.6.tar
    wget ${DOWNLOAD_URL}/link-0.21.0.tar
    wget ${DOWNLOAD_URL}/hm_importer-0.12.5.tar

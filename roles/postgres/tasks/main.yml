@@ -114,10 +114,11 @@
   shell: su - postgres -c "psql -c 'create database sax_vehicle'"; touch /home/{{ansible_user}}/platformTG/sax_vehicle/flag
   args:
     creates: /home/{{ansible_user}}/platformTG/sax_vehicle/flag
+  when: update == False
 
 
-- name: update database 820 to 930
-  shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/loki/820to930update.sql" ; touch /home/{{ansible_user}}/platformTG/loki/update820to930_flag ; touch /home/{{ansible_user}}/platformTG/sax/flag; touch /home/{{ansible_user}}/platformTG/loki/flag; touch /home/{{ansible_user}}/platformTG/sax_vehicle/flag;
+- name: update database 930beta to 930release
+  shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/loki/930betato930release.sql" ; touch /home/{{ansible_user}}/platformTG/loki/930betato930release_flag; touch /home/{{ansible_user}}/platformTG/loki/flag;touch /home/{{ansible_user}}/platformTG/sax/flag; touch /home/{{ansible_user}}/platformTG/sax_vehicle/flag
   args:
-    creates: /home/{{ansible_user}}/platformTG/loki/update820to930_flag
+    creates: /home/{{ansible_user}}/platformTG/loki/930betato930release_flag
   when: update == True
