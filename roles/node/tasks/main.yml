@@ -1,6 +1,7 @@
 ---
 
 - include: bigtoe.yml
+  when: not update
 - include: install/installTG.yml
 #- include: serviceChangeip.yml
 #- include: serviceConfig.yml

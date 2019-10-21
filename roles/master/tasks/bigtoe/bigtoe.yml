@@ -12,6 +12,7 @@
 
 - name: update vse patch
   shell: cp /opt/bigtoe/vse /data/bigtoe/vse/patches
+  when: not update
 
 
 - name: get cluster token
@@ -32,6 +33,8 @@
     dest: '{{ item.dest }}' 
   with_items:
     - { src: 'conf/bigtoe/app_config',dest: '/etc/bigtoe/flags/app_config' }
+  when: not update
+
 
 
 - name: copy config_app.sh to /opt/bigtoe
@@ -40,11 +43,13 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'package/config_app.sh',dest: '/opt/bigtoe/config_app.sh' }
+  when: not update
 
 - name: execute config_app for vse
   shell: ./config_app.sh
   args:
     chdir: /opt/bigtoe
+  when: not update
 
 
 - name: kubectl replace -f config file
@@ -53,27 +58,27 @@
 #  poll: 0
   args:
     chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
+  when: not update
 
 - name: update link docker image
   shell: docker load -i link-0.21.0.tar
   args:
     chdir: /opt/bigtoe/pkg/docker-images
+  when: not update
 
 
 - name: link version update to 0.21.0
   shell: sed -i "s#dockerhub.deepglint.com/arch/link:0.19.0-job-hostnetwork#dockerhub.deepglint.com/arch/link:0.21.0#g" /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-deployment.yaml
+  when: not update
 
 
 - name: update link and restart
   shell: kubectl apply -f link-configmap.yaml ; kubectl apply -f link-deployment.yaml
   args:
     chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/link/
+  when: not update
 
 
-- name: update link and restart
-  shell: kubectl apply -f link-configmap.yaml ; kubectl apply -f link-deployment.yaml
-  args:
-    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/link/
 
 - name: restart vse and link
   shell: ./restart_pods.sh vse ; ./restart_pods.sh link
@@ -81,3 +86,4 @@
   poll: 0
   args:
     chdir: /opt/bigtoe
+  when: not update

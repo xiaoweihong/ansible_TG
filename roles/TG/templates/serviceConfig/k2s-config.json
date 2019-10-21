@@ -115,5 +115,13 @@
 	"WarnAuthServiceConfig": {
 		"IsOpen": true,
 		"TimeIntervalMillSecond": 2000
-	}
+	},
+ "CaptureClientConfig": {
+  "QueueCapacity": 100,
+  "TimeoutMillSecond": 5000
+ },
+ "WarnClientConfig": {
+  "QueueCapacity": 100,
+  "TimeoutMillSecond": 5000
+ }
 }

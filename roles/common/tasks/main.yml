@@ -2,14 +2,18 @@
 
 - include: bigtoe/bigtoe_check.yml
   tags: [bigtoe]
+  when: not update
 
 - include: bigtoe/bigtoe.yml
   tags: [bigtoe]
+  when: not update
 
 - include: prepare/directory_prepare.yml
+  when: not update
 
 - include: prepare/software_prepare.yml
   tags: [postgresql]
+  when: not update
 
 - name: Check vsftpd
   command: dpkg-query -l vsftpd
@@ -26,6 +30,7 @@
 
 
 - include: software/install_software.yml
+  when: not update
 - include: install/installTG.yml
 
 - name: Check SSH Version

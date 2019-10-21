@@ -96,7 +96,7 @@ echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    2. 集群部署                                    |"
 echo "+-------------------------------------------------------------------+"
-echo "|                    3. 820升级到930                                |"
+echo "|                    3. 930beta升级到930release                     |"
 echo "+-------------------------------------------------------------------+"
 #echo "|                    4. 更换ip                                      |"
 #echo "+-------------------------------------------------------------------+"
@@ -107,6 +107,8 @@ echo "请选择:"
 
 function singleDeploy(){
 
+  rm -f /etc/ansible/hosts
+  rm -f /etc/ansible/group_vars/all.yml
 . ansible/scripts/config_arcee.sh
 
   echo "[master]
@@ -126,18 +128,27 @@ fse_version: 3.5.1-Turing-Proxy
 cluster: false
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml
+. ansible/scripts/config_ssh.sh
+  rm -rf /etc/TG
+  mkdir /etc/TG
+  mv /etc/ansible/hosts /etc/TG/
+  mv /etc/ansible/group_vars/all.yml /etc/TG
+  ln -s /etc/TG/hosts /etc/ansible
+  ln -s /etc/TG/all.yml /etc/ansible/group_vars
 
-    cd /etc/ansible
-    ansible-playbook playbook/02-check.yml
-    if [ $? -ne 0 ];then
-         fatal_exit
-    fi
+  cd /etc/ansible
+  ansible-playbook playbook/02-check.yml
+  if [ $? -ne 0 ];then
+       fatal_exit
+  fi
 
-    ansible-playbook playbook/00-installTG.yml
+  ansible-playbook playbook/00-installTG.yml
 }
 
 function clusterDeploy(){
   echo "cluster deploy"
+  rm -f /etc/ansible/hosts
+  rm -f /etc/ansible/group_vars/all.yml
 . ansible/scripts/config_arcee.sh
 #. ansible/scripts/personfile.sh
 
@@ -156,6 +167,8 @@ cluster: true
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml
 
+. ansible/scripts/config_ssh.sh
+
 personfile=true
 if [[ $personfile == "false" ]];then
    cd ansible/scripts
@@ -172,6 +185,12 @@ else
    fi
    cp hosts /etc/ansible/hosts
 fi
+  rm -rf /etc/TG
+  mkdir /etc/TG
+  mv /etc/ansible/hosts /etc/TG
+  mv /etc/ansible/group_vars/all.yml /etc/TG
+  ln -s /etc/TG/hosts /etc/ansible
+  ln -s /etc/TG/all.yml /etc/ansible/group_vars
    cd /etc/ansible
    ansible-playbook playbook/02-check.yml
    if [ $? -ne 0 ];then
@@ -181,15 +200,39 @@ fi
    ansible-playbook playbook/00-installTG.yml
 
 }
+function update_delete(){
+  supervisorctl stop all
+  rm -f /etc/ansible/hosts
+  rm -f /etc/ansible/group_vars/all.yml
+  cd /etc/ansible
+  cp /tmp/all.yml group_vars
+  cp /tmp/hosts .
+  rm -rf /etc/TG
+  mkdir /etc/TG
+  mv /etc/ansible/hosts /etc/TG
+  mv /etc/ansible/group_vars/all.yml /etc/TG
+  ln -s /etc/TG/hosts /etc/ansible
+  ln -s /etc/TG/all.yml /etc/ansible/group_vars
+  sed -i "s/fse_version:\( .*\)/fse_version: 3.5.1-Turing-Proxy/g" /etc/ansible/group_vars/all.yml
+  sed -i "s/update:\( .*\)/update: True/g" /etc/ansible/group_vars/all.yml
+  ansible-playbook playbook/03-updateTG.yml
+}
 function update(){
-   supervisorctl stop all
-   cd /etc/ansible
-   cp /tmp/hosts .
-   cp /tmp/all.yml group_vars
-   grep "update" /etc/ansible/group_vars/all.yml >/dev/null || echo "update: true" >> /etc/ansible/group_vars/all.yml
-   grep "Turing" /etc/ansible/group_vars/all.yml >/dev/null || echo "fse_version: 3.5.1-Turing-Proxy" >> /etc/ansible/group_vars/all.yml
-   ansible-playbook playbook/03-updateTG.yml
-
+  rm -f /etc/ansible/hosts
+  rm -f /etc/ansible/group_vars/all.yml
+  supervisorctl stop all
+  cd /etc/ansible
+  cp /tmp/hosts .
+  cp /tmp/all.yml group_vars
+  rm -rf /etc/TG
+  mkdir /etc/TG
+  mv /etc/ansible/hosts /etc/TG
+  mv /etc/ansible/group_vars/all.yml /etc/TG
+  ln -s /etc/TG/hosts /etc/ansible
+  ln -s /etc/TG/all.yml /etc/ansible/group_vars
+  sed -i "s/fse_version:\( .*\)/fse_version: 3.5.1-Turing-Proxy/g" /etc/ansible/group_vars/all.yml
+  sed -i "s/update:\( .*\)/update: True/g" /etc/ansible/group_vars/all.yml
+  ansible-playbook playbook/03-updateTG.yml
 }
 
 function changeip(){
@@ -216,13 +259,22 @@ function main(){
   else
     logging "Ansible Aleady Installed."
   fi
-
-  if [ ! -f /etc/ansible/VERSION ];then
-    cp /etc/ansible/hosts /tmp
-    cp /etc/ansible/group_vars/all.yml /tmp
+  
+  if [  -d /etc/ansible ];then
+      logging "存在版本"
+     if [ ! -f /etc/ansible/VERSION-930-release ];then
+      logging "备份旧版本配置文件"
+       cp /etc/ansible/hosts /tmp
+       cp /etc/ansible/group_vars/all.yml /tmp
+     fi
+  else
+      logging "旧版本已删除，配置文件需要手动配置"
+      rm -f /etc/ansible
+      ln -s ${SHELL_DIR}/ansible /etc/ansible
+      touch /usr/local/TG_delete_update_flag
+        fatal_exit
   fi
-    rm -f /etc/ansible
-  ln -s ${SHELL_DIR}/ansible /etc/ansible
+
 
     while true
     do
@@ -251,8 +303,18 @@ function main(){
         ;;
         3)
   clear
-      logging "820升级到930"
-      update
+      logging "930beta升级到930release"
+      if [ ! -f /usr/local/TG_delete_update_flag ];then
+          logging "正常升级"
+          rm -f /etc/ansible
+          ln -s ${SHELL_DIR}/ansible /etc/ansible
+          update
+      else
+          logging "修改配置文件后升级"
+          cp /etc/ansible/hosts /tmp
+          cp /etc/ansible/group_vars/all.yml /tmp
+          update_delete
+      fi
   if [[ $? == 0 ]]; then
     normal_exit
   else

@@ -38,35 +38,35 @@
 	},
 	"FaceCaptureRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "{{groups.master[0]}}:9812",
+		"RankerAddr": "http://{{groups.master[0]}}:9813",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"FaceWarnRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "{{groups.master[0]}}:9808",
+		"RankerAddr": "http://{{groups.master[0]}}:9809",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"VehicleCaptureRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "{{groups.master[0]}}:9812",
+		"RankerAddr": "http://{{groups.master[0]}}:9813",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"PedestrianCaptureRankerServiceConfig": {
 		"IsOpen": true,
-		"RankerAddr": "{{groups.master[0]}}:9812",
+		"RankerAddr": "http://{{groups.master[0]}}:9813",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"NonmotorCaptureRankerServiceConfig":{
 		"IsOpen": true,
-		"RankerAddr": "{{groups.master[0]}}:9812",
+		"RankerAddr": "http://{{groups.master[0]}}:9813",
 		"RankerConnectNumber": 1,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
@@ -101,7 +101,7 @@
 		"IsOpen": true,
 		"ConfigType": 1,
 		"ConfigInfo": {
-			"SlidingWindowMilSecond": 10000,
+			"SlidingWindowMilSecond": 15000,
 			"TopNum": 5,
 			"CosThreshold": 0.85,
 			"CosAParams": [

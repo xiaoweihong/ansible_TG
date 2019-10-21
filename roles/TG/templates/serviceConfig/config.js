@@ -199,7 +199,7 @@
       refreshInterval: 2000,
     },
     civil: {
-      maxImageCount: 15,
+      maxImageCount: 5,
       batchAdd: {
         refreshInterval: 1000,
         maxSize: 536870912, // 500M
