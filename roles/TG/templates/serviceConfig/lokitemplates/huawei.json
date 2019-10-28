@@ -2,14 +2,14 @@
     "config":
     {
         "type":"huawei",
-        "ip":"{{groups.master[0]}}",
+        "ip":"192.168.0.120",
         "port":"6060",
         "user_name":"admin",
         "passwd":"HuaWei123",
         "back_ground_width":"1920",
         "back_ground_height":"1080",
         "kafkaconfig":{
-            "kafka_addr":"{{groups.personalFileNode[0]}}:32400",
+            "kafka_addr":"{{groups.master[0]}}:32400",
             "kafka_topic":"face-importer",
             "kafka_max_size_bytes":"104857600"
                       },

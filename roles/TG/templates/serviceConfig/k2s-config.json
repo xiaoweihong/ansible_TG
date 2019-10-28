@@ -2,12 +2,12 @@
 	"ApiHttpConfig": {
 		"Host": "0.0.0.0:8082"
 	},
-	"KafkaCaptureInputServiceConfig": {
+	"KafkaFaceCaptureInputServiceConfig": {
 		"IsOpen": true,
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.personalFileNode[0]}}:32400"
+				"{{groups.master[0]}}:32400"
 			],
 			"Topics": [
 				"devo-face-capture-topic"
@@ -17,12 +17,57 @@
 			"SendMessageTimeout": 5
 		}
 	},
-	"KafkaWarnInputServiceConfig": {
+	"KafkaVehicleCaptureInputServiceConfig": {
 		"IsOpen": true,
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.personalFileNode[0]}}:32400"
+				"{{groups.master[0]}}:32400"
+			],
+			"Topics": [
+				"devo-vehicle-capture-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaNonmotorCaptureInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.master[0]}}:32400"
+			],
+			"Topics": [
+				"devo-nonmotor-capture-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaPedestrianCaptureInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.master[0]}}:32400"
+			],
+			"Topics": [
+				"devo-pedestrian-capture-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaFaceWarnInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.master[0]}}:32400"
 			],
 			"Topics": [
 				"devo-face-warn-topic"
@@ -32,12 +77,12 @@
 			"SendMessageTimeout": 5
 		}
 	},
-	"KafkaWhiteInputServiceConfig": {
+	"KafkaFaceWhiteInputServiceConfig": {
 		"IsOpen": false,
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.personalFileNode[0]}}:32400"
+				"{{groups.master[0]}}:32400"
 			],
 			"Topics": [
 				"white-push"
@@ -70,5 +115,13 @@
 	"WarnAuthServiceConfig": {
 		"IsOpen": true,
 		"TimeIntervalMillSecond": 2000
-	}
+	},
+ "CaptureClientConfig": {
+  "QueueCapacity": 100,
+  "TimeoutMillSecond": 5000
+ },
+ "WarnClientConfig": {
+  "QueueCapacity": 100,
+  "TimeoutMillSecond": 5000
+ }
 }

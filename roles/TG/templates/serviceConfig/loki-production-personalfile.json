@@ -1,79 +1,82 @@
 {
-    "api": {
-        "upload": {
-            "path": "/home/{{ansible_user}}/platformData/loki/upload",
-            "bigtoe_video": "/data/upload_videos"
+    "api":{
+        "upload":{
+            "path":"/home/{{ansible_user}}/platformData/loki/upload",
+            "bigtoe_video":"/data/upload_videos"
         }
     },
-    "app": {
-        "tmpPath": "/home/{{ansible_user}}/platformData/loki/tmp"
+    "app":{
+        "tmpPath":"/home/{{ansible_user}}/platformData/loki/tmp"
     },
-    "database": {
-		"connectionString": "postgres://postgres:Zstvgcs@9102@127.0.0.1/deepface_v5"
-	},
-	"clusterdb": {
-		"connectionString": "postgres://postgres:Zstvgcs@9102@{{groups.personalFileNode[0]}}/deepface_cluster"
-	},
-    "services": {
-        "ranker_runtime": {
-            "addr": "127.0.0.1:9812"
+    "database":{
+        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_v5"
+    },
+    "clusterdb":{
+        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_cluster"
+    },
+    "services":{
+        "ranker_runtime":{
+            "addr":"{{groups.master[0]}}:9812"
         },
-        "ranker_black": {
-            "addr": "127.0.0.1:9808"
+        "ranker_black":{
+            "addr":"{{groups.master[0]}}:9808"
         },
-        "sax": {
-            "addr": "http://127.0.0.1:50051"
+        "sax":{
+            "addr":"http://{{groups.master[0]}}:50051"
         },
-        "arcee": {
-            "addr": "127.0.0.1:7502"
+        "arcee":{
+            "addr":"{{groups.master[0]}}:7502"
         },
-        "hercules": {
-			"addr": "http://127.0.0.1:1315"
-		},
-		"megvii": {
-            "addr": "http://127.0.0.1:81",
-            "needTestData": false
+        "hercules":{
+            "addr":"http://{{groups.master[0]}}:1315"
         },
-        "mserver": {
-            "run_addr": "http://127.0.0.1:9009",
-			"out_addr":"127.0.0.1:8905"
+        "megvii":{
+            "addr":"http://{{groups.master[0]}}:81",
+            "needTestData":false
         },
-        "link": {
-			"addr": "http://{{groups.personalFileNode[0]}}:30233"
+        "mserver":{
+            "run_addr":"http://{{groups.master[0]}}:9009",
+            "out_addr":"{{groups.master[0]}}:8905"
+        },
+        "link":{
+            "addr":"http://{{groups.master[0]}}:30233"
         },
         "vse_face":{
-			"addr": "http://{{groups.personalFileNode[0]}}:38080"
-		},
-		"vse_vehicle": {
-			"addr": "http://{{groups.personalFileNode[0]}}:38080"
-		},
-        "elasticsearch": {
-            "url":"http://127.0.0.1:9209",
-            "inuse": false
+            "addr":"http://{{groups.master[0]}}:38080"
+        },
+        "vse_vehicle":{
+            "addr":"http://{{groups.master[0]}}:38080"
+        },
+        "elasticsearch":{
+            "url":"http://{{groups.master[0]}}:9209",
+            "inuse":false
+        },
+        "athena":{
+            "addr":"http://{{groups.master[0]}}:2013"
         }
     },
-    "cronjob": {	
-		"partition": {
-			"sax_switcher": true
-		}
+    "cronjob":{
+        "partition":{
+            "sax_switcher":true
+        }
     },
-    "pool": {
-		"capacity": 100
-	},
-    "platform": {
-		"kafkaAddress": [
-			"{{groups.personalFileNode[0]}}:32400",
-			"{{groups.personalFileNode[0]}}:32401",
-			"{{groups.personalFileNode[0]}}:32402"
-		],
-		"needSync": false,
-		"consumer": false,
-		"producer": false
-	},
-	"switcher": {
-		"person_file_compare": true,
-		"repo_collision": true,
-		"repo_statistics": true,
-		"vid_combine": true
-	}
+    "pool":{
+        "capacity":100
+    },
+    "platform":{
+        "kafkaAddress":[
+            "{{groups.master[0]}}:32400",
+            "{{groups.master[0]}}:32401",
+            "{{groups.master[0]}}:32402"
+        ],
+        "needSync":false,
+        "consumer":false,
+        "producer":false
+    },
+    "switcher":{
+        "person_file_compare":true,
+        "repo_collision": false,
+        "repo_statistics": false,
+        "vid_combine":true
+    }
 }

@@ -10,7 +10,7 @@
                 "MaxThread":100,
                 "KafkaTopic":"face-importer",
                 "KafkaAddress":[
-                    "{{groups.personalFileNode[0]}}:32400"
+                    "{{groups.master[0]}}:32400"
                 ],
                 "MaxMessageBytes":"104857600"
             }

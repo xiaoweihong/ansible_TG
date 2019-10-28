@@ -7,7 +7,7 @@
 	},
 	"MatrixConfig": {
 		"IsOpen": false,
-		"Addr": "http://{{groups.personalFileNode[0]}}:38080/vse/face/rec/image",
+		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
 		"ConnectNumber": 10,
 		"TimeoutSecond": 5,
 		"TryTimes": 3,
@@ -23,7 +23,7 @@
 		}
 	},
 	"RankerConfig": {
-		"WarnRankerAddr": "{{groups.master[0]}}:9808",
+		"WarnRankerAddr": "http://{{groups.master[0]}}:9809",
 		"WarnRankerConnectNumber": 10,
 		"TimeoutSecond": 5,
 		"TryTimes": 3,
@@ -54,7 +54,7 @@
 		"ConfigType": 1,
 		"ConfigInfo": {
 			"ClientNum": 1,
-			"Host": "127.0.0.1",
+			"Host": "{{groups.master[0]}}",
 			"Port": 5432,
 			"UserName": "postgres",
 			"PassWord": "Zstvgcs@9102",

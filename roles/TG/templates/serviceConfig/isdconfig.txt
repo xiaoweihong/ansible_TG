@@ -13,7 +13,7 @@
 	},
 	"MatrixServiceConfig": {
 		"IsOpen": true,
-		"Addr": "http://{{groups.personalFileNode[0]}}:38080/vse/face/rec/image",
+		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
 		"ConnectNumber": 10,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
@@ -36,7 +36,7 @@
 	},
 	"KafkaInputNodeConfig": {
 		"Brokers": [
-			"{{groups.personalFileNode[0]}}:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"Topics": [
 			"face-importer"
@@ -47,7 +47,7 @@
 	},
 	"KafkaOutputNodeConfig": {
 		"KafkaAddress": [
-			"{{groups.personalFileNode[0]}}:32400"
+			"{{groups.master[0]}}:32400"
 		],
 		"KafkaTopic": "index-vehicle2",
 		"MaxMessageBytes": "104857600",

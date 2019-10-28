@@ -71,7 +71,7 @@
 	},
 	"MatrixServiceConfig": {
 		"IsOpen": true,
-		"Addr": "http://{{groups.personalFileNode[0]}}:38080/vse/face/rec/image",
+		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
 		"ConnectNumber": 10,
 		"TimeoutSecond": 15,
 		"TryTimes": 3
@@ -131,7 +131,7 @@
 		"FeatureContext": {},
 		"ClusterQualityParams": {
 			"BlurThreashold": 0.3,
-			"LocalIsFaceThreashold": 0.5,
+			"LocalIsFaceThreashold": 0.9,
 			"GlobalIsFaceThreashold": 0,
 			"GlobalFrontFaceThreashold": 0,
 			"YawThreashold": 20,
@@ -141,12 +141,12 @@
 			"DetectScore": 0,
 			"Roll": 0,
 			"Size": 0,
-			"MinCutboardWidth": 40,
-			"MinCutboardHeight": 40
+			"MinCutboardWidth": 80,
+			"MinCutboardHeight": 80
 		},
 		"CandiateQualityParams": {
 			"BlurThreashold": 0.5,
-			"LocalIsFaceThreashold": 0.5,
+			"LocalIsFaceThreashold": 0.9,
 			"GlobalIsFaceThreashold": 0,
 			"GlobalFrontFaceThreashold": 0,
 			"YawThreashold": 15,
@@ -156,8 +156,8 @@
 			"DetectScore": 0,
 			"Roll": 0,
 			"Size": 0,
-			"MinCutboardWidth": 40,
-			"MinCutboardHeight": 40
+			"MinCutboardWidth": 80,
+			"MinCutboardHeight": 80
 		}
 	},
 	"SaxRankerCandidateNodeConfig": {

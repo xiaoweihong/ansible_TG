@@ -1,12 +1,5 @@
 ---
 
-- name: untar bigtoe ---->/opt/ local take long time
-  unarchive:
-    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-noengine.tar.gz
-    dest: /opt/
-    creates: /opt/bigtoe
-  connection: local
-
 - name: untar bigtoe ---->/opt/ remote take long time
   unarchive:
     src: package/bigtoe_DeepEngine-{{bigtoe_version}}-noengine.tar.gz
