@@ -7,7 +7,7 @@
         "user_name":"123",
         "passwd":"123",
         "kafkaconfig":{
-            "kafka_addr":"127.0.0.1:32400",
+            "kafka_addr":"{{groups.personalFileNode[0]}}:32400",
             "kafka_topic":"face-importer",
             "kafka_max_size_bytes":"4000000"
                       },

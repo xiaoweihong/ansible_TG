@@ -71,7 +71,7 @@
 	},
 	"MatrixServiceConfig": {
 		"IsOpen": true,
-		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
+		"Addr": "http://{{groups.personalFileNode[0]}}:38080/vse/face/rec/image",
 		"ConnectNumber": 10,
 		"TimeoutSecond": 15,
 		"TryTimes": 3

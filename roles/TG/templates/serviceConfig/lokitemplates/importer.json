@@ -24,7 +24,7 @@
       "RedLock":null
     },
     "DefaltKafkaConsumer":{
-      "KafkaBootstrapServers":"{{groups.master[0]}}:32400,{{groups.master[0]}}:32401,{{groups.master[0]}}:32402",
+      "KafkaBootstrapServers":"{{groups.personalFileNode[0]}}:32400,{{groups.personalFileNode[0]}}:32401,{{groups.personalFileNode[0]}}:32402",
       "KafkaGroupName":"index-vehicle2",
       "KafkaTopic":[
         "index-vehicle2"
@@ -36,12 +36,12 @@
       "PoolSize":300,
       "AllObject":true,
       "ReqTimeOut":10,
-      "HttpAddr":"http://{{groups.master[0]}}:38080/vse/vehicle/rec/image",
+      "HttpAddr":"http://{{groups.personalFileNode[0]}}:38080/vse/vehicle/rec/image",
       "ConcurrenceConsumerNum":10,
       "FilterThreshold":0.5,
       "Addr":"1127.0.0.1:6504",
       "FaceGrpcAddr":"127.0.0.1:6504",
-      "FaceHttpSchema":"http://{{groups.master[0]}}:38080/vse/face/rec/image",
+      "FaceHttpSchema":"http://{{groups.personalFileNode[0]}}:38080/vse/face/rec/image",
       "FExpandConfig":{
         "Top":0.5,
         "Bottom":0.1,
@@ -82,11 +82,11 @@
     "OlympusConfig":{
       "Enable":false,
       "Interval":3,
-      "Schema":"http://{{groups.master[0]}}:30233/link/v1/instances/%s/info"
+      "Schema":"http://{{groups.personalFileNode[0]}}:30233/link/v1/instances/%s/info"
     },
     "MatrixMode":true,
     "DeleteMode":false,
-    "DefaultKafkaAddr":"{{groups.master[0]}}:32400",
+    "DefaultKafkaAddr":"{{groups.personalFileNode[0]}}:32400",
     "DefaultTask":{
       "Output":{
         "Attributes":[
@@ -96,7 +96,7 @@
           },
           {
             "Key":"address",
-            "Value":"{{groups.master[0]}}:32400"
+            "Value":"{{groups.personalFileNode[0]}}:32400"
           }
         ],
         "SpeedLimit":1,

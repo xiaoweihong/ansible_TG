@@ -1,7 +1,7 @@
 ---
  
 - name: copy supervisord config file
-  copy:
+  template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
@@ -22,6 +22,8 @@
     - { src: 'supervisor/conf.d/loki.conf',dest: '/etc/supervisor/conf.d/loki.conf' }
     - { src: 'supervisor/conf.d/face-app.conf',dest: '/etc/supervisor/conf.d/face-app.conf.bak' }
     - { src: 'supervisor/conf.d/face-proxy.conf',dest: '/etc/supervisor/conf.d/face-proxy.conf.bak' }
+    - { src: 'supervisor/conf.d/zookeeper.conf',dest: '/etc/supervisor/conf.d/zookeeper.conf.bak' }
+    - { src: 'supervisor/conf.d/kafkas.conf',dest: '/etc/supervisor/conf.d/kafkas.conf.bak' }
     - { src: 'supervisor/conf.d/odin.conf',dest: '/etc/supervisor/conf.d/odin.conf' }
     - { src: 'supervisor/conf.d/redis.conf',dest: '/etc/supervisor/conf.d/redis.conf' }
     - { src: 'supervisor/conf.d/sax-vehicle.conf',dest: '/etc/supervisor/conf.d/sax-vehicle.conf' }

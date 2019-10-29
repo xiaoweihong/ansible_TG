@@ -7,7 +7,7 @@
 
 - name: start fse
 #  shell: ./run_runtime.sh
-  shell: ./run_black.sh;./run_runtime.sh
+  shell: ./run_black-nocard.sh;./run_runtime-nocard.sh
   args:
     chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}
 
@@ -15,6 +15,6 @@
   pause: seconds=35
 
 - name: create cluster fse db
-  shell: ./run_cluster.sh
+  shell: ./run_cluster-nocard.sh
   args:
     chdir: /home/{{ansible_user}}/platformTG/fse/fse-{{fse_version}}

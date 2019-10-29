@@ -93,7 +93,7 @@ echo "+-------------------------------------------------------------------+"
 echo "|           For more information please read document               |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    1. 单机部署                                    |"
-#echo "+-------------------------------------------------------------------+"
+echo "+-------------------------------------------------------------------+"
 #echo "|                    2. 集群部署                                    |"
 #echo "+-------------------------------------------------------------------+"
 #echo "|                    3. 930beta升级到930release                     |"
@@ -129,6 +129,13 @@ cluster: false
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml
 . ansible/scripts/config_ssh.sh
+cd /etc/ansible/scripts
+./setupPersonfile.sh
+   if [[ $? -ne 0 ]];then
+      fatal_exit
+   fi
+   cp hosts /etc/ansible/hosts
+
   rm -rf /etc/TG
   mkdir /etc/TG
   mv /etc/ansible/hosts /etc/TG/
