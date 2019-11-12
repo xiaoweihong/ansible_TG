@@ -17,6 +17,7 @@ function downloadPackage(){
    wget ${DOWNLOAD_URL}/hw_importer-0.8.0.tar
    wget ${DOWNLOAD_URL}/vse-3.7.1-p2.tar.gz
    wget ${DOWNLOAD_URL}/tools.zip
+   wget ${DOWNLOAD_URL}/tiles.tar.gz
 
 }
 downloadPackage

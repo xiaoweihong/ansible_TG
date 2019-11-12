@@ -1,0 +1,15 @@
+---
+
+
+- name: install PVGTOOL:load image
+  shell: docker load -i 3.11.4-pvg-tools-0.1.img
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/pvg_tools
+  ignore_errors: True
+
+
+- name: install PVGTOOL:run image
+  shell: ./run_image.sh 3.11.4-pvg-tools-0.1 0 create
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/pvg_tools
+  ignore_errors: True

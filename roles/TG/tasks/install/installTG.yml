@@ -12,3 +12,5 @@
   tags: [always]
 
 - include: installMap.yml
+
+- include: installPVGTool.yml

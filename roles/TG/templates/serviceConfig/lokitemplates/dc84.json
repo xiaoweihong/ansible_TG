@@ -1,0 +1,26 @@
+{
+    "config":
+    {
+        "type":"hkDC84",
+        "ip":"192.168.100.82",
+        "port":"8000",
+        "user_name":"admin",
+        "passwd":"Admin123",
+        "camera":"DC84",
+        "kafkaconfig":{
+            "kafka_addr":"{{groups.master[0]}}:32400",
+            "kafka_topic":"face-importer",
+            "kafka_max_size_bytes":"104857600"
+        },
+        "function":{
+            "motor_vehicle_detect":"2",
+            "non_motor_vehicle_detect":"2",
+            "pedestrian_detect":"2",
+            "face_detect":"2"
+        }, 
+        "reconnect_time":"",
+        "max_thread":"",
+        "is_removeduplication":"true",
+        "sensor_id":"e6f195d3-5b3a-4a52-a2ce-11bcc67621aa"
+    }
+}

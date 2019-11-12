@@ -39,42 +39,42 @@
 	"FaceCaptureRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"FaceWarnRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9809",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"VehicleCaptureRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"PedestrianCaptureRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"NonmotorCaptureRankerServiceConfig":{
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"FaceVidHeartbeatCacheServiceConfig":{
 		"IsOpen": true,
 		"SlidingWindowMilSecond": 60000,
-		"SaxHttpUrl": "http://{{groups.personalFileNode[0]}}:50051/api/face/clusteradd",
+		"SaxHttpUrl": "http://{{groups.master[0]}}:50051/api/face/clusteradd",
 		"TimeoutSecond": 2,
 		"MaxConnectionNum":5
 	},

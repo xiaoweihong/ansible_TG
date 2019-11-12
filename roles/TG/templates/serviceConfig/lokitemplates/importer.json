@@ -15,7 +15,7 @@
       "Addrs":[
         "{{groups.master[0]}}:6379"
       ],
-      "Password":"",
+      "Password":"deepglint@2013",
       "SingleNode":true,
       "WriteTimeout":1,
       "DialTimeout":5,

@@ -23,3 +23,10 @@
   copy:
     src: package/tools.zip
     dest: /platformData/http_server
+
+
+- name: untar index map file to ---->>> /platformData/
+  unarchive:
+    src: package/tiles.tar.gz
+    dest: /platformData/
+    creates: /platformData/tiles/10/720/388.pbf

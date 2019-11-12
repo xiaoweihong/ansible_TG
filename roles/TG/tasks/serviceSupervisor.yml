@@ -8,7 +8,7 @@
     - { src: 'supervisor/supervisord.conf',dest: '/etc/supervisor/supervisord.conf' }
   tags: [master]
 
-- name: copy service config file 
+- name: copy service config file
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
@@ -17,12 +17,14 @@
     - { src: 'supervisor/conf.d/athena.conf',dest: '/etc/supervisor/conf.d/athena.conf' }
     - { src: 'supervisor/conf.d/bultgang.conf',dest: '/etc/supervisor/conf.d/bultgang.conf' }
     - { src: 'supervisor/conf.d/croatia.conf',dest: '/etc/supervisor/conf.d/croatia.conf' }
+    - { src: 'supervisor/conf.d/eventpoxy.conf',dest: '/etc/supervisor/conf.d/eventpoxy.conf' }
     - { src: 'supervisor/conf.d/isd.conf',dest: '/etc/supervisor/conf.d/isd.conf' }
     - { src: 'supervisor/conf.d/k2s.conf',dest: '/etc/supervisor/conf.d/k2s.conf' }
     - { src: 'supervisor/conf.d/loki.conf',dest: '/etc/supervisor/conf.d/loki.conf' }
     - { src: 'supervisor/conf.d/face-app.conf',dest: '/etc/supervisor/conf.d/face-app.conf.bak' }
     - { src: 'supervisor/conf.d/face-proxy.conf',dest: '/etc/supervisor/conf.d/face-proxy.conf.bak' }
     - { src: 'supervisor/conf.d/odin.conf',dest: '/etc/supervisor/conf.d/odin.conf' }
+    - { src: 'supervisor/conf.d/pse.conf',dest: '/etc/supervisor/conf.d/pse.conf' }
     - { src: 'supervisor/conf.d/redis.conf',dest: '/etc/supervisor/conf.d/redis.conf' }
     - { src: 'supervisor/conf.d/sax-vehicle.conf',dest: '/etc/supervisor/conf.d/sax-vehicle.conf' }
     - { src: 'supervisor/conf.d/sax.conf',dest: '/etc/supervisor/conf.d/sax.conf' }

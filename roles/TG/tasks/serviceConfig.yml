@@ -13,7 +13,7 @@
 
 - meta: flush_handlers
 
-- name: copy service config file 
+- name: copy service config file
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
@@ -24,7 +24,9 @@
     - { src: 'serviceConfig/isdconfig.txt',dest: '/home/{{ansible_user}}/platformTG/isd/latest/tmp/isdconfig.txt' }
     - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }
     - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
+    - { src: 'serviceConfig/default.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/default.json' }
     - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
+    - { src: 'serviceConfig/pse-config.json',dest: '/home/{{ansible_user}}/platformTG/pse/latest/config/config.json' }
 
 - name: copy loki template file
   template:
@@ -32,6 +34,7 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'serviceConfig/lokitemplates/dahua.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/dahua.json' }
+    - { src: 'serviceConfig/lokitemplates/dc84.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/dc84.json' }
     - { src: 'serviceConfig/lokitemplates/haikangsdk.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/haikangsdk.json' }
     - { src: 'serviceConfig/lokitemplates/huawei.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/huawei.json' }
     - { src: 'serviceConfig/lokitemplates/huimu.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/huimu.json' }

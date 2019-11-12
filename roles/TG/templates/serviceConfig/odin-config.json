@@ -39,35 +39,35 @@
 	"FaceCaptureRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"FaceWarnRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9809",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"VehicleCaptureRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"PedestrianCaptureRankerServiceConfig": {
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
 	"NonmotorCaptureRankerServiceConfig":{
 		"IsOpen": true,
 		"RankerAddr": "http://{{groups.master[0]}}:9813",
-		"RankerConnectNumber": 1,
+		"RankerConnectNumber": 1000,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},

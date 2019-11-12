@@ -16,7 +16,7 @@ select AutoCreatePartitionTable('pedestrian_capture', 'pedestrian_id', thisWeekN
 
 select AutoCreatePartitionTable('faces_index', 'face_id', thisWeekName(), timeZone(weekBegin(0)), timeZone(weekBegin(1)));
 
-select AutoCreatePartitionTable('white-warn', 'face_id', thisWeekName(), timeZone(weekBegin(0)), timeZone(weekBegin(1)));
+select AutoCreatePartitionTable('white_warn', 'face_id', thisWeekName(), timeZone(weekBegin(0)), timeZone(weekBegin(1)));
 
-select AutoCreatePartitionTable('white-warn_index', 'face_id', thisWeekName(), timeZone(weekBegin(0)), timeZone(weekBegin(1)));
+select AutoCreatePartitionTable('white_warn_index', 'face_id', thisWeekName(), timeZone(weekBegin(0)), timeZone(weekBegin(1)));
 

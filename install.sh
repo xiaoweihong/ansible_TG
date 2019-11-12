@@ -96,7 +96,7 @@ echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    2. 集群部署                                    |"
 echo "+-------------------------------------------------------------------+"
-echo "|                    3. 930beta升级到930release                     |"
+echo "|                    3. 930release升级到1115beta                    |"
 echo "+-------------------------------------------------------------------+"
 #echo "|                    4. 更换ip                                      |"
 #echo "+-------------------------------------------------------------------+"
@@ -262,7 +262,7 @@ function main(){
   
   if [  -d /etc/ansible ];then
       logging "存在版本"
-     if [ ! -f /etc/ansible/VERSION-930-release ];then
+     if [ ! -f /etc/ansible/VERSION-1115-beta ];then
       logging "备份旧版本配置文件"
        cp /etc/ansible/hosts /tmp
        cp /etc/ansible/group_vars/all.yml /tmp

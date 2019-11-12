@@ -9,7 +9,8 @@
         "tmpPath":"/home/{{ansible_user}}/platformData/loki/tmp"
     },
     "database":{
-        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_v5"
+        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_v5",
+        "showSql":true
     },
     "clusterdb":{
         "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_cluster"
@@ -53,11 +54,24 @@
         },
         "athena":{
             "addr":"http://{{groups.master[0]}}:2013"
+        },
+        "redis":{
+            "cache":{
+                "addr":"{{groups.master[0]}}:6379",
+                "password":"deepglint@2013"
+            },
+            "store":{
+                "addr":"{{groups.master[0]}}:6379",
+                "password":"deepglint@2013"
+            }
+        },
+        "pse":{
+            "addr":"http://{{groups.master[0]}}:1989"
         }
     },
     "cronjob":{
         "partition":{
-            "sax_switcher":false
+            "sax_switcher":true
         }
     },
     "pool":{
@@ -74,9 +88,9 @@
         "producer":false
     },
     "switcher":{
-        "person_file_compare":false,
+        "person_file_compare":true,
         "repo_collision":false,
         "repo_statistics":false,
-        "vid_combine":false
+        "vid_combine":true
     }
 }

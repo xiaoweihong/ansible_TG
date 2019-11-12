@@ -32,9 +32,10 @@
 - include: updateVSE.yml
 
 
-- name: change ip for config file
+- name: change ip for config file and change template file
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }
+    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-4.0.1' }

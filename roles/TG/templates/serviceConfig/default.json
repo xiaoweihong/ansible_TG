@@ -1,0 +1,364 @@
+{
+	"auth": {
+		"key": "4rd5rAPPz52dhvjlSK1lTT08dOVNxFKN0GeosDeps3cAUwlL5YzkGBDbD3sGvogd",
+		"timeout": "168h",
+		"maxRefresh": "168h",
+		"impersonateAllowList": [
+			".*"
+		]
+	},
+	"log": {
+		"http": false
+	},
+	"api": {
+		"logout": {
+			"updateSecurityToken": false
+		},
+		"updatePassword": {
+			"updateSecurityToken": true
+		},
+		"updateDeviceRole": {
+			"updateSecurityToken": true
+		},
+		"updateFuncRole": {
+			"updateSecurityToken": true
+		},
+		"updateUser": {
+			"updateSecurityToken": true
+		},
+		"_requestLogger": {
+			"logUrl": true,
+			"printBody": true,
+			"logBody": [
+				"application/json"
+			]
+		},
+		"capturedFace": {
+			"rankFeatureCandidatesFactor": 5,
+			"repositoryName": "ReverseSort+SkipCount",
+			"tableName": "faces"
+		},
+		"faceEvent": {
+			"repositoryName": "ReverseSort+SkipCount"
+		},
+		"faceWhiteEvent": {
+			"rankFeatureCandidatesFactor": 5,
+			"repositoryName": "ReverseSort+SkipCount",
+			"tableName": "white_warn"
+		},
+		"civil": {
+			"rankFeatureCandidatesFactor": 5,
+			"repositoryName": "ReverseSort+SkipCount"
+		},
+		"export": {
+			"civilImageCount": 3,
+			"downloadAssetConcurrency": 100,
+			"failedCivilImageCount": 3,
+			"faceEventColumns": [
+				"序号",
+				"抓拍人脸图片",
+				"比中人脸图片",
+				"比对分数",
+				"抓拍时间",
+				"监控点名称",
+				"比对库名称",
+				"姓名",
+				"证件号",
+				"备注",
+				"审核状态",
+				"审核人",
+				"全景图"
+			],
+			"personFileColumns": [
+				"序号",
+				"姓名",
+				"身份证号",
+				"档案标志照片",
+				"档案建立时间",
+				"实名状态",
+				"关注状态",
+				"分值"
+			]
+		},
+		"frequencyAnalyze": {
+			"common": {
+				"maxTaskNumInAthena": 10,
+				"maxTaskNumOfOneUser": 10,
+				"createTaskMaxSensorCount": 500,
+				"createTaskMaxTsDurationDays": 31
+			}
+		},
+		"firstAppearance": {
+			"userTaskLimit": 10,
+			"sensorCountLimit": 500,
+			"selectedDaysLimit": 90,
+			"backtrackingDaysLimit": 90
+		},
+		"areacollision": {
+			"userTaskLimit": 10,
+			"sensorCountLimit": 500,
+			"selectedDaysLimit": 31
+		},
+      "dayinnightout": {
+        "userTaskLimit": 10,
+        "sensorCountLimit": 500,
+        "selectedDaysLimit": 31
+      },
+		"fakePlate": {
+			"userTaskLimit": 10,
+			"sensorCountLimit": 500,
+			"selectedDaysLimit": 90
+		},
+		"personFile": {
+			"repositoryName": "ReverseSort+SkipCount"
+		},
+		"vehicleFile": {
+			"repositoryName": "ReverseSort+SkipCount"
+		},
+		"repoStatistics": {
+			"repoIDCount": 3,
+			"repoIDs": [
+				"0002",
+				"adf92850-87fc-4226-be36-0aa2ee44c82d",
+				"4b273149-a4b6-4a51-b79c-f5b8f0707d89"
+			]
+		},
+		"templatesBasePath": "/home/{{ansible_user}}/platformTG/loki/latest/config/templates"
+	},
+	"database": {
+		"connectionString": "postgres://postgres:Zstvgcs@9102@127.0.0.1/deepface_v5",
+		"maxOpenConns": 100,
+		"maxIdleConns": 100,
+		"connMaxLifetime": "1m",
+		"logLevel": "info",
+		"showSql":false
+	},
+	"clusterdb": {
+		"connectionString": "postgres://postgres:Zstvgcs@9102@127.0.0.1/deepface_cluster",
+		"maxOpenConns": 10,
+		"maxIdleConns": 10,
+		"connMaxLifetime": "1m",
+		"logLevel": "info",
+		"showSql": false
+	},
+	"services": {
+		"ranker_runtime": {
+			"addr": "127.0.0.1:9812",
+			"face_repo": "capture-face-repo",
+			"nonmotor_repo": "capture-nonmotor-repo",
+			"pedestrian_repo": "capture-pedestrian-repo",
+			"vehicle_repo": "capture-vehicle-repo",
+			"face_params": {
+				"GPU": "[1,1,1,1]",
+				"FeatureLen": 384,
+				"FeatureDataType": 2,
+				"RepoLevel": 2,
+				"UseFeatureIDMap": "false",
+				"PreFilter": "true",
+				"RepoCapacity": 100000000
+			},
+			"vehicle_params": {
+				"GPU": "[1,1,1,1]",
+				"FeatureLen": 128,
+				"FeatureDataType": 2,
+				"RepoLevel": 2,
+				"UseFeatureIDMap": "false",
+				"PreFilter": "true",
+				"RepoCapacity": 100000000
+			},
+			"try_times": 3,
+			"timeout": 5,
+			"connect_number": 10
+		},
+		"ranker_black": {
+			"addr": "127.0.0.1:9808",
+			"default_repo": [
+				"0001",
+				"0002",
+				"0003",
+				"0004",
+				"0005",
+				"0006"
+			],
+			"defaultParams": {
+				"GPU": "[1,1,1,1]",
+				"FeatureLen": 384,
+				"FeatureDataType": 2,
+				"RepoLevel": 2,
+				"RepoCapacity": 100000,
+				"UseFeatureIDMap": "true",
+				"PreFilter": "false"
+			},
+			"try_times": 3,
+			"timeout": 5,
+			"connect_number": 10
+		},
+		"sax": {
+			"addr": "http://127.0.0.1:50051"
+		},
+		"arcee": {
+			"addr": "127.0.0.1:7502",
+			"connect_number": 10,
+			"try_times": 3
+		},
+		"hercules": {
+			"addr": "http://127.0.0.1:1315"
+		},
+		"megvii": {
+			"addr": "http://104.35.96.231:81",
+			"needTestData": true
+		},
+		"mserver": {
+			"run_addr": "http://127.0.0.1:9009",
+			"out_addr": "127.0.0.1:8905"
+		},
+		"link": {
+			"addr": "http://127.0.0.1:30233"
+		},
+		"vse_face": {
+			"addr": "http://127.0.0.1:38080"
+		},
+		"vse_vehicle": {
+			"addr": "http://127.0.0.1:38080"
+		},
+		"elasticsearch": {
+			"url": "http://192.168.2.174:9209",
+			"inuse": false
+		},
+		"athena": {
+			"addr": "http://127.0.0.1:2013",
+			"platform_sync": {
+				"gb": {
+					"url": "http://%s:%d/dgsip/catalog"
+				},
+				"pvg": {
+					"url": "netposa://%s:%s@%s:%d"
+				}
+			}
+		},
+		"redis": {
+			"cache": {
+				"addr": "127.0.0.1:6378",
+				"password": "Zstvgcs@9102"
+			},
+			"store": {
+				"addr": "127.0.0.1:6378",
+				"password": "Zstvgcs@9102"
+			}
+		},
+		"sentry": {
+			"switcher": true,
+			"dsn": "http://c36d8009c6c14f9083bb2844f4cf4890@192.168.2.142:9999/2",
+			"environment": "2.169"
+		},
+		"pse":{
+			"addr": "http://127.0.0.1:1989"
+		}
+	},
+	"cronjob": {
+		"vid": {
+			"updatecron": "0 * * * * ?",
+			"updateseconds": 100
+		},
+		"impact": {
+			"confidence": 0.88,
+			"standerRepoID": "0001",
+			"cronscript": "0 41 17 * * *",
+			"timeoutDuration": 18000,
+			"days": 20
+		},
+		"repo": {
+			"cronscriptPicCount": "0 45 23 * * *",
+			"cronscriptclear": "0 30 23 * * *"
+		},
+		"partition": {
+			"face_cronscript": "@weekly",
+			"sax_switcher": false,
+			"sax_cronscript": "0 0 23 1 * *"
+		},
+		"delete_task": {
+			"cronscript": "0 * * * * *"
+		},
+		"civil_count": {
+			"cronscript": "@hourly"
+		},
+		"capture_count": {
+			"cronscript": "0 23 15 * * *",
+			"forward_days": 4
+		},
+		"file_count": {
+			"cronscript": "0 30 0 * * *",
+			"forward_days": 20000
+		}
+	},
+	"tags": {
+		"person": {
+			"one": 1,
+			"two": 2,
+			"three": 4,
+			"four": 8,
+			"five": 16,
+			"six": 32,
+			"seven": 64,
+			"eight": 128
+		},
+		"vehicle": [
+			"one",
+			"two",
+			"three",
+			"four",
+			"five",
+			"six",
+			"seven",
+			"eight"
+		]
+	},
+	"pool": {
+		"capacity": 100
+	},
+	"platform": {
+		"kafkaAddress": [
+			"127.0.0.1:32400",
+			"127.0.0.1:32401",
+			"127.0.0.1:32402"
+		],
+		"defaultGroup": "123",
+		"needSync": false,
+		"kafkaSyncTopic": "ferry_topic",
+		"consumer": false,
+		"producer": false,
+		"lokiTopic": "loki_sync_topic"
+	},
+	"switcher": {
+		"person_file_compare": false,
+		"repo_collision": false,
+		"repo_statistics": false,
+		"vid_combine": false
+	},
+	"similarity": {
+		"IsOpen": true,
+		"ConfigType": 1,
+		"SlidingWindowMillsecond": 5000,
+		"TopNum": 5,
+		"CosThreashold": 0.85,
+		"CosAParams": [
+			1.29032258,
+			1.29032258,
+			1.29032258
+		],
+		"CosBParams": [
+			-0.06774194,
+			-0.06774194,
+			-0.06774194
+		],
+		"ThresParams": [
+			0.6725,
+			0.75
+		],
+		"LinearAlpha": 1,
+		"LinearBeta": 0
+	},
+	"limit": {
+		"sensor": 1000
+	}
+}
