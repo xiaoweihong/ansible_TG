@@ -32,3 +32,4 @@ cd ${PUBLISH_PATH}
 
 cd ../
 tar zcvf platform_${VERSION_TAG}-${PUBLISH_DATE}.tar.gz platform_${VERSION_TAG}-${PUBLISH_DATE}
+rm -f /root/.ssh/known_hosts

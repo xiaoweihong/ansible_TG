@@ -19,7 +19,7 @@
 		"TimeoutSecond": 5,
 		"TryTimes": 3
 	},
-	"SingleFaceNodeConfig": {
+	"SingleObjectNodeConfig": {
 		"MaxThread": 100,
 		"Context": {
 			"SessionId": "single_face",

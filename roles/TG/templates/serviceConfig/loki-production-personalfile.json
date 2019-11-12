@@ -10,7 +10,7 @@
     },
     "database":{
         "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_v5",
-        "showSql":true
+        "showSql":false
     },
     "clusterdb":{
         "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_cluster"

@@ -259,7 +259,7 @@ function main(){
   else
     logging "Ansible Aleady Installed."
   fi
-  
+
   if [  -d /etc/ansible ];then
       logging "存在版本"
      if [ ! -f /etc/ansible/VERSION-1115-beta ];then
@@ -272,7 +272,7 @@ function main(){
       rm -f /etc/ansible
       ln -s ${SHELL_DIR}/ansible /etc/ansible
       touch /usr/local/TG_delete_update_flag
-        fatal_exit
+      fatal_exit
   fi
 
 
@@ -303,7 +303,7 @@ function main(){
         ;;
         3)
   clear
-      logging "930beta升级到930release"
+      logging "930release升级到1115beta"
       if [ ! -f /usr/local/TG_delete_update_flag ];then
           logging "正常升级"
           rm -f /etc/ansible
