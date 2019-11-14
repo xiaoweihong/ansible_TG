@@ -8,9 +8,9 @@
 #  connection: local
 
 - name: remove old version package
-  shell: rm -rf /home/{{ansible_user}}/platformTG; touch /opt/930betato930release
+  shell: rm -rf /home/{{ansible_user}}/platformTG; touch /opt/930releaseto1115beta
   args:
-    creates: /opt/930betato930release
+    creates: /opt/930releaseto1115beta
   when: update == True
 
 - name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG remote

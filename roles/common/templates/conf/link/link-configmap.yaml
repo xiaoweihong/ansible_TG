@@ -1,0 +1,113 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: link-config
+  namespace: link
+data:
+  config_prod.toml: |-
+    [redis]
+    host = "redis-service.redis.svc.cluster.local"
+    port = 6379
+    db = 7
+    maxidle = 4
+
+    [server]
+    listen = "0.0.0.0:2233"
+
+    [broker]
+    command_queue       = "dg:link:command_queue"
+    prepare_queue       = "dg:link:prepare_queue"
+    prepare_lock        = "dg:link:lock:prepare_queue"
+    prepare_lock_expiry = 40000000
+    prepare_lock_tries  = 40000000
+
+    [watcher]
+    dog_addr = "192.168.2.235:5000"
+
+    [pudge]
+    pudge_server = "pudge-service.pudge.svc.cluster.local:2234"
+    pudge_client_timeout = 10
+
+    [k8sclient]
+    is_out_of_cluster = false
+
+    [scheduler]
+    remove_wait_retry_sleep = 60
+    
+    [link]
+    enable_db_log = false
+    subtask_speedx = 2
+    prometheus_addr = 'prometheus-k8s.monitoring.svc.cluster.local:9090'
+    task_reserved_resource = 4
+
+    [vse]
+    namespace = "vse"
+    retry_limit = 5
+    retry_sleep = 20
+    callback_addr = "link-service.link.svc.cluster.local:2233"
+    port = "7458"
+    svc_addr = "vse-service.vse.svc.cluster.local:7458"
+    max_channel = 40
+
+    [cap]
+    namespace = "cap"
+    retry_limit = 5
+    retry_sleep = 40
+    callback_addr = "link-service.link.svc.cluster.local:2233"
+    port = "10051"
+
+
+    [job]
+    namespace = "k8s-job"
+
+    [jobs]
+
+        [jobs.dc84_sdk]
+        image_version = "dockerhub.deepglint.com/deepface/dc84_sdk:0.1.0"
+        command = ["./sdk_importer", "/k8s_link_use/configs/config.json"]
+
+        [jobs.huimu_sdk]
+        image_version = "dockerhub.deepglint.com/deepface/hm_importer:0.12.5"
+        command = ["./sdk_importer", "/k8s_link_use/configs/config.json"]
+
+        [jobs.dahua_sdk]
+        image_version = "dockerhub.deepglint.com/deepface/hm_importer:0.12.5"
+        command = ["./sdk_importer", "/k8s_link_use/configs/config.json"]
+
+        [jobs.haikang_sdk]
+        image_version = "dockerhub.deepglint.com/deepface/hm_importer:0.12.5"
+        command = ["./sdk_importer", "/k8s_link_use/configs/config.json"]
+
+        [jobs.huawei_sdk]
+        image_version = "dockerhub.deepglint.com/deepface/hw_importer:0.8.0"
+        command = ["./sdk_importer", "/k8s_link_use/configs/config.json"]
+
+
+        [jobs.isd]
+        image_version = "dockerhub.deepglint.com/deepvideo/importer:1.3.6"
+        command = [ "./run.sh", "/k8s_link_use/configs/config.json" ]
+
+        [jobs.importer_ftp]
+        image_version = "dockerhub.deepglint.com/deepvideo/importer:1.3.6"
+        command = [ "./run.sh", "/k8s_link_use/configs/config.json" ]
+ 
+       [jobs.importer_libraf]
+        image_version = "dockerhub.deepglint.com/deepface/importer:v1.4.4"
+        command = [ "/face/importer/importer", "-config", "/k8s_link_use/configs/config.json", "-logtostderr" ]
+
+    [uploaders]
+        [uploaders.ehualu]
+        image_version = "dockerhub.deepglint.com/arch/vse-uploader-ehualu:0.0.1"
+        command = [ "python", "uploader.py" ]
+
+    [nfs]
+    nfs_ip = "192.168.2.169"
+
+    [logging]
+    level = "debug"
+    destination = "stdout"
+
+    [database]
+    # please refer this to https://www.postgresql.org/docs/9.6/static/libpq-connect.html#LIBPQ-PARAMKEYWORDS
+    connection_string = "host=postgres-service.pgsql.svc.cluster.local port=5432 user=postgres password=postgres dbname=link client_encoding=utf8 sslmode=disable"
+    test_connection_string = "host=postgres-service.pgsql.svc.cluster.local port=5432 dbname=link_test client_encoding=utf8 sslmode=disable"
