@@ -8,3 +8,9 @@
   with_items:
     - { src: 'package/importer-1.3.6.tar',dest: '/opt/bigtoe/pkg/docker-images' }
     - { src: 'package/dc84_sdk-0.1.0.tar',dest: '/opt/bigtoe/pkg/docker-images' }
+
+- name: load dc84_sdk-0.1.0
+  shell: docker load -i /opt/bigtoe/pkg/docker-images/dc84_sdk-0.1.0.tar
+  args:
+    chdir: /opt/bigtoe/pkg/docker-images
+  when: update == True
