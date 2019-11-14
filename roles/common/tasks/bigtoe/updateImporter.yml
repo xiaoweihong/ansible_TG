@@ -14,3 +14,10 @@
   args:
     chdir: /opt/bigtoe/pkg/docker-images
   when: update == True
+
+
+- name: restart link
+  shell: kubectl apply -f link-configmap.yaml ; kubectl delete pods -n link --all
+  args:
+    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/link
+  when: update == True
