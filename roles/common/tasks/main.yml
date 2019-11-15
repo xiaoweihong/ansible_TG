@@ -33,7 +33,6 @@
   when: not update
 - include: install/installTG.yml
 
-- include: bigtoe/updateImporter.yml
 
 - name: Check SSH Version
   command: ssh -V
@@ -48,6 +47,8 @@
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-4.0.1' }
     - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' }
+
+- include: bigtoe/updateImporter.yml
 
 - name: update SSH
   #debug: msg={{SSH_check}}
