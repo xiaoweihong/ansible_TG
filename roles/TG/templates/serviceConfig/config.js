@@ -278,6 +278,12 @@
         RefreshInterval: 2000,
       },
     },
+    vehicleRepoSearch: {
+      defaultPageParams: {
+        Limit: 100,
+        Offset: 0,
+      },
+    },
     repo: {
       refreshInterval: 2000,
     },

@@ -50,6 +50,21 @@
 
 - include: bigtoe/updateImporter.yml
 
+- name: config limits.conf
+  copy:
+    src: conf/limits/limits.conf
+    dest: /etc/security/limits.conf
+
+- name: config 90-nproc.conf
+  copy:
+    src: conf/limits/90-nproc.conf
+    dest: /etc/security/limits.d/90-nproc.conf
+
+- name: config sysctl.conf
+  copy:
+    src: conf/limits/sysctl.conf
+    dest: /etc/sysctl.conf
+
 - name: update SSH
   #debug: msg={{SSH_check}}
   include: software/updateSSH.yml
