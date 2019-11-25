@@ -30,13 +30,6 @@
     },
     "vsd_output":{
         "params":{
-            "RepoId":"",
-            "deviceGBid":"50010800041310050222",
-            "IsSceneImage":"1",
-            "FeatureImageSaveDay":"7",
-            "SceneImageSaveDay":"7",
-            "IsFeatureImage":"1",
-            "SensorId":""
         }
     },
     "user_data":{
