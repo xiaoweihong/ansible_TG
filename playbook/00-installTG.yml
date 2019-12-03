@@ -20,20 +20,20 @@
     - role: master
     - role: postgres
     - role: TG
-
-
-- hosts: postgresNode
-  gather_facts: false
-  roles:
-    - role: postgresNode
-    - role: node
-
-- hosts: personalFileNode
-  gather_facts: false
-  roles:
-    - role: personalFile
-
-- hosts: node
-  gather_facts: false
-  roles:
-    - role: node
+#
+#
+#- hosts: postgresNode
+#  gather_facts: false
+#  roles:
+#    - role: postgresNode
+#    - role: node
+#
+#- hosts: personalFileNode
+#  gather_facts: false
+#  roles:
+#    - role: personalFile
+#
+#- hosts: node
+#  gather_facts: false
+#  roles:
+#    - role: node

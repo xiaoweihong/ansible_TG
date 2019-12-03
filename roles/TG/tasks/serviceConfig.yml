@@ -9,8 +9,8 @@
     - { src: 'nginx/sql.conf',dest: '/etc/nginx/sql.conf' }
     - { src: 'nginx/app.conf',dest: '/etc/nginx/conf.d' }
     - { src: 'nginx/software.conf',dest: '/etc/nginx/conf.d' }
-  notify:
-    - nginx reload
+#  notify:
+#    - nginx reload
 
 - meta: flush_handlers
 

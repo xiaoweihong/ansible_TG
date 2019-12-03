@@ -45,7 +45,7 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }
-    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-4.0.1' }
+    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-{{bigtoe_version}}' }
     - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' }
 
 - include: bigtoe/updateImporter.yml

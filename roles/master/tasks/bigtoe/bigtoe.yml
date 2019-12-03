@@ -5,14 +5,14 @@
 
 
 - name: execute install bigtoe master
-  shell: ./install_master.sh DeepEngine-4.0.1.ini
+  shell: ./install_master.sh DeepEngine-{{bigtoe_version}}.ini
   args:
     chdir: /opt/bigtoe
   when: result|failed
 
-- name: update vse patch
-  shell: cp /opt/bigtoe/vse /data/bigtoe/vse/patches
-  when: not update
+#- name: update vse patch
+#  shell: cp /opt/bigtoe/vse /data/bigtoe/vse/patches
+#  when: not update
 
 
 - name: get cluster token
@@ -27,38 +27,23 @@
   when: cluster == true
 
 
-- name: copy config_app.sh ----> /opt/bigtoe
+- name: copy init.val ----> /opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/init.val
   template:
-    src: '{{ item.src }}' 
-    dest: '{{ item.dest }}' 
-  with_items:
-    - { src: 'conf/bigtoe/app_config',dest: '/etc/bigtoe/flags/app_config' }
-  when: not update
-
-
-
-- name: copy config_app.sh to /opt/bigtoe
-  copy:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'
   with_items:
-    - { src: 'package/config_app.sh',dest: '/opt/bigtoe/config_app.sh' }
+    - { src: 'conf/bigtoe/init.val',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/init.val' }
   when: not update
 
-- name: execute config_app for vse
-  shell: ./config_app.sh
+
+
+
+- name: execute config_params
+  shell: ./config_params.sh
   args:
     chdir: /opt/bigtoe
   when: not update
 
-
-- name: kubectl replace -f config file
-  shell: php generate.php 32; ls vse-daemonset-*|xargs -i kubectl replace -f {};ls vse-configmap-*|xargs -i kubectl replace -f {};
-#  async: 10
-#  poll: 0
-  args:
-    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse
-  when: not update
 
 - name: update link docker image
   shell: docker load -i link-0.21.0.tar
@@ -67,9 +52,9 @@
   when: not update
 
 
-- name: link version update to 0.21.0
-  shell: sed -i "s#dockerhub.deepglint.com/arch/link:0.19.0-job-hostnetwork#dockerhub.deepglint.com/arch/link:0.21.0#g" /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-deployment.yaml
-  when: not update
+#- name: link version update to 0.21.0
+#  shell: sed -i "s#dockerhub.deepglint.com/arch/link:0.19.0-job-hostnetwork#dockerhub.deepglint.com/arch/link:0.21.0#g" /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-deployment.yaml
+#  when: not update
 
 
 - name: update link and restart
@@ -80,10 +65,10 @@
 
 
 
-- name: restart vse and link
-  shell: ./restart_pods.sh vse ; ./restart_pods.sh link
-  async: 10
-  poll: 0
-  args:
-    chdir: /opt/bigtoe
-  when: not update
+#- name: restart vse and link
+#  shell: ./restart_pods.sh vse ; ./restart_pods.sh link
+#  async: 10
+#  poll: 0
+#  args:
+#    chdir: /opt/bigtoe
+#  when: not update

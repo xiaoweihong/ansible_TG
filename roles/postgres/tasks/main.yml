@@ -53,9 +53,9 @@
   when: update == False
 
 - name: start postgresql
-  shell: su -  postgres -c "/usr/lib/postgresql/11/bin/pg_ctl -D /{{platformPath}}/postgresql/11/main -l /{{platformPath}}/postgresql/postgres.log -s start" 
+  shell: su -  postgres -c "/usr/lib/postgresql/11/bin/pg_ctl -D /{{platformPath}}/postgresql/11/main -l /{{platformPath}}/postgresql/postgres.log -s start"
   args:
-    creates: /{{platformPath}}/postgresql/postgres.log 
+    creates: /{{platformPath}}/postgresql/postgres.log
   when: update == False
 
 - name: kill postgres second
@@ -65,11 +65,11 @@
 
 - name: config postgresql config file
   template:
-    src: '{{ item.src }}' 
-    dest: '{{ item.dest }}' 
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
   with_items:
-    - { src: 'conf/postgresql/postgresql.conf',dest: '/etc/postgresql/11/main/postgresql.conf' }  
-    - { src: 'conf/postgresql/pg_hba.conf',dest: '/etc/postgresql/11/main/pg_hba.conf' }  
+    - { src: 'conf/postgresql/postgresql.conf',dest: '/etc/postgresql/11/main/postgresql.conf' }
+    - { src: 'conf/postgresql/pg_hba.conf',dest: '/etc/postgresql/11/main/pg_hba.conf' }
   when: update == False
 
 

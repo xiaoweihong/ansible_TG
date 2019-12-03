@@ -1,0 +1,10 @@
+__APP_KAFKA_ADDR__#bootstrap.kafka.svc.cluster.local:9092
+__APP_VIDEO_KAFKA_TOPIC__#index-vehicle2
+__APP_IMAGE_KAFKA_TOPIC__#index-vehicle
+__APP_IMAGE_STORAGE__#{{ansible_host_ip}}:8502
+__APP_BINGO_SWITCH__#0
+__APP_PARAM_VERSION__#DC
+__INIT_KAFKA_ADDR__#bootstrap.kafka.svc.cluster.local:9092
+__INIT_VIDEO_KAFKA_TOPIC__#index-vehicle2
+__INIT_IMAGE_KAFKA_TOPIC__#index-vehicle
+__INIT_IMAGE_STORAGE__#{{ansible_host_ip}}:8502

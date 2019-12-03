@@ -1,14 +1,14 @@
 ---
 
-ansible_become: yes                                                                                                   
-ansible_become_method: sudo                                                                                           
-ansible_user: ubuntu                                                                                                   
-ansible_password: ubuntu                                                                                           
+ansible_become: yes
+ansible_become_method: sudo
+ansible_user: ubuntu
+ansible_password: ubuntu
 ansible_become_pass: ubuntu
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
-bigtoe_version: 4.0.1
-fse_version: 3.5.1 
+bigtoe_version: 10.0.1
+fse_version: 3.5.1-Turing-Proxy-1930
 personfile: false
 cluster: false
 update: false
