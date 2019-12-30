@@ -23,7 +23,7 @@
   when: cluster == true
 
 
-- name: copy init.val ----> /opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/init.val
+- name: copy vse init.val and public.val ----> /opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template
   template:
     src: '{{ item.src }}'
     dest: '{{ item.dest }}'

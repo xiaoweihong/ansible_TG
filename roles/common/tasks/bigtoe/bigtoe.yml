@@ -6,6 +6,18 @@
 #    dest: /opt/
 #    creates: /opt/bigtoe/bigtoe-tools
 
+- name: change bigtoe install scripts
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '755'
+  with_items:
+    - { src: 'conf/bigtoe/fse-tools.sh',dest: '/opt/bigtoe/fse-tools.sh'}
+    - { src: 'conf/bigtoe/install_web.sh',dest: '/opt/bigtoe/install_web.sh'}
+    - { src: 'conf/bigtoe/config_params.sh',dest: '/opt/bigtoe/config_params.sh'}
+
+
+
 - command: test -f /etc/bigtoe/flags/init_done
   register: result
   ignore_errors: true
