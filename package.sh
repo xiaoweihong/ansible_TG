@@ -27,7 +27,7 @@ cd ${PUBLISH_PATH}
 ln -s ansible/roles/common/files/package/software_package.tgz software_package.tgz
 ln -s ansible/install.sh install.sh
 
-cd ${PUBLISH_PATH}/ansible/roles/common/files/package/ && bash downPackage.sh
+#cd ${PUBLISH_PATH}/ansible/roles/common/files/package/ && bash downPackage.sh
 cd ${PUBLISH_PATH}
 
 cd ../

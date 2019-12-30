@@ -26,21 +26,21 @@
     - loki/upload/civilpackages
 #  ignore_errors: True
 
-- name: make softlink for fse-cloud-sata
-  file:
-    path: /fse-sata
-    src: '/platformData/fse-sata'
-    state: link
-    force: true
-  ignore_errors: True
+#- name: make softlink for fse-cloud-sata
+#  file:
+#    path: /fse-sata
+#    src: '/platformData/fse-sata'
+#    state: link
+#    force: true
+#  ignore_errors: True
 
-- name: make softlink for fse-cloud-ssd
-  file:
-    path: /fse-ssd
-    src: '/platformData/fse-ssd'
-    state: link
- #   force: true
-  ignore_errors: True
+#- name: make softlink for fse-cloud-ssd
+#  file:
+#    path: /fse-ssd
+#    src: '/platformData/fse-ssd'
+#    state: link
+# #   force: true
+#  ignore_errors: True
 
 - name: make softlink for /platformData/loki/upload/videos
   file:

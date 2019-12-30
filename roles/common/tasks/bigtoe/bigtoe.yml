@@ -1,10 +1,10 @@
 ---
 
-- name: untar bigtoe ---->/opt/ remote take long time
-  unarchive:
-    src: package/bigtoe_DeepEngine-{{bigtoe_version}}-all.tar.gz
-    dest: /opt/
-    creates: /opt/bigtoe/bigtoe-tools
+#- name: untar bigtoe ---->/opt/ remote take long time
+#  unarchive:
+#    src: package/bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
+#    dest: /opt/
+#    creates: /opt/bigtoe/bigtoe-tools
 
 - command: test -f /etc/bigtoe/flags/init_done
   register: result
@@ -12,23 +12,23 @@
 
 # TODO 重复执行判断
 - name: execute install_web.sh
-  shell: bash install_web.sh --skip-fse
+  shell: bash install_web.sh
   args:
     chdir: /opt/bigtoe
   when: result|failed
 
 
 #- include: updateNginx.yml
-- include: updateKafka.yml
-- include: updateLink.yml
-- include: updateImporter.yml
+#- include: updateKafka.yml
+#- include: updateLink.yml
+#- include: updateImporter.yml
 #- include: updateVSE.yml
 
 
-- name: change ip for config file and change template file
-  template:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-  with_items:
-    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }
-    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-{{bigtoe_version}}' }
+#- name: change ip for config file and change template file
+#  template:
+#    src: '{{ item.src }}'
+#    dest: '{{ item.dest }}'
+#  with_items:
+#    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }
+#    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-{{bigtoe_version}}' }

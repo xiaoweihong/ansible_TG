@@ -10,10 +10,6 @@
     chdir: /opt/bigtoe
   when: result|failed
 
-#- name: update vse patch
-#  shell: cp /opt/bigtoe/vse /data/bigtoe/vse/patches
-#  when: not update
-
 
 - name: get cluster token
   shell: kubeadm token create --print-join-command | sudo tee /etc/bigtoe/join-token
@@ -33,9 +29,8 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'conf/bigtoe/init.val',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/init.val' }
+    - { src: 'conf/bigtoe/public.val',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/public.val' }
   when: not update
-
-
 
 
 - name: execute config_params
@@ -44,31 +39,3 @@
     chdir: /opt/bigtoe
   when: not update
 
-
-- name: update link docker image
-  shell: docker load -i link-0.21.0.tar
-  args:
-    chdir: /opt/bigtoe/pkg/docker-images
-  when: not update
-
-
-#- name: link version update to 0.21.0
-#  shell: sed -i "s#dockerhub.deepglint.com/arch/link:0.19.0-job-hostnetwork#dockerhub.deepglint.com/arch/link:0.21.0#g" /opt/bigtoe/pkg/k8s-conf/deepengine/link/link-deployment.yaml
-#  when: not update
-
-
-- name: update link and restart
-  shell: kubectl apply -f link-configmap.yaml ; kubectl apply -f link-deployment.yaml
-  args:
-    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/link/
-  when: not update
-
-
-
-#- name: restart vse and link
-#  shell: ./restart_pods.sh vse ; ./restart_pods.sh link
-#  async: 10
-#  poll: 0
-#  args:
-#    chdir: /opt/bigtoe
-#  when: not update

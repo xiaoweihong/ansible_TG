@@ -1,12 +1,5 @@
 
-#- name: transport apt software package local
-#  unarchive:
-#    src: package/software_package.tgz
-#    dest: /opt/
-#    creates: /opt/software_package
-#  connection: local
-
-- name: transport apt software package remote
+- name: transport apt software package
   unarchive:
     src: package/software_package.tgz
     dest: /opt/

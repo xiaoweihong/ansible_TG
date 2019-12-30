@@ -1,0 +1,36 @@
+
+- name: Check /data for bigtoe
+  shell: test -d /data
+  register: returnmsg_data
+  ignore_errors: True
+  
+- name: IF failed exit
+  fail: msg="/data目录未挂载磁盘或者/data目录未创建"
+  when: returnmsg_data.rc != 0
+
+- name: Check /fse-ssd for fse
+  shell: test -d /fse-ssd
+  register: returnmsg_fsessd
+  ignore_errors: True
+
+- name: IF failed exit for fse-ssd
+  fail: msg="/fse-ssd目录未挂载磁盘或者/fse-ssd目录未创建"
+  when: returnmsg_fsessd.rc != 0
+
+- name: Check /fse-sata for fse
+  shell: test -d /fse-sata
+  register: returnmsg_fsesata
+  ignore_errors: True
+
+- name: IF failed exit for fse-sata
+  fail: msg="/fse-sata目录未挂载磁盘或者/fse-sata目录未创建"
+  when: returnmsg_fsesata.rc != 0
+
+- name: Check /platformData for TG
+  shell: test -d /platformData
+  register: returnmsg_platformData
+  ignore_errors: True
+
+- name: IF failed exit for platformData
+  fail: msg="/platformData目录未挂载磁盘或者/platformData目录未创建"
+  when: returnmsg_platformData.rc != 0

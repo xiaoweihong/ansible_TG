@@ -1,6 +1,5 @@
 ---
 
-
 - name: install ftp package 
   apt:
     name: "{{ item }}"

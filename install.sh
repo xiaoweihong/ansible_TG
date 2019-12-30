@@ -3,6 +3,7 @@
 SHELL_DIR=$(cd $(dirname $0); pwd)
 SHELL_LOG="${SHELL_DIR}/logs/install.log"
 LOCK_FILE="/tmp/TG.lock"
+VERSION_NUM=`cat VERSION`
 
 
 if [[ $# -ne 2 || "$1" == "-h" || "$1" == "--help" ]]
@@ -77,10 +78,12 @@ function installAnsible(){
   apt-get update
   apt-get -y install ansible
   if [ $? -ne 0 ];then
-    echo "install error"
-    exit 500
+    logging "install error"
+    fatal_exit
   fi
-  mv /etc/ansible /etc/ansible_bak
+  if [[ -d /etc/ansible ]];then
+    rm -rf /etc/ansible
+  fi
   ln -s ${SHELL_DIR}/ansible /etc/ansible
 }
 
@@ -95,11 +98,11 @@ echo "+-------------------------------------------------------------------+"
 echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    2. 集群部署                                    |"
-echo "+-------------------------------------------------------------------+"
-echo "|                    3. 930release升级到1115beta                    |"
-echo "+-------------------------------------------------------------------+"
-#echo "|                    4. 更换ip                                      |"
 #echo "+-------------------------------------------------------------------+"
+#echo "|                    3. 930release升级到1115beta                    |"
+echo "+-------------------------------------------------------------------+"
+echo "|                    4. 更换ip                                      |"
+echo "+-------------------------------------------------------------------+"
 echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
 echo "请选择:"
@@ -123,8 +126,7 @@ ansible_password: $PASSWORD
 ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
-bigtoe_version: 4.0.1
-fse_version: 3.5.1-Turing-Proxy
+deepcloud_version: 10.1.1
 cluster: false
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml
@@ -142,7 +144,7 @@ personfile: true" > /etc/ansible/group_vars/all.yml
        fatal_exit
   fi
 
-  ansible-playbook playbook/00-installTG.yml
+#  ansible-playbook playbook/00-installTG.yml
 }
 
 function clusterDeploy(){
@@ -244,11 +246,11 @@ function changeip(){
 function main(){
 
 
-    if [[ -f ${LOCK_FILE} ]];then
-        logging "This Tool Is Running, Please Wait."
-        exit 1
-    fi
-    lock
+  if [[ -f ${LOCK_FILE} ]];then
+      logging "This Tool Is Running, Please Wait."
+      exit 1
+  fi
+  lock
   run checkAnsible
   if [[ $? != 0 ]];then
     logging "Ansible Is Not Installed, Install Ansible "
@@ -257,69 +259,70 @@ function main(){
         fatal_exit
     fi
   else
-    logging "Ansible Aleady Installed."
-  fi
-
-  if [  -d /etc/ansible ];then
-      logging "存在版本"
-     if [ ! -f /etc/ansible/VERSION-1115-beta ];then
-      logging "备份旧版本配置文件"
-       cp /etc/ansible/hosts /tmp
-       cp /etc/ansible/group_vars/all.yml /tmp
-     fi
-  else
-      logging "旧版本已删除，配置文件需要手动配置"
-      rm -f /etc/ansible
-      ln -s ${SHELL_DIR}/ansible /etc/ansible
-      touch /usr/local/TG_delete_update_flag
-      fatal_exit
+    logging "Ansible Already Installed."
+    if [  -f /etc/ansible/VERSION ];then
+        logging "存在版本"
+       version=`cat /etc/ansible/VERSION`
+       if [[ ${version} -ne ${VERSION_NUM} ]];then
+       #if [ ! -f /etc/ansible/${VERSION_NUM} ];then
+        logging "备份旧版本配置文件"
+         cp /etc/ansible/hosts /tmp
+         cp /etc/ansible/group_vars/all.yml /tmp
+       fi
+    else
+        logging "旧版本已删除，配置文件需要手动配置"
+        rm -f /etc/ansible
+        ln -s ${SHELL_DIR}/ansible /etc
+        touch /usr/local/TG_delete_update_flag
+        fatal_exit
+    fi
   fi
 
 
     while true
     do
-        menu
-    read choose
+      menu
+      read choose
         case $choose in
         1)
-  clear
-      logging "单机部署"
-  singleDeploy
-  if [[ $? == 0 ]]; then
-    normal_exit
-  else
-    fatal_exit
-  fi
+      clear
+          logging "单机部署"
+      singleDeploy
+      if [[ $? == 0 ]]; then
+        normal_exit
+      else
+        fatal_exit
+      fi
         ;;
         2)
-  clear
-      logging "集群部署"
-      clusterDeploy
-  if [[ $? == 0 ]]; then
-    normal_exit
-  else
-    fatal_exit
-  fi
-        ;;
-        3)
-  clear
+      clear
+        logging "集群部署"
+        clusterDeploy
+      if [[ $? == 0 ]]; then
+        normal_exit
+      else
+        fatal_exit
+      fi
+       ;;
+       3)
+      clear
       logging "930release升级到1115beta"
       if [ ! -f /usr/local/TG_delete_update_flag ];then
-          logging "正常升级"
-          rm -f /etc/ansible
-          ln -s ${SHELL_DIR}/ansible /etc/ansible
-          update
+        logging "正常升级"
+        rm -f /etc/ansible
+        ln -s ${SHELL_DIR}/ansible /etc/ansible
+        update
       else
-          logging "修改配置文件后升级"
-          cp /etc/ansible/hosts /tmp
-          cp /etc/ansible/group_vars/all.yml /tmp
-          update_delete
+        logging "修改配置文件后升级"
+        cp /etc/ansible/hosts /tmp
+        cp /etc/ansible/group_vars/all.yml /tmp
+        update_delete
       fi
-  if [[ $? == 0 ]]; then
-    normal_exit
-  else
-    fatal_exit
-  fi
+      if [[ $? == 0 ]]; then
+        normal_exit
+      else
+        fatal_exit
+      fi
         ;;
 #        4)
 #  clear

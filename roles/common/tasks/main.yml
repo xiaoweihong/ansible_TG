@@ -1,7 +1,7 @@
 ---
 
-- include: bigtoe/bigtoe_check.yml
-  tags: [bigtoe]
+- include: prepare/mount.yml
+  tags: [mount_check]
   when: not update
 
 - include: bigtoe/bigtoe.yml
@@ -9,30 +9,27 @@
   when: not update
 
 - include: prepare/directory_prepare.yml
+  tags: [directory]
   when: not update
 
 - include: prepare/software_prepare.yml
-  tags: [postgresql]
+  tags: [software]
   when: not update
 
 - name: Check vsftpd
   command: dpkg-query -l vsftpd
   register: vsftpd_check
   ignore_errors: True
+  tags: [ftp]
 
-- include_tasks:
-    file: software/ftp.yml
-    apply:
-      tags:
-      - ftp
+- include: software/ftp.yml
   when: vsftpd_check.stderr.find('no packages found') != -1
-  tags: [always]
-
+  tags: [ftp]
 
 - include: software/install_software.yml
   when: not update
-- include: install/installTG.yml
 
+#- include: install/installTG.yml
 
 - name: Check SSH Version
   command: ssh -V
@@ -46,9 +43,9 @@
   with_items:
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-{{bigtoe_version}}' }
-    - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' }
+#    - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' }
 
-- include: bigtoe/updateImporter.yml
+#- include: bigtoe/updateImporter.yml
 
 - name: config limits.conf
   copy:
