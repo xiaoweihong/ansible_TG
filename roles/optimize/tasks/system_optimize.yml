@@ -1,0 +1,15 @@
+---
+- name: replace system optimize config
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'conf/optimize/limits/90-nproc.conf',dest: '/etc/security/limits.d/90-nproc.conf' }
+    - { src: 'conf/optimize/limits/limits.conf',dest: '/etc/security/limits.conf' }
+    - { src: 'conf/optimize/limits/sysctl.conf',dest: '/etc/sysctl.conf' }
+
+- name: make change take effect
+  shell: sysctl -p
+
+- name: turn off swap
+  shell: swapoff -a

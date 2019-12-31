@@ -19,14 +19,20 @@
     dest: /home/{{ansible_user}}
     creates: /home/{{ansible_user}}/platformTG/VERSION
 
+- name: untar geojson.tar.gz to ---->>> /platformData
+  unarchive:
+    src: package/geojson.tar.gz
+    dest: /platformData
+    creates: /platformData/geojson
+
 - name: copy tools to /platformData/http_server
   copy:
     src: package/tools.zip
     dest: /platformData/http_server
 
 
-- name: untar index map file to ---->>> /platformData/
-  unarchive:
-    src: package/tiles.tar.gz
-    dest: /platformData/
-    creates: /platformData/tiles/10/720/388.pbf
+#- name: untar index map file to ---->>> /platformData/
+#  unarchive:
+#    src: package/tiles.tar.gz
+#    dest: /platformData/
+#    creates: /platformData/tiles/10/720/388.pbf

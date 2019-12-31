@@ -4,7 +4,7 @@
 
 - include: installMutischeduler.yml
 
-- include: installFse.yml
+#- include: installFse.yml
 
 #- include_tasks:
 #    file: installFse.yml

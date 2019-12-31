@@ -1,96 +1,109 @@
 {
-    "api":{
-        "upload":{
-            "path":"/home/{{ansible_user}}/platformData/loki/upload",
-            "bigtoe_video":"/data/upload_videos"
+    "api": {
+        "upload": {
+            "path": "/platformData/loki/upload",
+            "bigtoe_video": "/data/upload_videos"
         }
     },
-    "app":{
-        "tmpPath":"/home/{{ansible_user}}/platformData/loki/tmp"
+    "app": {
+        "tmpPath": "/platformData/loki/tmp"
     },
-    "database":{
-        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_v5",
-        "showSql":false
-    },
-    "clusterdb":{
-        "connectionString":"postgres://postgres:Zstvgcs@9102@{{groups.master[0]}}/deepface_cluster"
-    },
-    "services":{
-        "ranker_runtime":{
-            "addr":"{{groups.master[0]}}:9812"
+    "database": {
+        "connectionString": "postgres://postgres:Zstvgcs@9102@{{groups.db[0]}}/deepface_v5",
+        "showSql": false
+	},
+    "services": {
+        "fse_runtime": {
+            "addr": "http://{{groups.bigtoe[0]}}:3154/x-api/v1"
         },
-        "ranker_black":{
-            "addr":"{{groups.master[0]}}:9808"
+        "fse_black": {
+            "addr": "http://{{groups.bigtoe[0]}}:3154/x-api/v1"
         },
-        "sax":{
-            "addr":"http://{{groups.master[0]}}:50051"
+        "sax": {
+            "addr": "http://127.0.0.1:50051"
         },
-        "arcee":{
-            "addr":"{{groups.master[0]}}:7502"
+        "arcee": {
+            "addr": "127.0.0.1:7502"
         },
-        "hercules":{
-            "addr":"http://{{groups.master[0]}}:1315"
+        "hercules": {
+			"addr": "http://192.168.2.222:1315"
+		},
+		"megvii": {
+            "addr": "http://104.35.96.231:81",
+            "needTestData": false
         },
-        "megvii":{
-            "addr":"http://{{groups.master[0]}}:81",
-            "needTestData":false
+        "mserver": {
+            "run_addr": "http://127.0.0.1:9009",
+			"out_addr":"127.0.0.1:8905"
         },
-        "mserver":{
-            "run_addr":"http://{{groups.master[0]}}:9009",
-            "out_addr":"{{groups.master[0]}}:8905"
-        },
-        "link":{
-            "addr":"http://{{groups.master[0]}}:30233"
+        "link": {
+			"addr": "http://{{groups.bigtoe[0]}}:30233"
         },
         "vse_face":{
-            "addr":"http://{{groups.master[0]}}:38080"
+			"addr": "http://{{groups.bigtoe[0]}}:38080"
+		},
+		"vse_vehicle": {
+			"addr": "http://{{groups.bigtoe[0]}}:38080"
+		},
+        "elasticsearch": {
+            "url":"http://192.168.2.174:9209",
+            "inuse": false
         },
-        "vse_vehicle":{
-            "addr":"http://{{groups.master[0]}}:38080"
-        },
-        "elasticsearch":{
-            "url":"http://{{groups.master[0]}}:9209",
-            "inuse":false
-        },
-        "athena":{
-            "addr":"http://{{groups.master[0]}}:2013"
+		"athena": {
+			"addr": "http://127.0.0.1:2013"
         },
         "redis":{
-            "cache":{
-                "addr":"{{groups.master[0]}}:6379",
+			"cache": {
+                "addr":"{{groups.redis[0]}}:6379",
                 "password":"deepglint@2013"
-            },
-            "store":{
-                "addr":"{{groups.master[0]}}:6379",
+			},
+			"store": {
+                "addr":"{{groups.redis[0]}}:6379",
                 "password":"deepglint@2013"
-            }
+			}
         },
         "pse":{
-            "addr":"http://{{groups.master[0]}}:1989"
-        }
+			"addr": "http://127.0.0.1:1989"
+		},
+        "deepcloud": {
+            "addr": "http://{{groups.bigtoe[0]}}:39876/api",
+            "access_key": "7966023d-0eee-4104-9c2f-8efa4279442a",
+            "secret_key": "9e7b1900-302b-4059-bcaa-047262f3ca3b",
+            "authkey": "dp-auth-v0",
+            "timeout_second": 60
+        },
+        "archimedes": {
+            "addr": "http://127.0.0.1:6666/archimedes/v1",
+            "timeout_second": 60
+        },
+		"themis": {
+			"addr": "http://127.0.0.1:7777/themis/v1"
+		}
+	},
+    "cronjob": {
+        "vid": {
+            "updatecron": "* * 0 * * ?",
+            "updateseconds": 86400
+        },
+		"partition": {
+			"sax_switcher": false
+		}
     },
-    "cronjob":{
-        "partition":{
-            "sax_switcher":true
-        }
-    },
-    "pool":{
-        "capacity":100
-    },
-    "platform":{
-        "kafkaAddress":[
-            "{{groups.master[0]}}:32400",
-            "{{groups.master[0]}}:32401",
-            "{{groups.master[0]}}:32402"
-        ],
-        "needSync":false,
-        "consumer":false,
-        "producer":false
-    },
-    "switcher":{
-        "person_file_compare":true,
-        "repo_collision":false,
-        "repo_statistics":false,
-        "vid_combine":true
-    }
+    "pool": {
+		"capacity": 100
+	},
+    "platform": {
+		"kafkaAddress": [
+			"{{groups.kafka[0]}}:{{port}}"
+		],
+		"needSync": false,
+		"consumer": false,
+		"producer": false
+	},
+	"switcher": {
+		"person_file_compare": true,
+		"repo_collision": false,
+		"repo_statistics": false,
+		"vid_combine": true
+	}
 }

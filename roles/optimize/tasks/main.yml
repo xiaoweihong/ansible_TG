@@ -1,0 +1,4 @@
+---
+
+- include: optimize.yml
+  tags: [optimize]

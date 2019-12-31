@@ -1,6 +1,6 @@
 {
     "Weed":{
-        "Host":"{{groups.master[0]}}:8502",
+        "Host":"127.0.0.1:8502",
         "IsOpen":true
     },
     "OutputSlice":[
@@ -10,7 +10,7 @@
                 "MaxThread":100,
                 "KafkaTopic":"face-importer",
                 "KafkaAddress":[
-                    "{{groups.master[0]}}:32400"
+                    "{{groups.kafka[0]}}:{{port}}"
                 ],
                 "MaxMessageBytes":"104857600"
             }
@@ -21,7 +21,7 @@
             "ConfigType":1,
             "ConfigInfo":{
                 "ServerPublicKey":"52K]#sKz.]XBiOJ2vsk$g(V]x^1hO&5L0n!9q(Mx",
-                "GetMessageAddress":"tcp://{{groups.master[0]}}:9800",
+                "GetMessageAddress":"tcp://{{groups.kafka[0]}}:9800",
                 "SensorInfo":{
                     "SensorID":"8d62b5b2-a22e-4d03-acea-0b2581d5c7c8",
                     "SensorFilter":{
@@ -31,7 +31,7 @@
                     }
                 },
                 "TimeoutSecond":5,
-                "RegisterAddress":"tcp://{{groups.master[0]}}:9801"
+                "RegisterAddress":"tcp://{{groups.kafka[0]}}:9801"
             }
         }
     ]

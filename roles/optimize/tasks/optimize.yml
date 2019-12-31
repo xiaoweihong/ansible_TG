@@ -1,0 +1,37 @@
+---
+
+#- name: set hostname for machine 
+#  shell: /bin/echo {{ ansible_default_ipv4.address }}|cut -f4 -d '.' 
+#  register: hostname_tmp 
+#
+#- name: change client hostname
+#  hostname: name=host-{{ansible_default_ipv4.address}}
+#
+#- name: Create the hosts file for all machines
+#  #template: src=hosts.j2 dest=/tmp/a
+#  template: src=hosts.j2 dest=/etc/hosts
+
+- name: change bashrc file for see clear
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'conf/optimize/bashrc/ubuntu.bashrc',dest: '/home/ubuntu/.bashrc' }
+    - { src: 'conf/optimize/bashrc/root.bashrc',dest: '/root/.bashrc' }
+
+- name: add sudo nopasswd for ubuntu
+  lineinfile:
+    line: 'ubuntu ALL=(ALL) NOPASSWD:ALL'
+    dest: /etc/sudoers
+
+- name: hugepage optimize take effect
+  shell: echo never > /sys/kernel/mm/transparent_hugepage/enabled 
+
+- name: hugepage optimize for rc.local
+  lineinfile:
+    dest: /etc/rc.local
+    regexp: '^echo never'
+    insertbefore: '^exit'
+    line: 'echo never > /sys/kernel/mm/transparent_hugepage/enabled'
+
+- include: system_optimize.yml

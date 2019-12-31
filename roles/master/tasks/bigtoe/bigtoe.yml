@@ -39,3 +39,7 @@
     chdir: /opt/bigtoe
   when: not update
 
+- name: make template take effect
+  shell: ./bigtoe-tools deploy deepengine-vse;./bigtoe-tools deploy deepengine-fse
+  args:
+    chdir: /opt/bigtoe

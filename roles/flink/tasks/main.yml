@@ -1,0 +1,58 @@
+---
+
+#- name: untar flink to ---->>> /usr/local/
+#  unarchive:
+#    src: flink-1.9.1-bin-scala_2.12.tgz
+#    dest: /usr/local/
+#    creates: /usr/local/flink-1.9.1
+
+- name: get id.rsa.pub
+  shell: yes y | ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
+
+- name: no passowd
+  authorized_key:
+    user: root
+    key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+
+
+- name: copy id.rsa to /tmp
+  copy:
+    src: /root/.ssh/id_rsa.pub
+    dest: /tmp/
+
+- name: add PATH for flink
+  lineinfile:
+    line: "{{item}}"
+    dest: /etc/profile
+  with_items:
+    - FLINK_HOME=/home/{{ansible_user}}/platformTG/flink/latest
+    - export PATH=$PATH:$FLINK_HOME/bin
+
+- name: mkdir folder for ssh
+  file:
+    path: /root/{{item}}
+    state: directory
+    recurse: yes
+    mode: 0600
+  with_items:
+    - .ssh
+
+- name: mkdir folder for flink
+  file:
+    path: /platformData/flink/{{item}}
+    state: directory
+    recurse: yes
+  with_items:
+    - logs
+    - jar
+    - web
+
+- name: config flink-conf file for taskManageer node
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'flink-conf.yaml',dest: '/home/{{ansible_user}}/platformTG/flink/latest/conf' }
+    - { src: 'masters',dest: '/home/{{ansible_user}}/platformTG/flink/latest/conf' }
+    - { src: 'slaves',dest: '/home/{{ansible_user}}/platformTG/flink/latest/conf' }
+    - { src: '/tmp/id_rsa.pub',dest: '/root/.ssh/authorized_keys', mode: 0600}

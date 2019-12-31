@@ -1,0 +1,84 @@
+{
+	"UnionApiHttpConfig": {
+		"UnionApiAddr": ":18082",
+		"ModuleNum": "01"
+	},
+	"KafkaCaptureInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.kafka[0]}}:{{port}}"
+			],
+			"Topics": [
+				"devo-face-capture-topic"
+			],
+			"Group": "g-123",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaWarnInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.kafka[0]}}:{{port}}"
+			],
+			"Topics": [
+				"devo-face-warn-topic"
+			],
+			"Group": "g-123",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaWhiteInputServiceConfig": {
+		"IsOpen": false,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.kafka[0]}}:{{port}}"
+			],
+			"Topics": [
+				"white-push"
+			],
+			"Group": "g-123",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"FaceDBServiceConfig": {
+		"IsOpen": true,
+		"ConfigType": 1,
+		"ConfigInfo": {
+			"ClientNum": 1,
+			"Host": "{{groups.db[0]}}",
+			"Port": 5432,
+			"UserName": "postgres",
+			"PassWord": "Zstvgcs@9102",
+			"DBName": "deepface_v5",
+			"MaxOpenConnsPerClient": 20,
+			"MaxIdleConnsPerClient": 20,
+			"MaxLifeTimeSeconds": 60
+		}
+	},
+	"NotificationConfig": {
+		"KafkaTopics": [
+			"facedeeplin"
+		]
+	},
+	"ThorServiceConfig": {
+		"Addr": "http://127.0.0.1:9876"
+	},
+	"LokiConfig": {
+		"Host": "127.0.0.1",
+		"Port": 3000
+	},
+	"SystemConfig": {
+		"Debug": true
+	},
+	"EventsConfidence": {
+		"Confidence": 0.9
+	}
+}

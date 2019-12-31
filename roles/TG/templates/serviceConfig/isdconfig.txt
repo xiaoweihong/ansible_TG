@@ -6,15 +6,15 @@
 		"IsOpen": true,
 		"ConfigType": 1,
 		"ConfigInfo": {
-			"Host": "{{groups.master[0]}}:8502",
+			"Host": "127.0.0.1:7502",
 			"TimeoutSecond": 3,
 			"ConnectNumber": 5
 		}
 	},
 	"MatrixServiceConfig": {
 		"IsOpen": true,
-		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
-		"StructuredAddr": "http://{{groups.master[0]}}:38080/vse/vehicle/rec/image",
+		"Addr": "http://{{groups.bigtoe[0]}}:38080/vse/face/rec/image",
+		"StructuredAddr": "http://{{groups.bigtoe[0]}}:38080/vse/vehicle/rec/image",
 		"ConnectNumber": 10,
 		"TimeoutSecond": 5,
 		"TryTimes": 3
@@ -47,7 +47,7 @@
 	},
 	"KafkaInputNodeConfig": {
 		"Brokers": [
-			"{{groups.master[0]}}:32400"
+			"{{groups.kafka[0]}}:{{port}}"
 		],
 		"Topics": [
 			"face-importer"
@@ -58,7 +58,7 @@
 	},
 	"KafkaOutputNodeConfig": {
 		"KafkaAddress": [
-			"{{groups.master[0]}}:32400"
+			"{{groups.kafka[0]}}:{{port}}"
 		],
 		"KafkaTopic": "index-vehicle2",
 		"MaxMessageBytes": "104857600",

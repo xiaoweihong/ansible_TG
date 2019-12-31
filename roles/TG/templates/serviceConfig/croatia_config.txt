@@ -7,7 +7,7 @@
 	},
 	"MatrixConfig": {
 		"IsOpen": false,
-		"Addr": "http://{{groups.master[0]}}:38080/vse/face/rec/image",
+		"Addr": "http://{{groups.bigtoe[0]}}:38080/vse/face/rec/image",
 		"ConnectNumber": 10,
 		"TimeoutSecond": 5,
 		"TryTimes": 3,
@@ -23,17 +23,14 @@
 		}
 	},
 	"RankerConfig": {
-		"WarnRankerAddr": "http://{{groups.master[0]}}:9809",
-		"WarnRankerConnectNumber": 10,
-		"TimeoutSecond": 5,
-		"TryTimes": 3,
-		"RepoUpdateTimeSecond": 30,
-		"IsLibraryUpdate": false
+		"WarnRankerAddr": "http://{{groups.bigtoe[0]}}:3154/x-api/v1/repositories",
+		"WarnRankerConnectNumber": 1000,
+		"TimeoutSecond": 5
 	},
 	"MatrixThreadPoolMaxNum": 1000,
-	"MatrixThreadPoolOpenNum": 50,
+	"MatrixThreadPoolOpenNum": 5,
 	"ItemProcessGroupNum": 100000,
-	"RollBackTreadPoolNum": 100,
+	"RollBackTreadPoolNum": 20,
 	"MaxItemNum": 10000000,
 	"MaxInputTaskNum": 2,
 	"MaxDeleteTaskNum": 1,
@@ -41,11 +38,11 @@
 	"MaxItemNumOnePerson": 5,
 	"ImageSaveGroupNum": 100000,
 	"ImageSaveThreadPoolMaxNum": 20,
-	"DeleteThreadPoolMaxNum": 200,
+	"DeleteThreadPoolMaxNum": 50,
 	"ImageSaveConfig": {
 		"ConfigType": 1,
 		"ConfigInfo": {
-			"Host": "{{groups.master[0]}}:7502",
+			"Host": "127.0.0.1:8502",
 			"TimeoutSecond": 3,
 			"ConnectNumber": 10
 		}
@@ -54,7 +51,7 @@
 		"ConfigType": 1,
 		"ConfigInfo": {
 			"ClientNum": 1,
-			"Host": "{{groups.master[0]}}",
+			"Host": "{{groups.db[0]}}",
 			"Port": 5432,
 			"UserName": "postgres",
 			"PassWord": "Zstvgcs@9102",
@@ -67,6 +64,6 @@
 	"StatusTmpDir": "config/",
 	"RepoCountUpdateServiceConfig": {
 		"IsOpen": true,
-		"HttpUrl": "http://{{groups.master[0]}}:3000/internal/croatia/repo"
+		"HttpUrl": "http://127.0.0.1:3000/internal/croatia/repo"
 	}
 }

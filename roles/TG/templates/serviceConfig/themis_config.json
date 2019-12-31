@@ -1,0 +1,21 @@
+{
+	"HttpConfig": {
+		"Addr": "0.0.0.0:7777"
+	},
+	"SpecialDBServiceConfig": {
+		"IsOpen": true,
+		"ConfigType": 1,
+		"ConfigInfo": {
+			"DBType": "postgres",
+			"Host": "{{groups.db[0]}}",
+			"Port": 5432,
+			"UserName": "postgres",
+			"PassWord": "Zstvgcs@9102",
+			"DBName": "special",
+			"MaxOpenConnsPerClient": 40,
+			"MaxIdleConnsPerClient": 40,
+			"MaxLifeTimeSeconds": 60,
+			"IsShowSQL": false
+		}
+	}
+}

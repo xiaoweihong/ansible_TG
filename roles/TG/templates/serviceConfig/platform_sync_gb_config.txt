@@ -1,0 +1,5 @@
+{
+	"Uri": "http://{{groups.bigtoe[0]}}:8000/dgsip/catalog",
+	"LastUpdateKey": "helloplatformsynclastupdatekey",
+	"Timeout": 600
+}

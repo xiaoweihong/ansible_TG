@@ -47,7 +47,7 @@
 			"tableName": "white_warn"
 		},
 		"civil": {
-			"rankFeatureCandidatesFactor": 5,
+			"rankFeatureCandidatesFactor": 15,
 			"repositoryName": "ReverseSort+SkipCount"
 		},
 		"export": {
@@ -109,6 +109,16 @@
 			"sensorCountLimit": 500,
 			"selectedDaysLimit": 90
 		},
+		"hidden": {
+			"userTaskLimit": 10,
+			"sensorCountLimit": 500,
+			"selectedDaysLimit": 31
+		},
+		"pathanalyze": {
+			"userTaskLimit": 10,
+			"sensorCountLimit": 500,
+			"selectedDaysLimit": 31
+		},
 		"personFile": {
 			"repositoryName": "ReverseSort+SkipCount"
 		},
@@ -123,55 +133,81 @@
 				"4b273149-a4b6-4a51-b79c-f5b8f0707d89"
 			]
 		},
-		"templatesBasePath": "/home/{{ansible_user}}/platformTG/loki/latest/config/templates"
+		"preview": {
+			"schedulerTime": "5s",
+			"cacheExpireTimeOfLatestTs": 70,
+			"maxKeepAliveTime": "60s"
+		},
+		"templatesBasePath": "/home/{{ansible_user}}/platformTG/loki/latest/config/templates",
+		"captureQuery": {
+			"single_goroutine_query": 50,
+			"index_query":100,
+			"sensor_query": 60,
+			"cpu_num": 1
+		}
 	},
 	"database": {
-		"connectionString": "postgres://postgres:Zstvgcs@9102@127.0.0.1/deepface_v5",
+		"connectionString": "postgres://postgres:Zstvgcs@9102@192.168.2.142/deepface_v5",
 		"maxOpenConns": 100,
 		"maxIdleConns": 100,
 		"connMaxLifetime": "1m",
 		"logLevel": "info",
-		"showSql":false
-	},
-	"clusterdb": {
-		"connectionString": "postgres://postgres:Zstvgcs@9102@127.0.0.1/deepface_cluster",
-		"maxOpenConns": 10,
-		"maxIdleConns": 10,
-		"connMaxLifetime": "1m",
-		"logLevel": "info",
-		"showSql": false
+		"showSql": true
 	},
 	"services": {
-		"ranker_runtime": {
-			"addr": "127.0.0.1:9812",
-			"face_repo": "capture-face-repo",
-			"nonmotor_repo": "capture-nonmotor-repo",
-			"pedestrian_repo": "capture-pedestrian-repo",
-			"vehicle_repo": "capture-vehicle-repo",
-			"face_params": {
-				"GPU": "[1,1,1,1]",
-				"FeatureLen": 384,
-				"FeatureDataType": 2,
-				"RepoLevel": 2,
-				"UseFeatureIDMap": "false",
-				"PreFilter": "true",
-				"RepoCapacity": 100000000
+		"fse_runtime": {
+			"addr": "http://192.168.2.142:3154/x-api/v1",
+			"face": {
+				"repo_id": "capture-face-repo",
+				"index_type": "int8",
+				"level":"ram",
+				"replications":2,
+				"capacity":1000000000,
+				"options": {
+					"UseFeatureIDMap": "true",
+					"Rotate": "true",
+					"hashingNum":"2"
+				}
 			},
-			"vehicle_params": {
-				"GPU": "[1,1,1,1]",
-				"FeatureLen": 128,
-				"FeatureDataType": 2,
-				"RepoLevel": 2,
-				"UseFeatureIDMap": "false",
-				"PreFilter": "true",
-				"RepoCapacity": 100000000
+			"vehicle": {
+				"repo_id": "capture-vehicle-repo",
+				"index_type": "int8",
+				"level":"ram",
+				"replications":2,
+				"capacity":1000000000,
+				"options": {
+					"UseFeatureIDMap": "true",
+					"Rotate": "true",
+					"hashingNum":"2"
+				}
 			},
-			"try_times": 3,
-			"timeout": 5,
-			"connect_number": 10
+			"nonmotor": {
+				"repo_id": "capture-nonmotor-repo",
+				"index_type": "int8",
+				"level":"ram",
+				"replications":2,
+				"capacity":1000000000,
+				"options": {
+					"UseFeatureIDMap": "true",
+					"Rotate": "true",
+					"hashingNum":"2"
+				}
+			},
+			"pedestrian": {
+				"repo_id": "capture-pedestrian-repo",
+				"index_type": "int8",
+				"level":"ram",
+				"replications":2,
+				"capacity":1000000000,
+				"options": {
+					"UseFeatureIDMap": "true",
+					"Rotate": "true",
+					"hashingNum":"2"
+				}
+			}
 		},
-		"ranker_black": {
-			"addr": "127.0.0.1:9808",
+		"fse_black":{
+			"addr": "http://192.168.2.142:3154/x-api/v1",
 			"default_repo": [
 				"0001",
 				"0002",
@@ -180,53 +216,74 @@
 				"0005",
 				"0006"
 			],
-			"defaultParams": {
-				"GPU": "[1,1,1,1]",
-				"FeatureLen": 384,
-				"FeatureDataType": 2,
-				"RepoLevel": 2,
-				"RepoCapacity": 100000,
-				"UseFeatureIDMap": "true",
-				"PreFilter": "false"
-			},
-			"try_times": 3,
-			"timeout": 5,
-			"connect_number": 10
+			"face": {
+				"index_type": "int8",
+				"level":"ram",
+				"replications":2,
+				"capacity":1000000000,
+				"options": {
+					"UseFeatureIDMap": "true",
+					"Rotate": "true",
+					"hashingNum":"2"
+				}
+			}
 		},
 		"sax": {
-			"addr": "http://127.0.0.1:50051"
+			"addr": "http://192.168.2.142:50051"
 		},
 		"arcee": {
-			"addr": "127.0.0.1:7502",
+			"addr": "192.168.2.142:7502",
 			"connect_number": 10,
 			"try_times": 3
 		},
 		"hercules": {
-			"addr": "http://127.0.0.1:1315"
+			"addr": "http://192.168.2.142:1315"
 		},
 		"megvii": {
 			"addr": "http://104.35.96.231:81",
 			"needTestData": true
 		},
 		"mserver": {
-			"run_addr": "http://127.0.0.1:9009",
-			"out_addr": "127.0.0.1:8905"
+			"run_addr": "http://192.168.2.142:9009",
+			"out_addr": "192.168.2.142:8905"
 		},
 		"link": {
-			"addr": "http://127.0.0.1:30233"
+			"addr": "http://192.168.2.142:30233"
+		},
+		"deepcloud": {
+			"addr": "http://192.168.2.142:39876/api",
+			"access_key": "7966023d-0eee-4104-9c2f-8efa4279442a",
+			"secret_key": "9e7b1900-302b-4059-bcaa-047262f3ca3b",
+			"authkey": "dp-auth-v0",
+			"timeout_second": 60,
+			"switch": true
+		},
+		"archimedes": {
+			"addr": "http://192.168.2.142:6666/archimedes/v1",
+			"timeout_second": 60,
+			"VehicleTypeValue":      34,
+			"VehicleColorValue":     39,
+			"VehiclePlateTypeValue": 20,
+			"FaceAgeValue":          1,
+			"FaceGenderValue":       16,
+			"Rate":                  10000
+		},
+		"themis": {
+			"addr": "http://192.168.2.142:7777/themis/v1",
+			"timeout_second": 60
 		},
 		"vse_face": {
-			"addr": "http://127.0.0.1:38080"
+			"addr": "http://192.168.2.142:38080"
 		},
 		"vse_vehicle": {
-			"addr": "http://127.0.0.1:38080"
+			"addr": "http://192.168.2.142:38080"
 		},
 		"elasticsearch": {
-			"url": "http://192.168.2.174:9209",
+			"url": "http://192.168.2.142:9209",
 			"inuse": false
 		},
 		"athena": {
-			"addr": "http://127.0.0.1:2013",
+			"addr": "http://192.168.2.142:2013",
 			"platform_sync": {
 				"gb": {
 					"url": "http://%s:%d/dgsip/catalog"
@@ -238,21 +295,21 @@
 		},
 		"redis": {
 			"cache": {
-				"addr": "127.0.0.1:6378",
-				"password": "Zstvgcs@9102"
+				"addr": "192.168.2.142:6379",
+				"password": "deepglint@2013"
 			},
 			"store": {
-				"addr": "127.0.0.1:6378",
-				"password": "Zstvgcs@9102"
+				"addr": "192.168.2.142:6379",
+				"password": "deepglint@2013"
 			}
 		},
 		"sentry": {
-			"switcher": true,
+			"switcher": false,
 			"dsn": "http://c36d8009c6c14f9083bb2844f4cf4890@192.168.2.142:9999/2",
-			"environment": "2.169"
+			"environment": "2.142"
 		},
 		"pse":{
-			"addr": "http://127.0.0.1:1989"
+			"addr": "http://192.168.2.142:1989"
 		}
 	},
 	"cronjob": {
@@ -277,18 +334,18 @@
 			"sax_cronscript": "0 0 23 1 * *"
 		},
 		"delete_task": {
-			"cronscript": "0 * * * * *"
+			"cronscript": "0 45 22 * * *"
 		},
 		"civil_count": {
 			"cronscript": "@hourly"
 		},
 		"capture_count": {
-			"cronscript": "0 23 15 * * *",
-			"forward_days": 4
+			"cronscript": "0 25 0 * * *",
+			"forward_days": 0
 		},
 		"file_count": {
 			"cronscript": "0 30 0 * * *",
-			"forward_days": 20000
+			"forward_days": 0
 		}
 	},
 	"tags": {
@@ -318,9 +375,9 @@
 	},
 	"platform": {
 		"kafkaAddress": [
-			"127.0.0.1:32400",
-			"127.0.0.1:32401",
-			"127.0.0.1:32402"
+			"192.168.2.142:32400",
+			"192.168.2.142:32401",
+			"192.168.2.142:32402"
 		],
 		"defaultGroup": "123",
 		"needSync": false,
@@ -342,23 +399,27 @@
 		"TopNum": 5,
 		"CosThreashold": 0.85,
 		"CosAParams": [
-			1.29032258,
-			1.29032258,
-			1.29032258
+			1.58730175,
+			2.30769028,
+			1.08108107,
+			0.85106399
 		],
 		"CosBParams": [
-			-0.06774194,
-			-0.06774194,
-			-0.06774194
+			-0.26428582,
+			-0.74730632,
+			0.09108108,
+			0.25255307
 		],
 		"ThresParams": [
-			0.6725,
-			0.75
+			0.6705,
+			0.6835,
+			0.702
 		],
 		"LinearAlpha": 1,
 		"LinearBeta": 0
 	},
 	"limit": {
-		"sensor": 1000
+		"sensor": 1000,
+		"user_capture_favorite": 1000
 	}
 }

@@ -1,10 +1,10 @@
 ---
 
-#- name: untar bigtoe ---->/opt/ remote take long time
-#  unarchive:
-#    src: package/bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
-#    dest: /opt/
-#    creates: /opt/bigtoe/bigtoe-tools
+- name: untar bigtoe ---->/opt/ remote take long time
+  unarchive:
+    src: package/bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
+    dest: /opt/
+    creates: /opt/bigtoe/bigtoe-tools
 
 - name: change bigtoe install scripts
   template:
@@ -29,11 +29,11 @@
     chdir: /opt/bigtoe
   when: result|failed
 
+#- include: updateImporter.yml
 
 #- include: updateNginx.yml
 #- include: updateKafka.yml
 #- include: updateLink.yml
-#- include: updateImporter.yml
 #- include: updateVSE.yml
 
 

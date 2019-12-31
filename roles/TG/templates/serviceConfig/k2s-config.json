@@ -2,12 +2,42 @@
 	"ApiHttpConfig": {
 		"Host": "0.0.0.0:8082"
 	},
+	"KafkaSpecialVehicleCaptureInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.kafka[0]}}:{{port}}"
+			],
+			"Topics": [
+				"special-vehicle-capture-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaSpecialNonmotorCaptureInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.kafka[0]}}:{{port}}"
+			],
+			"Topics": [
+				"special-nonmotor-capture-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
 	"KafkaFaceCaptureInputServiceConfig": {
 		"IsOpen": true,
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.kafka[0]}}:{{port}}"
 			],
 			"Topics": [
 				"devo-face-capture-topic"
@@ -22,7 +52,7 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.kafka[0]}}:{{port}}"
 			],
 			"Topics": [
 				"devo-vehicle-capture-topic"
@@ -37,7 +67,7 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.kafka[0]}}:{{port}}"
 			],
 			"Topics": [
 				"devo-nonmotor-capture-topic"
@@ -52,7 +82,7 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.kafka[0]}}:{{port}}"
 			],
 			"Topics": [
 				"devo-pedestrian-capture-topic"
@@ -67,10 +97,25 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.kafka[0]}}:{{port}}"
 			],
 			"Topics": [
 				"devo-face-warn-topic"
+			],
+			"Group": "k2s",
+			"MaxFetchBytes": "104857600",
+			"SendMessageTimeout": 5
+		}
+	},
+	"KafkaVehicleWarnInputServiceConfig": {
+		"IsOpen": true,
+		"MessageCacheNum": 1000,
+		"KafkaInputConfig": {
+			"Brokers": [
+				"{{groups.kafka[0]}}:{{port}}"
+			],
+			"Topics": [
+				"devo-vehicle-warn-topic"
 			],
 			"Group": "k2s",
 			"MaxFetchBytes": "104857600",
@@ -82,7 +127,7 @@
 		"MessageCacheNum": 1000,
 		"KafkaInputConfig": {
 			"Brokers": [
-				"{{groups.master[0]}}:32400"
+				"{{groups.kafka[0]}}:{{port}}"
 			],
 			"Topics": [
 				"white-push"
@@ -97,7 +142,7 @@
 		"ConfigType": 1,
 		"ConfigInfo": {
 			"ClientNum": 1,
-			"Host": "{{groups.master[0]}}",
+			"Host": "{{groups.db[0]}}",
 			"Port": 5432,
 			"UserName": "postgres",
 			"PassWord": "Zstvgcs@9102",
@@ -108,20 +153,46 @@
 			"ShowSQL": false
 		}
 	},
+	"SpecialDBServiceConfig": {
+		"IsOpen": true,
+		"ConfigType": 1,
+		"ConfigInfo": {
+			"ClientNum": 1,
+			"Host": "{{groups.db[0]}}",
+			"Port": 5432,
+			"UserName": "postgres",
+			"PassWord": "Zstvgcs@9102",
+			"DBName": "special",
+			"MaxOpenConnsPerClient": 20,
+			"MaxIdleConnsPerClient": 20,
+			"MaxLifeTimeSeconds": 60,
+			"ShowSQL": false
+		}
+	},
 	"CaptureAuthServiceConfig": {
 		"IsOpen": true,
-		"TimeIntervalMillSecond": 2000
+		"TimeIntervalMillSecond": 2000,
+		"TriggerKey": "sensor_trigger"
 	},
 	"WarnAuthServiceConfig": {
 		"IsOpen": true,
+		"TimeIntervalMillSecond": 2000,
+		"TriggerKey": "monitor_trigger"
+	},
+	"SpecialCaptureAuthServiceConfig": {
+		"IsOpen": true,
 		"TimeIntervalMillSecond": 2000
 	},
- "CaptureClientConfig": {
-  "QueueCapacity": 100,
-  "TimeoutMillSecond": 5000
- },
- "WarnClientConfig": {
-  "QueueCapacity": 100,
-  "TimeoutMillSecond": 5000
- }
+	"CaptureClientConfig": {
+		"QueueCapacity": 100,
+		"TimeoutMillSecond": 5000
+	},
+	"WarnClientConfig": {
+		"QueueCapacity": 100,
+		"TimeoutMillSecond": 5000
+	},
+	"SpecialCaptureClientConfig": {
+		"QueueCapacity": 100,
+		"TimeoutMillSecond": 5000
+	}
 }

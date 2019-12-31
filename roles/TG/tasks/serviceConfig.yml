@@ -9,8 +9,19 @@
     - { src: 'nginx/sql.conf',dest: '/etc/nginx/sql.conf' }
     - { src: 'nginx/app.conf',dest: '/etc/nginx/conf.d' }
     - { src: 'nginx/software.conf',dest: '/etc/nginx/conf.d' }
-#  notify:
-#    - nginx reload
+
+- name: config nginx
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '755'
+  with_items:
+    - { src: 'nginx/start_nginx.sh',dest: '/opt/bigtoe/start_nginx.sh' }
+
+- name: restart docker nginx
+  shell: ./start_nginx.sh
+  args:
+    chdir: /opt/bigtoe
 
 - meta: flush_handlers
 
@@ -21,13 +32,23 @@
   with_items:
     - { src: 'serviceConfig/arcee_captured.json',dest: '/home/{{ansible_user}}/platformTG/arcee_captured/latest/arcee.json' }
     - { src: 'serviceConfig/arcee_registered.json',dest: '/home/{{ansible_user}}/platformTG/arcee_registered/latest/arcee.json' }
+    - { src: 'serviceConfig/archimedes-config.txt',dest: '/home/{{ansible_user}}/platformTG/archimedes/latest/config.txt' }
+    - { src: 'serviceConfig/athena-dbservice_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/dbservice_config.txt' }
+    - { src: 'serviceConfig/platform_sync_gb_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_gb_config.txt' }
+    - { src: 'serviceConfig/platform_sync_pvg_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_pvg_config.txt' }
+    - { src: 'serviceConfig/bultgang-config.json',dest: '/home/{{ansible_user}}/platformTG/bultgang/latest/config.json' }
     - { src: 'serviceConfig/croatia_config.txt',dest: '/home/{{ansible_user}}/platformTG/croatia/latest/config/croatia_config.txt' }
     - { src: 'serviceConfig/isdconfig.txt',dest: '/home/{{ansible_user}}/platformTG/isd/latest/tmp/isdconfig.txt' }
     - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }
+    - { src: 'serviceConfig/kronos_config.txt',dest: '/home/{{ansible_user}}/platformTG/kronos/latest/config/config.txt' }
     - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
-    - { src: 'serviceConfig/default.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/default.json' }
+    - { src: 'serviceConfig/loki-default.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/default.json' }
     - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
-    - { src: 'serviceConfig/pse-config.json',dest: '/home/{{ansible_user}}/platformTG/pse/latest/config/config.json' }
+    - { src: 'serviceConfig/pse_config.json',dest: '/home/{{ansible_user}}/platformTG/pse/latest/config/config.json' }
+    - { src: 'serviceConfig/sax_vehicle_application.yml',dest: '/home/{{ansible_user}}/platformTG/sax_vehicle/latest/config/application.yml' }
+    - { src: 'serviceConfig/themis_config.json',dest: '/home/{{ansible_user}}/platformTG/themis/latest/config.json' }
+    - { src: 'serviceConfig/capture.properties',dest: '/home/{{ansible_user}}/platformTG/ullr/capture/capture.properties' }
+    - { src: 'serviceConfig/warn.properties',dest: '/home/{{ansible_user}}/platformTG/ullr/warn/warn.properties' }
 
 - name: copy loki template file
   template:
@@ -42,23 +63,3 @@
     - { src: 'serviceConfig/lokitemplates/importer.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/importer.json' }
     - { src: 'serviceConfig/lokitemplates/importer_libraF.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/importer_libraF.json' }
     - { src: 'serviceConfig/lokitemplates/link_video.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/templates/link_video.json' }
-    - { src: 'serviceConfig/config.js',dest: '/home/{{ansible_user}}/platformTG/jormougand/latest/config.js' }
-
-- name: config sax odin and jormougand for personfile
-  template:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-  with_items:
-    - { src: 'serviceConfig/loki-production-personalfile.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
-    - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
-    - { src: 'serviceConfig/saxconfig.txt',dest: '/home/{{ansible_user}}/platformTG/sax/latest/tmp/saxconfig.txt' }
-  when: personfile == true
-
-- name: config sax and jormougand for no personfile
-  template:
-    src: '{{ item.src }}'
-    dest: '{{ item.dest }}'
-  with_items:
-    - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
-    - { src: 'serviceConfig/config-nopersonfile.js',dest: '/home/{{ansible_user}}/platformTG/jormougand/latest/config.js' }
-  when: personfile == false

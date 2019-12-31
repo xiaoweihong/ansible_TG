@@ -8,7 +8,7 @@
         "passwd":"Admin123",
         "camera":"DC84",
         "kafkaconfig":{
-            "kafka_addr":"{{groups.master[0]}}:32400",
+            "kafka_addr":"{{groups.kafka[0]}}:{{port}}",
             "kafka_topic":"face-importer",
             "kafka_max_size_bytes":"104857600"
         },

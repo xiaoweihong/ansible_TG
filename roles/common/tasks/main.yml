@@ -29,7 +29,7 @@
 - include: software/install_software.yml
   when: not update
 
-#- include: install/installTG.yml
+- include: install/installTG.yml
 
 - name: Check SSH Version
   command: ssh -V
@@ -43,24 +43,8 @@
   with_items:
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini'}
     - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-{{bigtoe_version}}'}
-#    - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' }
 
-#- include: bigtoe/updateImporter.yml
-
-- name: config limits.conf
-  copy:
-    src: conf/limits/limits.conf
-    dest: /etc/security/limits.conf
-
-- name: config 90-nproc.conf
-  copy:
-    src: conf/limits/90-nproc.conf
-    dest: /etc/security/limits.d/90-nproc.conf
-
-- name: config sysctl.conf
-  copy:
-    src: conf/limits/sysctl.conf
-    dest: /etc/sysctl.conf
+- include: bigtoe/updateImporter.yml
 
 - name: update SSH
   #debug: msg={{SSH_check}}

@@ -1,0 +1,5 @@
+{
+	"Uri": "http://{{groups.bigtoe[0]}}:7457/vse/catalog",
+	"LastUpdateKey": "pvghelloplatformsynclastupdatekey",
+	"Timeout": 600
+}

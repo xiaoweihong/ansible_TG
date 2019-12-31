@@ -55,6 +55,7 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'rulevoice',dest: '/platformData/loki/upload' }
+    - { src: 'vehiclerulevoice',dest: '/platformData/loki/upload' }
     - { src: 'audio',dest: '/platformData/loki/upload' }
     - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' }
     - { src: 'logo.png', dest: '/platformData/loki/upload/assets/images/logo.png' }

@@ -3,7 +3,7 @@
 
 - hosts: all
   roles:
-    - role: test 
+    - role: flink
 #  vars_prompt:
 #      - name: "var1"
 #        prompt: "input value for var1"
