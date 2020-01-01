@@ -1,0 +1,16 @@
+#!/bin/bash 
+
+source /etc/profile
+
+echo '/tmp/core.%t.%e.%p' > /proc/sys/kernel/core_pattern
+/etc/init.d/license-monitor restart
+/etc/init.d/license-center restart
+/etc/init.d/license-host restart
+swapoff -a
+/home/{{ansible_user}}/platformTG/flink/latest/bin/start-cluster.sh 
+/opt/bigtoe/set_nvidia_config.sh
+#supervisord -c /etc/supervisord.conf
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+flink run -d /home/{{ansible_user}}/platformTG/ullr/capture/capture-0.1.5.3.jar -config /home/{{ansible_user}}/platformTG/ullr/capture/capture.properties &
+flink run -d /home/{{ansible_user}}/platformTG/ullr/warn/warn-0.1.1.jar -config /home/{{ansible_user}}/platformTG/ullr/warn/warn.properties &
+exit 0

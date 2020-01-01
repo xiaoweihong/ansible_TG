@@ -15,6 +15,7 @@
     - { src: 'conf/bigtoe/fse-tools.sh',dest: '/opt/bigtoe/fse-tools.sh'}
     - { src: 'conf/bigtoe/install_web.sh',dest: '/opt/bigtoe/install_web.sh'}
     - { src: 'conf/bigtoe/config_params.sh',dest: '/opt/bigtoe/config_params.sh'}
+    - { src: 'conf/bigtoe/run.sh',dest: '/opt/bigtoe/deepcloud/run.sh'}
 
 
 

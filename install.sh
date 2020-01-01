@@ -127,6 +127,7 @@ ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 deepcloud_version: 10.1.1
+bigtoe_version: 4.4.2
 cluster: false
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml

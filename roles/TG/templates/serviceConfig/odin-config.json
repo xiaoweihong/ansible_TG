@@ -161,7 +161,7 @@
 			"SlidingWindowMilSecond": 30000,
 			"TopNum": 5,
 			"PlateSimilarityThreshold": 0,
-			"FeaturesSimilarityThreshold": 0.93,
+			"FeaturesSimilarityThreshold": 1.1,
 			"VehiclePlateTextSimilarNumGroup": [
 				[
 					"E",

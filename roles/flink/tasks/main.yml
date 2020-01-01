@@ -6,19 +6,19 @@
 #    dest: /usr/local/
 #    creates: /usr/local/flink-1.9.1
 
-- name: get id.rsa.pub
-  shell: yes y | ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
-
-- name: no passowd
-  authorized_key:
-    user: root
-    key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
-
-
-- name: copy id.rsa to /tmp
-  copy:
-    src: /root/.ssh/id_rsa.pub
-    dest: /tmp/
+#- name: get id.rsa.pub
+#  shell: yes y | ssh-keygen -t rsa -N "" -f /root/.ssh/id_rsa
+#
+#- name: no passowd
+#  authorized_key:
+#    user: root
+#    key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+#
+#
+#- name: copy id.rsa to /tmp
+#  copy:
+#    src: /root/.ssh/id_rsa.pub
+#    dest: /tmp/
 
 - name: add PATH for flink
   lineinfile:
@@ -55,4 +55,16 @@
     - { src: 'flink-conf.yaml',dest: '/home/{{ansible_user}}/platformTG/flink/latest/conf' }
     - { src: 'masters',dest: '/home/{{ansible_user}}/platformTG/flink/latest/conf' }
     - { src: 'slaves',dest: '/home/{{ansible_user}}/platformTG/flink/latest/conf' }
-    - { src: '/tmp/id_rsa.pub',dest: '/root/.ssh/authorized_keys', mode: 0600}
+#    - { src: '/tmp/id_rsa.pub',dest: '/root/.ssh/authorized_keys', mode: 0600}
+- name: replace rc.local for reboot start
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '755'
+  with_items:
+    - { src: 'rc.local',dest: '/etc/rc.local' }
+
+- name: run flink
+  shell: ./start-cluster.sh
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/flink/bin

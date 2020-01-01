@@ -21,7 +21,7 @@
 	},
 	"RedisServiceConfig": {
 		"Addr": "{{groups.redis[0]}}:6379",
-		"Password": "",
+		"Password": "deepglint@2013",
 		"DB": 3,
 		"Comment": "redis db 需与ullr-capture保持一致",
 		"FaceCaptureNowHourKey": "FACE::capture-count",

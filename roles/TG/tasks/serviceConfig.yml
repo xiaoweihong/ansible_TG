@@ -32,7 +32,7 @@
   with_items:
     - { src: 'serviceConfig/arcee_captured.json',dest: '/home/{{ansible_user}}/platformTG/arcee_captured/latest/arcee.json' }
     - { src: 'serviceConfig/arcee_registered.json',dest: '/home/{{ansible_user}}/platformTG/arcee_registered/latest/arcee.json' }
-    - { src: 'serviceConfig/archimedes-config.txt',dest: '/home/{{ansible_user}}/platformTG/archimedes/latest/config.txt' }
+    - { src: 'serviceConfig/archimedes-config.txt',dest: '/home/{{ansible_user}}/platformTG/archimedes/latest/config/config.txt' }
     - { src: 'serviceConfig/athena-dbservice_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/dbservice_config.txt' }
     - { src: 'serviceConfig/platform_sync_gb_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_gb_config.txt' }
     - { src: 'serviceConfig/platform_sync_pvg_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_pvg_config.txt' }
