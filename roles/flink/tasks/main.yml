@@ -67,4 +67,4 @@
 - name: run flink
   shell: ./start-cluster.sh
   args:
-    chdir: /home/{{ansible_user}}/platformTG/flink/bin
+    chdir: /home/{{ansible_user}}/platformTG/flink/latest/bin

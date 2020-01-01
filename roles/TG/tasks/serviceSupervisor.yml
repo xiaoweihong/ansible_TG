@@ -41,4 +41,4 @@
 - name: start flink jar tasks
   shell: ./flink run -d /home/{{ansible_user}}/platformTG/ullr/capture/capture-0.1.5.3.jar -config /home/{{ansible_user}}/platformTG/ullr/capture/capture.properties; ./flink run -d /home/{{ansible_user}}/platformTG/ullr/warn/warn-0.1.1.jar -config /home/{{ansible_user}}/platformTG/ullr/warn/warn.properties
   args:
-    chdir: /home/{{ansible_user}}/platformTG/flink/bin
+    chdir: /home/{{ansible_user}}/platformTG/flink/latest/bin

@@ -20,8 +20,8 @@
     - role: master
     - role: optimize
     - role: postgres
-    - role: TG
     - role: flink
+    - role: TG
 #
 #
 #- hosts: postgresNode

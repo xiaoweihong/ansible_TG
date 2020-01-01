@@ -261,3 +261,6 @@ web.tmpdir: /platformData/flink/jar
 env.ssh.opts: -p {{ansible_ssh_port}}
 env.log.dir: /platformData/flink/logs
 env.log.max: 5
+state.backend: filesystem
+state.checkpoints.dir: file:///platformData/flink/checkpoints
+state.savepoints.dir: file:///platformData/flink/savepoints
