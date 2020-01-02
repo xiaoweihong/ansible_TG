@@ -1,0 +1,72 @@
+clusterid: empty
+subnetid: empty
+namespace: deepcloud
+
+imageTag: 2.1.37.392-master
+godeyeimageTag: 20191219-deviceid
+
+redis:
+  service_name: redis-service
+  namespace: redis
+  port: 6379
+  password:
+
+kafka:
+  service_name: bootstrap
+  namespace: kafka
+  port: 9092
+
+postgres:
+  service_name: postgres-service
+  namespace: pgsql
+  password: tiA)hLRbvqZ6
+  port: 5432
+  user: deepglint
+  db: god_eye
+
+fse:
+  service_name: fseapi-service
+  namespace: fse
+  port: 8000
+
+keycloak:
+  node_port: 33080
+  host: 192.168.2.225
+
+deepcloudmanager:
+  node_port: 34080
+
+cmasconsole:
+  node_port: 35080
+
+godeye:
+  node_port: 39876
+  monitor_node_port: 39081
+
+cloudimporter:
+  node_port: 31080
+  monitor_node_port: 31081
+
+eventpusher:
+  node_port: 32080
+  monitor_node_port: 32081
+  host: 192.168.2.225
+
+figure:
+  node_port: 37500
+  host: 192.168.2.225
+
+fcollector:
+  path: /weedfs/recluster
+
+seaweed:
+  master: 192.168.2.225:30933
+  volumes: '"192.168.2.225:30900", "192.168.2.225:30901"'
+  filer: http://192.168.2.225:30934
+  face_dir_path: deepcloud/faces
+  person_dir_path: deepcloud/persons
+
+repoID:
+
+
+

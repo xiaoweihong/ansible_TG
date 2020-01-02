@@ -1,0 +1,42 @@
+---
+
+- name: make softlink for {{platformPath}} ---> /home/{{ansible_user}}/{{platformPath}}
+  file:
+    path: /home/{{ansible_user}}/{{platformPath}}
+    src: '{{platformPath}}'
+    state: link
+
+
+- name: mkdir for {{platformPath}}
+  file:
+    path: /home/{{ansible_user}}{{platformPath}}/{{ item }}
+    state: directory
+    recurse: yes
+  with_items:
+    - redis
+    - kafka
+    - logs
+    - weedfs
+    - http_server
+    - loki/upload/assets/images
+    - loki/upload/civilpackages
+    - loki/upload/videos
+
+- name: copy logo and sound file to /platformData/loki
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'rulevoice',dest: '/platformData/loki/upload' }
+    - { src: 'vehiclerulevoice',dest: '/platformData/loki/upload' }
+    - { src: 'audio',dest: '/platformData/loki/upload' }
+    - { src: 'syslogo.png', dest: '/platformData/loki/upload/assets/images' }
+    - { src: 'logo.png', dest: '/platformData/loki/upload/assets/images/logo.png' }
+
+- name: copy kafka_tool file to /usr/bin
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode }}'
+  with_items:
+    - { src: 'package/kafka_tool_20190726', dest: '/usr/bin', mode: 755 }

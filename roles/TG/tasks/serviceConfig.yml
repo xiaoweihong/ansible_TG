@@ -17,11 +17,13 @@
     mode: '755'
   with_items:
     - { src: 'nginx/start_nginx.sh',dest: '/opt/bigtoe/start_nginx.sh' }
+  ignore_errors: True
 
 - name: restart docker nginx
   shell: ./start_nginx.sh
   args:
     chdir: /opt/bigtoe
+  ignore_errors: True
 
 - meta: flush_handlers
 

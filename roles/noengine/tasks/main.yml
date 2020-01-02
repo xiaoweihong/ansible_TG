@@ -1,0 +1,48 @@
+---
+
+- include: prepare/mount.yml
+  tags: [mount_check]
+  when: not update
+
+
+- include: prepare/directory_prepare.yml
+  tags: [directory]
+  when: not update
+
+- include: prepare/software_prepare.yml
+  tags: [software]
+  when: not update
+
+- name: Check vsftpd
+  command: dpkg-query -l vsftpd
+  register: vsftpd_check
+  ignore_errors: True
+  tags: [ftp]
+
+- include: software/ftp.yml
+  when: vsftpd_check.stderr.find('no packages found') != -1
+  tags: [ftp]
+
+- include: software/install_software.yml
+  when: not update
+
+- name: Check docker
+  command: dpkg-query -l docker
+  register: docker_check
+  ignore_errors: True
+
+- include: install/installdocker.yml
+  when: vsftpd_check.stderr.find('no packages found') != -1
+
+- include: install/installTG.yml
+
+- name: Check SSH Version
+  command: ssh -V
+  register: SSH_check
+  ignore_errors: True
+
+
+- name: update SSH
+  #debug: msg={{SSH_check}}
+  include: software/updateSSH.yml
+  when: SSH_check.stderr.find('OpenSSH_8.0p1') == -1

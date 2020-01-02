@@ -1,0 +1,12 @@
+---
+
+- name: untar docker package for docker install
+  unarchive:
+    src: package/docker.tgz
+    dest: /opt/
+    creates: /opt/docker
+
+- name: install docker
+  shell: dpkg -i *.deb
+  args:
+    chdir: /opt/docker

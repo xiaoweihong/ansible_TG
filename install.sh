@@ -124,13 +124,17 @@ ${IPADDR}
 ${IPADDR}
 
 [kafka]
-${IPADDR} port=32400
+${IPADDR}
 
 [db]
 ${IPADDR}
 
 [flink]
 ${IPADDR}
+
+[all:vars]
+port=32400
+
 " > /etc/ansible/hosts
   echo "---
 
@@ -160,7 +164,7 @@ personfile: true" > /etc/ansible/group_vars/all.yml
        fatal_exit
   fi
 
-#  ansible-playbook playbook/00-installTG.yml
+  ansible-playbook playbook/00-installTG.yml
 }
 
 function clusterDeploy(){

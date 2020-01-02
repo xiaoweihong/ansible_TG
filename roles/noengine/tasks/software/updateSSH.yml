@@ -1,0 +1,12 @@
+---
+
+- name: copy updateSSHPackage
+  unarchive:
+    src: package/update_ssh_for_1604_20191016.tgz
+    dest: /tmp
+    creates: /tmp/update_ssh_for_1604_20191016.tgz
+
+- name: update SSH service
+  shell: ./update_ssh_to_8.0p1.sh
+  args:
+    chdir: /tmp/update_ssh_for_1604_20191016

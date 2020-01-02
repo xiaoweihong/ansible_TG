@@ -1,0 +1,24 @@
+---
+
+- name: remove old version package
+  shell: rm -rf /home/{{ansible_user}}/platformTG; touch /opt/930releaseto1115beta
+  args:
+    creates: /opt/930releaseto1115beta
+  when: update == True
+
+- name: untar platformTG to ---->>> /home/{{ansible_user}}/platformTG
+  unarchive:
+    src: package/platformTG.tgz
+    dest: /home/{{ansible_user}}
+    creates: /home/{{ansible_user}}/platformTG/VERSION
+
+- name: untar geojson.tar.gz to ---->>> /platformData
+  unarchive:
+    src: package/geojson.tar.gz
+    dest: /platformData
+    creates: /platformData/geojson
+
+- name: copy tools to /platformData/http_server
+  copy:
+    src: package/tools.zip
+    dest: /platformData/http_server
