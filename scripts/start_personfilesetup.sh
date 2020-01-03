@@ -21,19 +21,19 @@ do
       break
 done
 
-while true
-do
-  echo "请输入从数据库节点ip:"
-  read  postgresNode
-    if [ ! -n "$postgresNode" ];then
-      continue
-    else
-      echo "postgresNode='$postgresNode'" >> ./config.ini
-    fi
-      break
-done
-
-if [[ $machineNum -gt 2 ]];then
+#while true
+#do
+#  echo "请输入从数据库节点ip:"
+#  read  postgresNode
+#    if [ ! -n "$postgresNode" ];then
+#      continue
+#    else
+#      echo "postgresNode='$postgresNode'" >> ./config.ini
+#    fi
+#      break
+#done
+#
+#if [[ $machineNum -gt 2 ]];then
 while true
 do
   echo "请输入node节点ip(不包括主节点ip和数据库从节点ip，多台机器之前用空格分开。)"
@@ -45,7 +45,7 @@ do
     fi
       break
 done
-fi
+#fi
 
 clear
 

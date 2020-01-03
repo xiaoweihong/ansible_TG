@@ -1,0 +1,14 @@
+---
+
+- name: remove DeepEngine-4.0.1
+  shell: cd /opt/bigtoe && ./bigtoe-tools reset && rm -rf /opt/bigtoe
+  ignore_errors: True
+
+
+- name: remove old platformTG
+  shell: supervisorctl stop all;rm -rf /home/{{ansible_user}}/platformTG
+  ignore_errors: True
+
+- name: stop fse
+  shell: docker rm -f fse_runtime; docker rm -f fse_black
+  ignore_errors: True

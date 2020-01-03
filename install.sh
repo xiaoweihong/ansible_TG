@@ -66,6 +66,17 @@ function run() {
   return ${PIPESTATUS[0]}
 }
 
+function checkBigtoe(){
+  ls /opt/bigtoe/DeepEngine-4.0.1.ini >/dev/null 2>&1
+  if [ $? -eq 0 ];then
+    logging "old bigtoe is installed,will remove"
+    sleep 2
+    cd /opt/bigtoe/ && ./bigtoe-tools reset
+    logging "remove end"
+  fi
+
+}
+
 function checkAnsible(){
   ansible --version >/dev/null 2>&1
   return $?
@@ -97,11 +108,11 @@ echo "|           For more information please read document               |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
-#echo "|                    2. 集群部署                                    |"
-#echo "+-------------------------------------------------------------------+"
+echo "|                    2. 集群部署                                    |"
+echo "+-------------------------------------------------------------------+"
 #echo "|                    3. 930release升级到1115beta                    |"
 #echo "+-------------------------------------------------------------------+"
-echo "|                    2. 更换ip                                      |"
+echo "|                    3. 更换ip                                      |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
@@ -183,8 +194,8 @@ ansible_password: $PASSWORD
 ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
-bigtoe_version: 4.0.1
-fse_version: 3.5.1-Turing-Proxy
+deepcloud_version: 10.1.1
+bigtoe_version: 4.4.2
 cluster: true
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml

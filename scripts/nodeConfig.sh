@@ -7,17 +7,38 @@ echo -n "[master]
 " >> hosts
 echo $masterIP>> hosts
 echo "" >> hosts
-echo -n "[personalFileNode]
-" >> hosts
-echo $personalFileNode>> hosts
-echo "" >> hosts
-echo -n "[postgresNode]
-" >> hosts
-echo $postgresNode >> hosts
-echo "" >> hosts
 echo -n "[node]
 " >> hosts
 for ip in ${nodes[*]}
 do
  echo $ip >> hosts
 done
+echo "" >> hosts
+echo -n "[bigtoe]
+" >> hosts
+echo $masterIP>> hosts
+#####
+echo "" >> hosts
+echo -n "[redis]
+" >> hosts
+echo $masterIP>> hosts
+#####
+echo "" >> hosts
+echo -n "[kafka]
+" >> hosts
+echo $masterIP>> hosts
+#####
+echo "" >> hosts
+echo -n "[db]
+" >> hosts
+echo $masterIP>> hosts
+#####
+echo "" >> hosts
+echo -n "[flink]
+" >> hosts
+echo $masterIP>> hosts
+#####
+echo "" >> hosts
+echo -n "[all:vars]
+" >> hosts
+echo "port=32400">> hosts

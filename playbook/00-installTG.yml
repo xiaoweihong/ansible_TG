@@ -12,6 +12,7 @@
 - hosts: all
   gather_facts: false
   roles:
+    - role: uninstall
     - role: common
 
 - hosts: master
@@ -35,7 +36,7 @@
 #  roles:
 #    - role: personalFile
 #
-#- hosts: node
-#  gather_facts: false
-#  roles:
-#    - role: node
+- hosts: node
+  gather_facts: false
+  roles:
+    - role: node

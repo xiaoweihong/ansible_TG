@@ -1,0 +1,11 @@
+---
+
+- name: check old version
+  shell: ls /opt/bigtoe/DeepEngine-4.0.1.ini
+  register: version_check
+  ignore_errors: True
+
+#- name: debug
+#  debug: msg={{version_check}}
+- include: remove.yml
+  when: version_check.stderr.find('No such file or directory') == -1
