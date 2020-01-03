@@ -10,7 +10,7 @@
     - openssh-server
     - vim
     - ifenslave
-    - ntp
+      #    - ntp
     - tree
     - cpufrequtils
     - htop

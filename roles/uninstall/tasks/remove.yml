@@ -9,7 +9,7 @@
   shell: supervisorctl stop all;rm -rf /home/{{ansible_user}}/platformTG; mv /etc/supervisor/conf.d /root
   ignore_errors: True
 
-- name: remove some software liki nginx php php-fpm
+- name: remove some software nginx php php-fpm
   shell: apt-get -y remove php7.2-fpm nginx
   ignore_errors: True
 

@@ -29,6 +29,8 @@
 - include: software/install_software.yml
   when: not update
 
+- include: software/ntpdate.yml
+
 - include: install/installTG.yml
 
 - name: Check SSH Version

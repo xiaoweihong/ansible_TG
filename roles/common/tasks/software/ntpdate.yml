@@ -1,0 +1,21 @@
+---
+
+- name: uninstall ntp
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: absent
+  with_items:
+    - ntp
+  ignore_errors: True
+
+- name: copy ntpdate package
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'package/ntpdate_amd64.deb',dest: '/tmp' }
+
+
+- name: install ntpdate software
+  shell: dpkg -i /tmp/ntpdate_amd64.deb
