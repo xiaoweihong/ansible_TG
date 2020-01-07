@@ -1,6 +1,6 @@
 {
     "Debug": true,
-    "VrrpAddr": "{{groups.bigtoe[0]}}:8501",
+    "VrrpAddr": "{{groups.tg[0]}}:8501",
     "UseVrrp": true,
     "HttpServiceAddr": "0.0.0.0:8501",
     "GrpcServerAddr": "0.0.0.0:8502",

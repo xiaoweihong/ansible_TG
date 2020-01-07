@@ -108,11 +108,13 @@ echo "|           For more information please read document               |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
-echo "|                    2. 集群部署                                    |"
+echo "|                    2. 集群部署(多引擎)                            |"
+echo "+-------------------------------------------------------------------+"
+echo "|                    3. 集群部署(分布式)                            |"
 echo "+-------------------------------------------------------------------+"
 #echo "|                    3. 930release升级到1115beta                    |"
 #echo "+-------------------------------------------------------------------+"
-echo "|                    3. 更换ip                                      |"
+echo "|                    4. 更换ip                                      |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
@@ -273,6 +275,25 @@ function changeip(){
    ansible-playbook playbook/00-installTG.yml
 }
 
+function cluster_fenbu(){
+
+  echo "---
+  
+ansible_become: yes
+ansible_become_method: sudo
+ansible_user: $USER
+ansible_password: $PASSWORD
+ansible_become_pass: $PASSWORD
+platformPath: /platformData
+ansible_host_ip: '{{ ansible_default_ipv4.address }}'
+deepcloud_version: 10.1.1
+bigtoe_version: 4.4.2
+cluster: false
+update: false
+personfile: true" > /etc/ansible/group_vars/all.yml
+
+}
+
 
 function main(){
 
@@ -335,31 +356,32 @@ function main(){
         fatal_exit
       fi
        ;;
-       3)
-      clear
-      logging "930release升级到1115beta"
-      if [ ! -f /usr/local/TG_delete_update_flag ];then
-        logging "正常升级"
-        rm -f /etc/ansible
-        ln -s ${SHELL_DIR}/ansible /etc/ansible
-        update
-      else
-        logging "修改配置文件后升级"
-        cp /etc/ansible/hosts /tmp
-        cp /etc/ansible/group_vars/all.yml /tmp
-        update_delete
-      fi
-      if [[ $? == 0 ]]; then
-        normal_exit
-      else
-        fatal_exit
-      fi
-        ;;
-#        4)
-#  clear
-#      logging "更换ip"
-#      changeip
-#      ;;
+#       3)
+#      clear
+#      logging "930release升级到1115beta"
+#      if [ ! -f /usr/local/TG_delete_update_flag ];then
+#        logging "正常升级"
+#        rm -f /etc/ansible
+#        ln -s ${SHELL_DIR}/ansible /etc/ansible
+#        update
+#      else
+#        logging "修改配置文件后升级"
+#        cp /etc/ansible/hosts /tmp
+#        cp /etc/ansible/group_vars/all.yml /tmp
+#        update_delete
+#      fi
+#      if [[ $? == 0 ]]; then
+#        normal_exit
+#      else
+#        fatal_exit
+#      fi
+#        ;;
+        3)
+  clear
+      logging "打开配置文件按照文档来安装"
+      cluster_fenbu
+      normal_exit
+      ;;
       [qQ])
       logging "退出"
   unlock

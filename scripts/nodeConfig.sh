@@ -34,6 +34,11 @@ echo -n "[db]
 echo $masterIP>> hosts
 #####
 echo "" >> hosts
+echo -n "[tg]
+" >> hosts
+echo $masterIP>> hosts
+#####
+echo "" >> hosts
 echo -n "[flink]
 " >> hosts
 echo $masterIP>> hosts
