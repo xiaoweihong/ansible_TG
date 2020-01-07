@@ -29,9 +29,12 @@ ln -s ansible/install.sh install.sh
 ln -s ansible/VERSION VERSION
 
 cd ${PUBLISH_PATH}/ansible/roles/common/files/package/ && bash downPackage.sh
+cd ${PUBLISH_PATH}/ansible/roles/sansible.kafka/files/ && bash downPackage.sh
+cd ${PUBLISH_PATH}/ansible/roles/zookeeper/files/ && bash downPackage.sh
 cd ${PUBLISH_PATH}
 
 cd ../
 #tar zcvf platform_${VERSION_TAG}-${PUBLISH_DATE}.tar.gz platform_${VERSION_TAG}-${PUBLISH_DATE}
 tar -cvf - platform_${VERSION_TAG}-${PUBLISH_DATE} | pigz -p 10 > platform_${VERSION_TAG}-${PUBLISH_DATE}.tar.gz
-rm -f /root/.ssh/known_hosts
+#rm -f /root/.ssh/known_hosts
+ssh-keygen -R 192.168.100.118

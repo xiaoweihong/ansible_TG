@@ -1,0 +1,40 @@
+---
+
+sansible_kafka_apache_mirror: https://archive.apache.org/dist/
+sansible_kafka_aws_cluster_assigned_id_enabled: no
+sansible_kafka_aws_cluster_assigned_id_tag_name: instanceindex
+sansible_kafka_install_dir: /usr/local/kafka
+sansible_kafka_conf_dir: "{{ sansible_kafka_install_dir }}/etc"
+sansible_kafka_environment_vars: []
+zk_client_port: 2181
+sansible_kafka_group: kafka
+sansible_kafka_user: kafka
+sansible_kafka_heap_opts: "-Xmx{{ (ansible_memtotal_mb / 2) | int }}m -Xms{{ (ansible_memtotal_mb / 2) | int }}m"
+sansible_kafka_interface_advertise: ~
+sansible_kafka_interface_bind: ~
+sansible_kafka_java_vendor: openjdk
+sansible_kafka_java_version: 8
+sansible_kafka_jmx_port: 9999
+sansible_kafka_log_dir: /platformData/kafka
+sansible_kafka_log_level: WARN
+sansible_kafka_max_open_files: 4098
+sansible_kafka_port: 9092
+sansible_kafka_server_properties: {}
+sansible_kafka_tarball_location: /tmp
+sansible_kafka_version_kafka: 2.3.1
+sansible_kafka_version_scala: 2.11
+sansible_kafka_wait_for_kafka_port: 120
+sansible_kafka_zookeeper_connection_timeout_ms: 1000000
+sansible_kafka_zookeeper_hosts: "
+    {%- set ips = [] %}
+    {%- for host in groups['zookeepers'] %}
+    {{- ips.append(host+':2181') }}
+    {%- endfor %}
+    {{- ips -}}"
+
+kafka_hosts: "
+    {%- set ips = [] %}
+    {%- for host in groups['zookeepers'] %}
+    {{- ips.append(dict(broker.id=loop.index, host=host, ip=hostvars[host]['ansible_default_ipv4'].address)) }}
+    {%- endfor %}
+    {{- ips -}}"

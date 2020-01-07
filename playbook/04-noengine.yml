@@ -1,7 +1,7 @@
 ---
 
 - name: "Check OS Version"
-  hosts: master
+  hosts: all
   gather_facts: true
   tasks:
     - name: Check OS Version
@@ -9,14 +9,11 @@
       when:
         - ansible_lsb.description != "Ubuntu 16.04.5 LTS"
 
-- hosts: master
+
+- hosts: all
   gather_facts: false
   roles:
     - role: noengine
-
-- hosts: master
-  gather_facts: false
-  roles:
     - role: optimize
     - role: postgres
     - role: flink

@@ -1,0 +1,9 @@
+---
+
+- hosts:
+    - zookeeper_servers
+    - kafka_servers
+  gather_facts: yes
+  roles:
+    - zookeeper
+    - sansible.kafka

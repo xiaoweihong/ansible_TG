@@ -1,9 +1,0 @@
----
-
-- name: change service ip
-  shell: ./change_ip.sh
-  args:
-    chdir: /home/{{ansible_user}}/platformTG/operation
-
-- name: restart service for all
-  service: name=supervisor state=restarted

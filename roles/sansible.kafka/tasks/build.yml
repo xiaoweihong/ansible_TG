@@ -1,0 +1,80 @@
+---
+
+- name: Ensure install folders
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: "{{ sansible_kafka_user }}"
+    group: "{{ sansible_kafka_group }}"
+  with_items:
+    - "{{ sansible_kafka_install_dir }}"
+    - "{{ sansible_kafka_install_dir }}/bin"
+    - "{{ sansible_kafka_install_dir }}/tmp"
+    - "{{ sansible_kafka_install_dir }}/log"
+    - "{{ sansible_kafka_install_dir }}/data"
+    - "{{ sansible_kafka_log_dir }}"
+
+- name: Remove lost+found in the datadir
+  become: yes
+  file:
+    path: "/{{ sansible_kafka_install_dir }}/data/lost+found"
+    owner: "{{ sansible_kafka_user }}"
+    group: "{{ sansible_kafka_group }}"
+    state: absent
+
+- name:  kafka binary package
+  unarchive:
+    src: "kafka_2.11-2.3.1.tgz"
+    dest: "{{ sansible_kafka_install_dir }}"
+    owner: "{{ sansible_kafka_user }}"
+    group: "{{ sansible_kafka_group }}"
+
+
+- name: Link kafka to the right version
+  file:
+    path: "{{ sansible_kafka_install_dir }}/kafka"
+    src: "{{ sansible_kafka_install_dir }}/kafka_{{ sansible_kafka_version_scala }}-{{ sansible_kafka_version_kafka }}"
+    owner: "{{ sansible_kafka_user }}"
+    group: "{{ sansible_kafka_group }}"
+    state: link
+
+- name: link config dir
+  file:
+    force: yes
+    path: "{{ sansible_kafka_install_dir }}/etc"
+    src: "{{ sansible_kafka_install_dir }}/kafka/config"
+    owner: "{{ sansible_kafka_user }}"
+    group: "{{ sansible_kafka_group }}"
+    state: link
+
+- name: Create Kafka service for SysV
+  become: yes
+  template:
+    dest: /etc/init.d/kafka
+    owner: root
+    mode: 0755
+    src: kafka_sysv.j2
+  when: ansible_service_mgr != "systemd"
+
+- name: Add Kafka SystemD script
+  become: yes
+  template:
+    dest: /etc/systemd/system/kafka.service
+    mode: u+rw,g+rw,o+r
+    src: kafka.service.j2
+  when: ansible_service_mgr == "systemd"
+
+- name: Ensure Kafka is enabled for SysV
+  become: yes
+  service:
+    name: kafka
+    enabled: yes
+  when: ansible_service_mgr != "systemd"
+
+- name: Ensure Kafka is enabled for SystemD
+  become: yes
+  systemd:
+    daemon_reload: yes
+    name: kafka
+    enabled: yes
+  when: ansible_service_mgr == "systemd"

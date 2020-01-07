@@ -1,0 +1,16 @@
+[Unit]
+Description=kafka stream-processing software
+After=network.target network-online.target remote-fs.target
+
+[Service]
+Type=simple
+User=kafka
+Group=kafka
+EnvironmentFile=-{{ sansible_kafka_install_dir }}/etc/environment
+ExecStart={{ sansible_kafka_install_dir }}/kafka/bin/kafka-server-start.sh {{ sansible_kafka_install_dir }}/kafka/config/server.properties
+ExecStop={{ sansible_kafka_install_dir }}/kafka/bin/kafka-server-stop.sh
+PIDFile=/var/run/kafka.pid
+LimitNOFILE={{ sansible_kafka_max_open_files }}
+
+[Install]
+WantedBy=multi-user.target

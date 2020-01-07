@@ -1,0 +1,16 @@
+---
+
+- name: prepare
+  include: prepare.yml
+  tags:
+    - build
+
+- name: Install kafka
+  include: build.yml
+  tags:
+    - build
+
+- name: Configure kafka
+  include: configure.yml
+  tags:
+    - configure

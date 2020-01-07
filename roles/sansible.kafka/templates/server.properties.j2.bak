@@ -1,0 +1,20 @@
+##
+# {{ ansible_managed }}
+
+{% if kafka_hosts is defined %}
+{% for server in kafka_hosts %}
+{% if server.host is defined %}
+{% if server.host == inventory_hostname %}
+broker.id={{ server.id }}
+{% endif %}
+{% else %}
+broker.id=0
+{% endif %}
+{% endfor %}
+{% else %}
+broker.id=0
+{% endif %}
+
+{% for key, value in server_properties.items()  | list %}
+{{ key }}={{ value }}
+{% endfor %}

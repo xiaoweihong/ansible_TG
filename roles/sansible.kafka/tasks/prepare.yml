@@ -1,0 +1,10 @@
+- name: Ensure kafka group
+  group:
+    name: "{{ sansible_kafka_group }}"
+
+- name: Ensure kafka user
+  user:
+    name: "{{ sansible_kafka_user }}"
+    group: "{{ sansible_kafka_group }}"
+    home: /bin/false
+  ignore_errors: true
