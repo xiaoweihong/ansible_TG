@@ -16,6 +16,7 @@ function downloadPackage(){
    wget ${DOWNLOAD_URL}/tools.zip
    wget ${DOWNLOAD_URL}/godeye_20191219_deviceid.tar
    wget ${DOWNLOAD_URL}/geojson.tar.gz
+   wget ${DOWNLOAD_URL}/patch_for_bigtoe_4.4.2_20200108.tgz
 
 }
 downloadPackage

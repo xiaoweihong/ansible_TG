@@ -7,6 +7,8 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'package/importer-1.3.6.tar',dest: '/opt/bigtoe/pkg/docker-images' }
+    - { src: 'package/hm_importer-0.12.5.tar',dest: '/opt/bigtoe/pkg/docker-images' }
+    - { src: 'package/hw_importer-0.8.0.tar',dest: '/opt/bigtoe/pkg/docker-images' }
     - { src: 'package/dc84_sdk-0.1.0.tar',dest: '/opt/bigtoe/pkg/docker-images' }
     - { src: 'package/godeye_20191219_deviceid.tar',dest: '/opt/bigtoe/pkg/docker-images' }
     - { src: 'conf/bigtoe/values.yaml',dest: '/opt/bigtoe/deepcloud/config/deepcloud/values.yaml' }

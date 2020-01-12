@@ -133,6 +133,9 @@ ${IPADDR}
 [bigtoe]
 ${IPADDR}
 
+[tg]
+${IPADDR}
+
 [redis]
 ${IPADDR}
 

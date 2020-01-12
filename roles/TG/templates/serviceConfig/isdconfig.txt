@@ -6,7 +6,7 @@
 		"IsOpen": true,
 		"ConfigType": 1,
 		"ConfigInfo": {
-			"Host": "127.0.0.1:7502",
+			"Host": "127.0.0.1:8502",
 			"TimeoutSecond": 3,
 			"ConnectNumber": 5
 		}
