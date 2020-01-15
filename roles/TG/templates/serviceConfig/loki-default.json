@@ -120,7 +120,8 @@
 			"selectedDaysLimit": 31
 		},
 		"personFile": {
-			"repositoryName": "ReverseSort+SkipCount"
+			"repositoryName": "ReverseSort+SkipCount",
+      "searchFeature": 0.88
 		},
 		"vehicleFile": {
 			"repositoryName": "ReverseSort+SkipCount"
