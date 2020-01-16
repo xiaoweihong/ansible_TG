@@ -1,0 +1,8 @@
+{
+	"MaxGoroutinesToLoadPic": 10,
+	"LoadPicTimeout": 20,
+	"MaxRecordsCountPerExcel": 2000,
+	"MaxTotalRecords": 10000,
+	"ExportPath": "/platformData/athenadir/tmp/exporttask/result",
+	"TempPath": "/platformData/athenadir/tmp/exporttask"
+}

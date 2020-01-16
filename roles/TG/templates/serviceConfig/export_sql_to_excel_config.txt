@@ -1,0 +1,8 @@
+{
+	"PageSize": 2000,
+	"MaxGoroutinesToLoadPic": 10,
+	"MaxRecordCountPerExcel": 2000,
+	"MaxTotalRecords": 10000,
+	"ExportPath": "/platformData/athenadir/tmp/exportsqltoexceltask/result",
+	"TempPath": "/platformData/athenadir/tmp/exportsqltoexceltask"
+}

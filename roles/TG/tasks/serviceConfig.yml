@@ -36,6 +36,9 @@
     - { src: 'serviceConfig/arcee_registered.json',dest: '/home/{{ansible_user}}/platformTG/arcee_registered/latest/arcee.json' }
     - { src: 'serviceConfig/archimedes-config.txt',dest: '/home/{{ansible_user}}/platformTG/archimedes/latest/config/config.txt' }
     - { src: 'serviceConfig/athena-dbservice_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/dbservice_config.txt' }
+    - { src: 'serviceConfig/export_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/export_config.txt' }
+    - { src: 'serviceConfig/export_sql_to_excel_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/export_sql_to_excel_config.txt' }
+    - { src: 'serviceConfig/export_sql_to_excel_with_param_beyond_db_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/export_sql_to_excel_with_param_beyond_db_config.txt' }
     - { src: 'serviceConfig/platform_sync_gb_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_gb_config.txt' }
     - { src: 'serviceConfig/platform_sync_pvg_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_pvg_config.txt' }
     - { src: 'serviceConfig/bultgang-config.json',dest: '/home/{{ansible_user}}/platformTG/bultgang/latest/config.json' }
