@@ -21,7 +21,7 @@
     - role: master
     - role: optimize
     - role: postgres
-    - role: flink
+#    - role: flink
     - role: TG
 #
 #

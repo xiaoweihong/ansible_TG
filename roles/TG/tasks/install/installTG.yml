@@ -16,3 +16,5 @@
 - include: installMap.yml
 
 - include: installPVGTool.yml
+
+- include: installELK.yml

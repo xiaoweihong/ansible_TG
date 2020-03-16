@@ -43,6 +43,16 @@
 			"ConfigInfo": {
 				"DeleteDays":180
 			}
+		},
+		{
+			"Type": 4,
+			"CronRule": "0 2 * * * ?",
+			"ConfigInfo": {
+				"DeleteMonths":6,
+				"DeleteDays":0,
+				"Url":"http://127.0.0.1:9200",
+				"Index":"user_operation_log"
+			}
 		}
 	]
 }

@@ -35,14 +35,12 @@
     - { src: 'serviceConfig/arcee_captured.json',dest: '/home/{{ansible_user}}/platformTG/arcee_captured/latest/arcee.json' }
     - { src: 'serviceConfig/arcee_registered.json',dest: '/home/{{ansible_user}}/platformTG/arcee_registered/latest/arcee.json' }
     - { src: 'serviceConfig/archimedes-config.txt',dest: '/home/{{ansible_user}}/platformTG/archimedes/latest/config/config.txt' }
-    - { src: 'serviceConfig/athena-dbservice_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/dbservice_config.txt' }
-    - { src: 'serviceConfig/export_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/export_config.txt' }
-    - { src: 'serviceConfig/export_sql_to_excel_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/export_sql_to_excel_config.txt' }
-    - { src: 'serviceConfig/export_sql_to_excel_with_param_beyond_db_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/export_sql_to_excel_with_param_beyond_db_config.txt' }
-    - { src: 'serviceConfig/platform_sync_gb_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_gb_config.txt' }
-    - { src: 'serviceConfig/platform_sync_pvg_config.txt',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/platform_sync_pvg_config.txt' }
+    - { src: 'serviceConfig/athena-config.json',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/config.json' }
+    - { src: 'serviceConfig/athena-task_config.json',dest: '/home/{{ansible_user}}/platformTG/athena/latest/athenadir/config/tasks_config.json' }
     - { src: 'serviceConfig/bultgang-config.json',dest: '/home/{{ansible_user}}/platformTG/bultgang/latest/config.json' }
     - { src: 'serviceConfig/croatia_config.txt',dest: '/home/{{ansible_user}}/platformTG/croatia/latest/config/croatia_config.txt' }
+    - { src: 'serviceConfig/flora-confg.json',dest: '/home/{{ansible_user}}/platformTG/flora/latest/config/default.json' }
+    - { src: 'serviceConfig/iris-confg.json',dest: '/home/{{ansible_user}}/platformTG/iris/latest/config.json' }
     - { src: 'serviceConfig/isdconfig.txt',dest: '/home/{{ansible_user}}/platformTG/isd/latest/tmp/isdconfig.txt' }
     - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }
     - { src: 'serviceConfig/kronos_config.txt',dest: '/home/{{ansible_user}}/platformTG/kronos/latest/config/config.txt' }
@@ -52,8 +50,7 @@
     - { src: 'serviceConfig/pse_config.json',dest: '/home/{{ansible_user}}/platformTG/pse/latest/config/config.json' }
     - { src: 'serviceConfig/sax_vehicle_application.yml',dest: '/home/{{ansible_user}}/platformTG/sax_vehicle/latest/config/application.yml' }
     - { src: 'serviceConfig/themis_config.json',dest: '/home/{{ansible_user}}/platformTG/themis/latest/config.json' }
-    - { src: 'serviceConfig/capture.properties',dest: '/home/{{ansible_user}}/platformTG/ullr/capture/capture.properties' }
-    - { src: 'serviceConfig/warn.properties',dest: '/home/{{ansible_user}}/platformTG/ullr/warn/warn.properties' }
+    - { src: 'serviceConfig/ullr-values.yaml',dest: '/home/{{ansible_user}}/platformTG/ullr/latest/flink/values.yaml' }
 
 - name: copy loki template file
   template:

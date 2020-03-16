@@ -25,6 +25,12 @@
     dest: /platformData
     creates: /platformData/geojson
 
+- name: untar netposa.tgz to ---->>> /platformData
+  unarchive:
+    src: package/geojson.tar.gz
+    dest: /platformData
+    creates: /platformData/netposa
+
 - name: copy tools to /platformData/http_server
   copy:
     src: package/tools.zip

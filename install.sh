@@ -279,6 +279,8 @@ function changeip(){
 }
 
 function cluster_fenbu(){
+  rm -f /etc/ansible/hosts
+  rm -f /etc/ansible/group_vars/all.yml
 
   echo "---
   

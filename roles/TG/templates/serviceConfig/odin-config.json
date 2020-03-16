@@ -22,7 +22,7 @@
 		"IsOpen": true,
 		"ConfigType": 1,
 		"ConfigInfo": {
-			"Host": "127.0.0.1:8502",
+			"Host": "{{groups.tg[0]}}:8502",
 			"TimeoutSecond": 3,
 			"ConnectNumber": 5
 		}
@@ -31,7 +31,7 @@
 		"IsOpen": true,
 		"ConfigType": 1,
 		"ConfigInfo": {
-			"Host": "127.0.0.1:7502",
+			"Host": "{{groups.tg[0]}}:7502",
 			"TimeoutSecond": 3,
 			"ConnectNumber": 5
 		}
@@ -134,15 +134,15 @@
 			"CosThreshold": 0.85,
 			"CosAParams": [
 				1.58730175,
-                                2.30769028,
-                                1.08108107,
-                                0.85106399
+                2.30769028,
+                1.08108107,
+                0.85106399
 			],
 			"CosBParams": [
 				-0.26428582,
-                                -0.74730632,
-                                 0.09108108,
-                                  0.25255307
+                -0.74730632,
+                0.09108108,
+                0.25255307
 			],
 			"ThresParams": [
 				0.6705,
@@ -221,18 +221,18 @@
 	},
 	"KafkaAllObjInputNodeConfig": {
 		"Brokers": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"Topics": [
 			"index-vehicle2"
 		],
-		"Group": "g-100",
+		"Group": "g-1",
 		"MaxFetchBytes": "1048576000",
 		"SendMessageTimeout": 5
 	},
 	"KafkaAllObjectFerryOutputNodeConfig":{
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "ferry_topic",
 		"MaxMessageBytes": "104857600",
@@ -243,7 +243,7 @@
 	},
 	"KafkaAllObjectFerryInputNodeConfig":{
 		"Brokers": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"Topics": [
 			"all_object_ferry_topic"
@@ -283,7 +283,7 @@
 	},
 	"KafkaFaceCaptureIndexOutputNodeConfig":{
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-face-capture-index-topic",
 		"MaxMessageBytes": "104857600",
@@ -346,16 +346,25 @@
 	},
 	"KafkaFaceCaptureOutputNodeConfig": {
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-face-capture-topic",
 		"MaxMessageBytes": "104857600",
 		"KafkaSentMaxThread": 100,
 		"IsCompression": false
 	},
+	"KafkaFaceVidCaptureOutputNodeConfig": {
+		"KafkaAddress": [
+			"{{groups.bigtoe[0]}}:{{port}}"
+		],
+		"KafkaTopic": "devo-face-vid-capture-topic",
+		"MaxMessageBytes": "104857600",
+		"KafkaSentMaxThread": 100,
+		"IsCompression": false
+	},
 	"KafkaFaceWarnOutputNodeConfig": {
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-face-warn-topic",
 		"MaxMessageBytes": "104857600",
@@ -378,7 +387,7 @@
 	},
 	"KafkaFaceWhiteWarnOutputNodeConfig":{
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-face-white-warn-topic",
 		"MaxMessageBytes": "104857600",
@@ -403,7 +412,7 @@
 	},
 	"KafkaVehicleCaptureIndexOutputNodeConfig": {
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-vehicle-capture-index-topic",
 		"MaxMessageBytes": "104857600",
@@ -429,7 +438,7 @@
 	},
 	"KafkaVehicleCaptureOutputNodeConfig": {
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-vehicle-capture-topic",
 		"MaxMessageBytes": "104857600",
@@ -462,7 +471,7 @@
 	},
 	"KafkaVehicleWarnOutputNodeConfig":{
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-vehicle-warn-topic",
 		"MaxMessageBytes": "104857600",
@@ -488,7 +497,7 @@
 	},
 	"KafkaNonmotorCaptureOutputNodeConfig":{
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-nonmotor-capture-topic",
 		"MaxMessageBytes": "104857600",
@@ -515,7 +524,7 @@
 	},
 	"KafkaPedestrianCaptureOutputNodeConfig":{
 		"KafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"KafkaTopic": "devo-pedestrian-capture-topic",
 		"MaxMessageBytes": "104857600",

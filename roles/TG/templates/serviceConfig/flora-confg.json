@@ -1,0 +1,26 @@
+{
+    "database" : {
+        "connectionString" : "postgres://postgres:Zstvgcs@9102@{{groups.db[0]}}/deepface_v5",
+        "maxOpenConns": 100,
+        "maxIdleConns": 100,
+        "connMaxLifetime": "1m",
+        "logLevel": "info",
+        "showSql": true
+    },
+    "http" : {
+        "addr": ":4000"
+    },
+    "redis" : {
+        "addr": "{{groups.redis[0]}}:6379",
+        "password": "deepglint@2013"
+    },
+    "service" : {
+        "org" : {
+            "max_org_num_per_level" : 500,
+            "max_org_level" : 6
+        },
+        "log" : {
+            "level": -1
+        }
+    }
+}

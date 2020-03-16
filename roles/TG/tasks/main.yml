@@ -4,6 +4,8 @@
 - include: serviceConfig.yml
   tags: [tg]
 
+- include: install/installullr.yml
+
 - include: serviceSupervisor.yml
   tags: [tg]
 

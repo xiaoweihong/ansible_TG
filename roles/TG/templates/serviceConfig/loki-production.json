@@ -26,7 +26,7 @@
             "addr": "127.0.0.1:7502"
         },
         "hercules": {
-			"addr": "http://192.168.2.222:1315"
+			"addr": "http://192.168.100.118:1315"
 		},
 		"megvii": {
             "addr": "http://104.35.96.231:81",
@@ -46,7 +46,7 @@
 			"addr": "http://{{groups.bigtoe[0]}}:38080"
 		},
         "elasticsearch": {
-            "url":"http://192.168.2.174:9209",
+            "url":"http://127.0.0.1:9200",
             "inuse": false
         },
 		"athena": {
@@ -94,14 +94,16 @@
 	},
     "platform": {
 		"kafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}"
+			"{{groups.bigtoe[0]}}:{{port}}",
+			"{{groups.bigtoe[0]}}:{{port}}",
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"needSync": false,
 		"consumer": false,
 		"producer": false
 	},
 	"switcher": {
-		"person_file_compare": true,
+		"person_file_compare": false,
 		"repo_collision": false,
 		"repo_statistics": false,
 		"vid_combine": true

@@ -1,65 +1,70 @@
 {
-	"Debug": true,
-	"HttpConfig": {
-		"Addr": "0.0.0.0:6666"
-	},
-	"DBServiceConfig": {
-		"IsOpen": true,
-		"ConfigType": 1,
-		"ConfigInfo": {
-			"DBType": "postgres",
-			"Host": "{{groups.db[0]}}",
-			"Port": 5432,
-			"UserName": "postgres",
-			"PassWord": "Zstvgcs@9102",
-			"DBName": "statistics",
-			"MaxOpenConnsPerClient": 40,
-			"MaxIdleConnsPerClient": 40,
-			"MaxLifeTimeSeconds": 60,
-			"IsShowSQL": true
-		}
-	},
-	"RedisServiceConfig": {
-		"Addr": "{{groups.redis[0]}}:6379",
-		"Password": "deepglint@2013",
-		"DB": 3,
-		"Comment": "redis db 需与ullr-capture保持一致",
-		"FaceCaptureNowHourKey": "FACE::capture-count",
-		"VehicleCaptureNowHourKey": "VEHICLE::capture-count",
-		"NonmotorCaptureNowHourKey": "NONMOTOR::capture-count",
-		"PedestrianCaptureNowHourKey": "PEDESTRIAN::capture-count",
-		"RepoWarnKey": "",
-		"SpecialVehicleCountKey": "vehicle-special-count",
-		"CaptureCountKey": ""
-	},
-	"CommonCaptureCountServiceConfig": {
-		"MaxDbThread": 200,
-		"MaxRedisThread": 20,
-		"NumInsideSQL": 100,
-		"NumInsideMGet": 100,
-		"NumInsideMSet": 100,
-		"HistoryExpireMillSeconds": 720000,
-        "NowHourExpireMillSeconds": 1000
-	},
-	"CacheUtilConfig": {
-		"ExpireMillSeconds": 1000
-	},
-	"DbConfig": {
-		"VehicleAttrHour": {
-			"MaxDbThread": 30,
-			"TsStepMillSecond": 7200000
-		},
-		"VehicleAttrDay": {
-			"MaxDbThread": 30,
-			"TsStepMillSecond": 86400000
-		},
-		"FaceAttrHour": {
-			"MaxDbThread": 30,
-			"TsStepMillSecond": 7200000
-		},
-		"FaceAttrDay": {
-			"MaxDbThread": 30,
-			"TsStepMillSecond": 86400000
-		}
-	}
+    "Debug": true,
+    "HttpConfig": {
+        "Addr": "0.0.0.0:6666"
+    },
+    "DBServiceConfig": {
+        "IsOpen": true,
+        "ConfigType": 1,
+        "ConfigInfo": {
+            "DBType": "postgres",
+            "Host": "{{groups.db[0]}}",
+            "Port": 5432,
+            "UserName": "postgres",
+            "PassWord": "Zstvgcs@9102",
+            "DBName": "statistics",
+            "MaxOpenConnsPerClient": 40,
+            "MaxIdleConnsPerClient": 40,
+            "MaxLifeTimeSeconds": 60,
+            "IsShowSQL": true
+        }
+    },
+    "RedisServiceConfig": {
+        "Addr": "{{groups.redis[0]}}:6379",
+        "Password": "deepglint@2013",
+        "DB": 3,
+        "Comment": "redis db 需与ullr-capture保持一致",
+        "FaceCaptureNowHourKey": "FACE::capture-count",
+        "VehicleCaptureNowHourKey": "VEHICLE::capture-count",
+        "NonmotorCaptureNowHourKey": "NONMOTOR::capture-count",
+        "PedestrianCaptureNowHourKey": "PEDESTRIAN::capture-count",
+        "RepoWarnKey": "",
+        "SpecialVehicleCountKey": "vehicle-special-count",
+        "CaptureCountKey": ""
+    },
+    "CommonCaptureCountServiceConfig": {
+        "MaxDbThread": 200,
+        "MaxRedisThread": 20,
+        "NumInsideSQL": 100,
+        "HistoryExpireMillSeconds": 720000,
+        "NowHourExpireMillSeconds": 2000
+    },
+    "CommonEventCountServiceConfig": {
+        "MaxDbThread": 200,
+        "MaxRedisThread": 20,
+        "NumInsideSQL": 100,
+        "HistoryExpireMillSeconds": 720000,
+        "NowHourExpireMillSeconds": 2000
+    },
+    "CacheUtilConfig": {
+        "ExpireMillSeconds": 2000
+    },
+    "DbConfig": {
+        "VehicleAttrHour": {
+            "MaxDbThread": 30,
+            "TsStepMillSecond": 7200000
+        },
+        "VehicleAttrDay": {
+            "MaxDbThread": 30,
+            "TsStepMillSecond": 86400000
+        },
+        "FaceAttrHour": {
+            "MaxDbThread": 30,
+            "TsStepMillSecond": 7200000
+        },
+        "FaceAttrDay": {
+            "MaxDbThread": 30,
+            "TsStepMillSecond": 86400000
+        }
+    }
 }

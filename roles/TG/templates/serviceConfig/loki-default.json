@@ -8,7 +8,9 @@
 		]
 	},
 	"log": {
-		"http": false
+		"http": false,
+		"skip_path": [
+		]
 	},
 	"api": {
 		"logout": {
@@ -29,6 +31,13 @@
 		"_requestLogger": {
 			"logUrl": true,
 			"printBody": true,
+			"logBody": [
+				"application/json"
+			]
+		},
+		"_responseLogger": {
+			"logUrl": false,
+			"printBody": false,
 			"logBody": [
 				"application/json"
 			]
@@ -99,11 +108,11 @@
 			"sensorCountLimit": 500,
 			"selectedDaysLimit": 31
 		},
-      "dayinnightout": {
-        "userTaskLimit": 10,
-        "sensorCountLimit": 500,
-        "selectedDaysLimit": 31
-      },
+      	"dayinnightout": {
+        	"userTaskLimit": 10,
+        	"sensorCountLimit": 500,
+        	"selectedDaysLimit": 31
+      	},
 		"fakePlate": {
 			"userTaskLimit": 10,
 			"sensorCountLimit": 500,
@@ -119,9 +128,16 @@
 			"sensorCountLimit": 500,
 			"selectedDaysLimit": 31
 		},
+		"repocollision": {
+			"userTaskLimit": 10,
+			"maxRepoCount": 5,
+			"minRepoCount": 2,
+			"maxConfidence": 1,
+			"minConfidence": 0.8
+		},
 		"personFile": {
 			"repositoryName": "ReverseSort+SkipCount",
-      "searchFeature": 0.88
+			"searchFeature": 0.88
 		},
 		"vehicleFile": {
 			"repositoryName": "ReverseSort+SkipCount"
@@ -144,25 +160,34 @@
 			"single_goroutine_query": 50,
 			"index_query":100,
 			"sensor_query": 60,
+			"sensor_resource":60,
 			"cpu_num": 1
+		},
+		"record": {
+			"cacheThreshold": 1,
+			"nginxPort": "80"
+		},
+		"org": {
+			"max_org_num_per_level": 500,
+			"max_org_level": 6
 		}
 	},
 	"database": {
-		"connectionString": "postgres://postgres:Zstvgcs@9102@192.168.2.142/deepface_v5",
+		"connectionString": "postgres://postgres:Zstvgcs@9102@{{groups.db[0]}}/deepface_v5",
 		"maxOpenConns": 100,
 		"maxIdleConns": 100,
 		"connMaxLifetime": "1m",
 		"logLevel": "info",
-		"showSql": true
+		"showSql": false
 	},
 	"services": {
 		"fse_runtime": {
-			"addr": "http://192.168.2.142:3154/x-api/v1",
+			"addr": "http://{{groups.bigtoe[0]}}:3154/x-api/v1",
 			"face": {
 				"repo_id": "capture-face-repo",
 				"index_type": "int8",
 				"level":"ram",
-				"replications":2,
+				"replications":3,
 				"capacity":1000000000,
 				"options": {
 					"UseFeatureIDMap": "true",
@@ -174,7 +199,7 @@
 				"repo_id": "capture-vehicle-repo",
 				"index_type": "int8",
 				"level":"ram",
-				"replications":2,
+				"replications":3,
 				"capacity":1000000000,
 				"options": {
 					"UseFeatureIDMap": "true",
@@ -186,7 +211,7 @@
 				"repo_id": "capture-nonmotor-repo",
 				"index_type": "int8",
 				"level":"ram",
-				"replications":2,
+				"replications":3,
 				"capacity":1000000000,
 				"options": {
 					"UseFeatureIDMap": "true",
@@ -198,7 +223,7 @@
 				"repo_id": "capture-pedestrian-repo",
 				"index_type": "int8",
 				"level":"ram",
-				"replications":2,
+				"replications":3,
 				"capacity":1000000000,
 				"options": {
 					"UseFeatureIDMap": "true",
@@ -208,7 +233,7 @@
 			}
 		},
 		"fse_black":{
-			"addr": "http://192.168.2.142:3154/x-api/v1",
+			"addr": "http://{{groups.bigtoe[0]}}:3154/x-api/v1",
 			"default_repo": [
 				"0001",
 				"0002",
@@ -220,7 +245,7 @@
 			"face": {
 				"index_type": "int8",
 				"level":"ram",
-				"replications":2,
+				"replications":3,
 				"capacity":1000000000,
 				"options": {
 					"UseFeatureIDMap": "true",
@@ -230,29 +255,29 @@
 			}
 		},
 		"sax": {
-			"addr": "http://192.168.2.142:50051"
+			"addr": "http://{{groups.tg[0]}}:50051"
 		},
 		"arcee": {
-			"addr": "192.168.2.142:7502",
+			"addr": "{{groups.tg[0]}}:7502",
 			"connect_number": 10,
 			"try_times": 3
 		},
 		"hercules": {
-			"addr": "http://192.168.2.142:1315"
+			"addr": "http://192.168.100.118:1315"
 		},
 		"megvii": {
 			"addr": "http://104.35.96.231:81",
 			"needTestData": true
 		},
 		"mserver": {
-			"run_addr": "http://192.168.2.142:9009",
-			"out_addr": "192.168.2.142:8905"
+			"run_addr": "http://{{groups.tg[0]}}:9009",
+			"out_addr": "{{groups.tg[0]}}:8905"
 		},
 		"link": {
-			"addr": "http://192.168.2.142:30233"
+			"addr": "http://{{groups.bigtoe[0]}}:30233"
 		},
 		"deepcloud": {
-			"addr": "http://192.168.2.142:39876/api",
+			"addr": "http://{{groups.bigtoe[0]}}:39876/api",
 			"access_key": "7966023d-0eee-4104-9c2f-8efa4279442a",
 			"secret_key": "9e7b1900-302b-4059-bcaa-047262f3ca3b",
 			"authkey": "dp-auth-v0",
@@ -260,7 +285,7 @@
 			"switch": true
 		},
 		"archimedes": {
-			"addr": "http://192.168.2.142:6666/archimedes/v1",
+			"addr": "http://{{groups.tg[0]}}:6666/archimedes/v1",
 			"timeout_second": 60,
 			"VehicleTypeValue":      34,
 			"VehicleColorValue":     39,
@@ -270,21 +295,21 @@
 			"Rate":                  10000
 		},
 		"themis": {
-			"addr": "http://192.168.2.142:7777/themis/v1",
+			"addr": "http://{{groups.tg[0]}}:7777/themis/v1",
 			"timeout_second": 60
 		},
 		"vse_face": {
-			"addr": "http://192.168.2.142:38080"
+			"addr": "http://{{groups.bigtoe[0]}}:38080"
 		},
 		"vse_vehicle": {
-			"addr": "http://192.168.2.142:38080"
+			"addr": "http://{{groups.bigtoe[0]}}:38080"
 		},
 		"elasticsearch": {
-			"url": "http://192.168.2.142:9209",
+			"url": "http://127.0.0.1:9200",
 			"inuse": false
 		},
 		"athena": {
-			"addr": "http://192.168.2.142:2013",
+			"addr": "http://127.0.0.1:2013",
 			"platform_sync": {
 				"gb": {
 					"url": "http://%s:%d/dgsip/catalog"
@@ -296,21 +321,21 @@
 		},
 		"redis": {
 			"cache": {
-				"addr": "192.168.2.142:6379",
+				"addr": "{{groups.redis[0]}}:6379",
 				"password": "deepglint@2013"
 			},
 			"store": {
-				"addr": "192.168.2.142:6379",
+				"addr": "{{groups.redis[0]}}:6379",
 				"password": "deepglint@2013"
 			}
 		},
 		"sentry": {
 			"switcher": false,
-			"dsn": "http://c36d8009c6c14f9083bb2844f4cf4890@192.168.2.142:9999/2",
+			"dsn": "http://c36d8009c6c14f9083bb2844f4cf4890@192.168.100.118:9999/2",
 			"environment": "2.142"
 		},
 		"pse":{
-			"addr": "http://192.168.2.142:1989"
+			"addr": "http://127.0.0.1:1989"
 		}
 	},
 	"cronjob": {
@@ -376,13 +401,14 @@
 	},
 	"platform": {
 		"kafkaAddress": [
-			"192.168.2.142:32400",
-			"192.168.2.142:32401",
-			"192.168.2.142:32402"
+			"{{groups.bigtoe[0]}}:{{port}}",
+			"{{groups.bigtoe[0]}}:{{port}}",
+			"{{groups.bigtoe[0]}}:{{port}}"
 		],
 		"defaultGroup": "123",
 		"needSync": false,
 		"kafkaSyncTopic": "ferry_topic",
+		"kafkaLogTopic": "user_operation_log",
 		"consumer": false,
 		"producer": false,
 		"lokiTopic": "loki_sync_topic"

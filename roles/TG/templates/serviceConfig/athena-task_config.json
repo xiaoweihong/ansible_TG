@@ -1,0 +1,74 @@
+{
+  "ExportTaskConfig": {
+    "MaxGoroutinesToLoadPic": 10,
+    "LoadPicTimeout": 20,
+    "MaxRecordsCountPerExcel": 2000,
+    "MaxTotalRecords": 10000,
+    "ExportPath": "/platformData/athenadir/tmp/exporttask/result",
+    "TempPath": "/platformData/athenadir/tmp/exporttask"
+  },
+  "ExportSql2ExcelTaskConfig": {
+    "PageSize": 2000,
+    "MaxGoroutinesToLoadPic": 10,
+    "MaxRecordCountPerExcel": 2000,
+    "MaxTotalRecords": 10000,
+    "ExportPath": "/platformData/athenadir/tmp/exportsqltoexceltask/result",
+    "TempPath": "/platformData/athenadir/tmp/exportsqltoexceltask"
+  },
+  "ExportSql2ExcelWithParamBeyondDbTaskConfig": {
+    "PageSize": 2000,
+    "MaxGoroutinesToLoadPic": 10,
+    "MaxRecordCountPerExcel": 2000,
+    "MaxTotalRecords": 10000,
+    "ExportPath": "/platformData/athenadir/tmp/exportsqltoexcelwithparambeyonddbtask/result",
+    "TempPath": "/platformData/athenadir/tmp/exportsqltoexcelwithparambeyonddbtask"
+  },
+  "PersonAreaCollisionTaskConfig": {},
+  "PersonFrequencyAnalysisTaskConfig": {
+    "TsStep": 21600000
+  },
+  "PersonRepoCollisionTaskConfig": {
+    "Limit": 100,
+    "RankerGetFeatureMaxThread": 10
+  },
+  "PersonTrailMatchTaskConfig": {
+    "TsStep": 21600000
+  },
+  "PlatformSyncGbTaskConfig": {
+    "Uri": "http://{{groups.bigtoe[0]}}:8000/dgsip/catalog",
+    "LastUpdateKey": "helloplatformsynclastupdatekey",
+    "Timeout": 600
+  },
+  "PlatformSyncPVGTaskConfig": {
+    "Uri": "http://{{groups.bigtoe[0]}}:7457/vse/catalog",
+    "LastUpdateKey": "pvghelloplatformsynclastupdatekey",
+    "Timeout": 600
+  },
+  "VehicleAreaCollisionTaskConfig": {},
+  "VehicleDayInNightOutTaskConfig": {
+    "TsStep": 3600000,
+    "Comment": "default: 3600000 = 1h"
+  },
+  "VehicleFakePlateTaskConfig": {
+    "TsStep": 21600000,
+    "MaxSpeed": 132,
+    "PositionThreshold": 50,
+    "DistanceThreshold": 2000
+  },
+  "VehicleFirstAppearanceTaskConfig": {
+    "TsStep": 21600000
+  },
+  "VehicleFrequencyAnalysisTaskConfig": {
+    "TsStep": 21600000
+  },
+  "VehicleHiddenTaskConfig": {
+    "TsStep": 21600000,
+    "DaysBeforeEvent": 4,
+    "DaysAfterEvent": 3,
+    "MinAppearanceTimesBeforeEvent": 2,
+    "MaxHiddenCoefficient": 0.3
+  },
+  "VehicleTrailMatchTaskConfig": {
+    "TsStep": 21600000
+  }
+}
