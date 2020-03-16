@@ -3,4 +3,4 @@
 - name: start ELK shell
   shell: ./run.sh
   args:
-    chdir: /home/{{ansible_user}}/platformTG/ELK
+    chdir: /home/{{ansible_user}}/platformTG/elk

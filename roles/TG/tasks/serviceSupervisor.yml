@@ -19,12 +19,14 @@
     - { src: 'supervisor/conf.d/bultgang.conf',dest: '/etc/supervisor/conf.d/bultgang.conf' }
     - { src: 'supervisor/conf.d/croatia.conf',dest: '/etc/supervisor/conf.d/croatia.conf' }
     - { src: 'supervisor/conf.d/eventpoxy.conf',dest: '/etc/supervisor/conf.d/eventpoxy.conf' }
+    - { src: 'supervisor/conf.d/face-app.conf',dest: '/etc/supervisor/conf.d/face-app.conf.bak' }
+    - { src: 'supervisor/conf.d/face-proxy.conf',dest: '/etc/supervisor/conf.d/face-proxy.conf.bak' }
+    - { src: 'supervisor/conf.d/flora.conf',dest: '/etc/supervisor/conf.d/flora.conf' }
+    - { src: 'supervisor/conf.d/iris.conf',dest: '/etc/supervisor/conf.d/iris.conf' }
     - { src: 'supervisor/conf.d/isd.conf',dest: '/etc/supervisor/conf.d/isd.conf' }
     - { src: 'supervisor/conf.d/k2s.conf',dest: '/etc/supervisor/conf.d/k2s.conf' }
     - { src: 'supervisor/conf.d/kronos.conf',dest: '/etc/supervisor/conf.d/kronos.conf' }
     - { src: 'supervisor/conf.d/loki.conf',dest: '/etc/supervisor/conf.d/loki.conf' }
-    - { src: 'supervisor/conf.d/face-app.conf',dest: '/etc/supervisor/conf.d/face-app.conf.bak' }
-    - { src: 'supervisor/conf.d/face-proxy.conf',dest: '/etc/supervisor/conf.d/face-proxy.conf.bak' }
     - { src: 'supervisor/conf.d/odin.conf',dest: '/etc/supervisor/conf.d/odin.conf' }
     - { src: 'supervisor/conf.d/pse.conf',dest: '/etc/supervisor/conf.d/pse.conf' }
     - { src: 'supervisor/conf.d/redis.conf',dest: '/etc/supervisor/conf.d/redis.conf' }
@@ -37,8 +39,3 @@
 - name: supervisord restart
   service: name=supervisor state=restarted
   tags: [sup]
-
-- name: start flink jar tasks
-  shell: ./flink run -d /home/{{ansible_user}}/platformTG/ullr/capture/capture-0.1.5.3.jar -config /home/{{ansible_user}}/platformTG/ullr/capture/capture.properties; ./flink run -d /home/{{ansible_user}}/platformTG/ullr/warn/warn-0.1.1.jar -config /home/{{ansible_user}}/platformTG/ullr/warn/warn.properties
-  args:
-    chdir: /home/{{ansible_user}}/platformTG/flink/latest/bin
