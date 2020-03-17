@@ -1,5 +1,13 @@
 ---
 
+- name: mkdir ELK data
+  file:
+    path: /{{platformPath}}/elk/elasticsearch
+    state: directory
+    recurse: yes
+    mode: 0777
+  when: update == False
+
 - name: start ELK shell
   shell: ./run.sh
   args:
