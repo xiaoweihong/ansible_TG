@@ -6,6 +6,13 @@
     dest: /opt/
     creates: /opt/bigtoe/bigtoe-tools
 
+- name: delete bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
+  file:
+    path: /etc/ansible/roles/common/files/package/bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
+    state: absent
+  tags: [delete]
+
+
 - name: change bigtoe install scripts
   template:
     src: '{{ item.src }}'

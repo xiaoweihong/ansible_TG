@@ -94,9 +94,9 @@
 	},
     "platform": {
 		"kafkaAddress": [
-			"{{groups.bigtoe[0]}}:{{port}}",
-			"{{groups.bigtoe[0]}}:{{port}}",
-			"{{groups.bigtoe[0]}}:{{port}}"
+			"{{groups.kafka[0]}}:{{port}}",
+			"{{groups.kafka[0]}}:{{port}}",
+			"{{groups.kafka[0]}}:{{port}}"
 		],
 		"needSync": false,
 		"consumer": false,

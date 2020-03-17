@@ -2,10 +2,11 @@
 
 - name: mkdir ELK data
   file:
-    path: /{{platformPath}}/elk/elasticsearch
+    path: /{{platformPath}}/elk/elasticsearch/data
     state: directory
     recurse: yes
     mode: 0777
+    group: 1000
   when: update == False
 
 - name: start ELK shell
