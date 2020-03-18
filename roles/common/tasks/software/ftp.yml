@@ -24,6 +24,12 @@
     group: ftp
   with_items: [ftp1,ftp2,ftp3]
 
+- name: create dir for video
+  file:
+    path: /data/bigtoe/upload-videos
+    state: directory
+    owner: ftp
+    group: ftp
 
 - name: mkdir /etc/vsftpd_user_conf
   file:
@@ -36,7 +42,7 @@
   copy:
    content: "local_root=/platformData/ftp/{{ item }}\n"
    dest: /etc/vsftpd_user_conf/{{ item }}
-  with_items: [ftp1,ftp2,ftp3]
+  with_items: [ftp1,ftp2,ftp3,video]
 
 
 - name: rm /etc/vsftpd_login.db
