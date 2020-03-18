@@ -83,7 +83,7 @@
             "TimeoutSecond":60
         },
         "Loki":{
-            "Address":"http://127.0.0.1.118:3000/",
+            "Address":"http://127.0.0.1:3000/",
             "TimeoutSecond":60
         }
     }

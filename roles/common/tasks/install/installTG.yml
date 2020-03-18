@@ -27,7 +27,7 @@
 
 - name: untar netposa.tgz to ---->>> /platformData
   unarchive:
-    src: package/geojson.tar.gz
+    src: package/netposa.tgz
     dest: /platformData
     creates: /platformData/netposa
 
