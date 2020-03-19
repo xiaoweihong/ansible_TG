@@ -23,28 +23,22 @@
         "Addr": "{{groups.redis[0]}}:6379",
         "Password": "deepglint@2013",
         "DB": 3,
-        "Comment": "redis db 需与ullr-capture保持一致",
-        "FaceCaptureNowHourKey": "FACE::capture-count",
-        "VehicleCaptureNowHourKey": "VEHICLE::capture-count",
-        "NonmotorCaptureNowHourKey": "NONMOTOR::capture-count",
-        "PedestrianCaptureNowHourKey": "PEDESTRIAN::capture-count",
-        "RepoWarnKey": "",
-        "SpecialVehicleCountKey": "vehicle-special-count",
-        "CaptureCountKey": ""
+        "Comment": "config: archimedes.redis.db==ullr.redis.db, archimedes.pg.statistics==ullr.pg.statistics",
+        "SpecialVehicleCountKey": "vehicle-special-count"
     },
     "CommonCaptureCountServiceConfig": {
         "MaxDbThread": 200,
         "MaxRedisThread": 20,
         "NumInsideSQL": 100,
         "HistoryExpireMillSeconds": 720000,
-        "NowHourExpireMillSeconds": 2000
+        "NowHourExpireMillSeconds": 5000
     },
     "CommonEventCountServiceConfig": {
         "MaxDbThread": 200,
         "MaxRedisThread": 20,
         "NumInsideSQL": 100,
         "HistoryExpireMillSeconds": 720000,
-        "NowHourExpireMillSeconds": 2000
+        "NowHourExpireMillSeconds": 5000
     },
     "CacheUtilConfig": {
         "ExpireMillSeconds": 2000

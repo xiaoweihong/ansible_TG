@@ -92,10 +92,10 @@ config:
 application:
   - name: capture
     repository: dockerhub.deepglint.com/deepface/flink-capture
-    tag: 0.1.6.5
+    tag: 0.1.6.6
   - name: warn
     repository: dockerhub.deepglint.com/deepface/flink-warn
-    tag: 0.1.1.3
+    tag: 0.1.1.4
   - name: alongwith
     repository: dockerhub.deepglint.com/deepface/flink-alongwith
     tag: 0.0.2.2
