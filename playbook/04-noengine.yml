@@ -1,13 +1,13 @@
 ---
 
-- name: "Check OS Version"
-  hosts: postgres,odin
-  gather_facts: true
-  tasks:
-    - name: Check OS Version
-      fail: msg="OS {{ ansible_lsb.description }} is not support"
-      when:
-        - ansible_lsb.description != "Ubuntu 16.04.5 LTS"
+#- name: "Check OS Version"
+#  hosts: postgres,odin
+#  gather_facts: true
+#  tasks:
+#    - name: Check OS Version
+#      fail: msg="OS {{ ansible_lsb.description }} is not support"
+#      when:
+#        - ansible_lsb.description != "Ubuntu 16.04.5 LTS"
 
 
 - hosts: db,tg
@@ -20,5 +20,4 @@
 - hosts: tg
   gather_facts: false
   roles:
-    - role: flink
     - role: TG
