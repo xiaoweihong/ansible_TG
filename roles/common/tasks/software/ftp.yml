@@ -47,7 +47,7 @@
 - name: create user video files
   copy:
    content: "local_root=/data/bigtoe/upload-videos/\n"
-   dest: /etc/vsftpd_user_conf/{{ item }}
+   dest: /etc/vsftpd_user_conf/video
 
 - name: rm /etc/vsftpd_login.db
   file:
