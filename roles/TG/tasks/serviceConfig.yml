@@ -41,6 +41,8 @@
     - { src: 'serviceConfig/croatia_config.txt',dest: '/home/{{ansible_user}}/platformTG/croatia/latest/config/croatia_config.txt' }
     - { src: 'serviceConfig/logstash.conf',dest: '/home/{{ansible_user}}/platformTG/elk/logstash.conf' }
     - { src: 'serviceConfig/flora-confg.json',dest: '/home/{{ansible_user}}/platformTG/flora/latest/config/default.json' }
+    - { src: 'serviceConfig/freyr_captured.json',dest: '/home/{{ansible_user}}/platformTG/freyr_captured/latest/config.json' }
+    - { src: 'serviceConfig/freyr_registered.json',dest: '/home/{{ansible_user}}/platformTG/freyr_registered/latest/config.json' }
     - { src: 'serviceConfig/iris-confg.json',dest: '/home/{{ansible_user}}/platformTG/iris/latest/config.json' }
     - { src: 'serviceConfig/isdconfig.txt',dest: '/home/{{ansible_user}}/platformTG/isd/latest/tmp/isdconfig.txt' }
     - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }

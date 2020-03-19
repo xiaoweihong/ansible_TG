@@ -22,6 +22,7 @@
     - { src: 'supervisor/conf.d/face-app.conf',dest: '/etc/supervisor/conf.d/face-app.conf.bak' }
     - { src: 'supervisor/conf.d/face-proxy.conf',dest: '/etc/supervisor/conf.d/face-proxy.conf.bak' }
     - { src: 'supervisor/conf.d/flora.conf',dest: '/etc/supervisor/conf.d/flora.conf' }
+    - { src: 'supervisor/conf.d/freyr.conf',dest: '/etc/supervisor/conf.d/freyr.conf2' }
     - { src: 'supervisor/conf.d/iris.conf',dest: '/etc/supervisor/conf.d/iris.conf' }
     - { src: 'supervisor/conf.d/isd.conf',dest: '/etc/supervisor/conf.d/isd.conf' }
     - { src: 'supervisor/conf.d/k2s.conf',dest: '/etc/supervisor/conf.d/k2s.conf' }

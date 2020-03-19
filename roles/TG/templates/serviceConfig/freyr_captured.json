@@ -1,0 +1,23 @@
+{
+    "Debug": false,
+    "VrrpAddr": "{{groups.tg[0]}}:8501",
+    "UseVrrp": true,
+    "HttpServiceAddr": "0.0.0.0:8501",
+    "GrpcServerAddr": "0.0.0.0:8502",
+    "WeedConfig": {
+        "Master": "127.0.0.1:9333",
+        "Ttl": "6M",
+        "VacummInterval": "0 5 1 * * ",
+        "AutoDel": true
+    },
+    "RedisConfig": {
+        "Enable": false,
+        "Addrs": [
+            "127.0.0.1:6379"
+        ],
+        "CacheTTL": 20,
+        "RedisPWD":"asgard@1939"
+    },
+    "PreAssign": true,
+    "DataPath": "db"
+}
