@@ -17,9 +17,6 @@
     - redis
     - kafka
     - logs
-    - fse
-    - fse-sata
-    - fse-ssd
     - weedfs
     - http_server
     - loki/upload/assets/images

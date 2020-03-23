@@ -103,7 +103,7 @@
 		"producer": false
 	},
 	"switcher": {
-		"person_file_compare": false,
+		"person_file_compare": true,
 		"repo_collision": false,
 		"repo_statistics": false,
 		"vid_combine": true

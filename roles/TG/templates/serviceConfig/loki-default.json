@@ -446,7 +446,7 @@
 		"LinearBeta": 0
 	},
 	"limit": {
-		"sensor": 1000,
-		"user_capture_favorite": 1000
+		"sensor": 10000,
+		"user_capture_favorite": 10000
 	}
 }

@@ -41,7 +41,8 @@
 			"Type": 3,
 			"CronRule": "0 45 23 * * ?",
 			"ConfigInfo": {
-				"DeleteDays":180
+				"DeleteDays":180,
+        "DelayMilliSeconds": 0
 			}
 		},
 		{

@@ -2,6 +2,14 @@
 	"AthenaBaseConfig": {
 		"ListenAddr": "0.0.0.0:2013",
 		"MaxTaskNum": 500,
+		"DictAddr":{
+			"BrandAddr":"./athenadir/dict/INDEX_BRAND.json",
+			"FaceAddr":"./athenadir/dict/INDEX_FACE.json",
+			"LicensePlateAddr":"./athenadir/dict/INDEX_LICENSE_PLATE.json",
+			"MotorAddr":"./athenadir/dict/INDEX_MOTOR.json",
+			"NonMotorAddr":"./athenadir/dict/INDEX_NON_MOTOR.json",
+			"PedestrianAddr":"./athenadir/dict/INDEX_PEDESTRIAN.json"
+		},
 		"AthenaTmpDir": "/platformData/athenadir/tmp/",
 		"StatusTmpDir": "/platformData/athenadir/tmp/status/",
 		"MaxQueueLength": 30,
