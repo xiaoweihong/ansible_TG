@@ -177,7 +177,8 @@
     "WarnAuthServiceConfig":{
         "IsOpen":true,
         "TimeIntervalMillSecond":2000,
-        "TriggerKey":"monitor_trigger"
+        "TriggerKey":"monitor_trigger",
+        "TriggerKey2": "sensor_trigger"
     },
     "SpecialCaptureAuthServiceConfig":{
         "IsOpen":true,
