@@ -4,3 +4,4 @@
   shell: ./install.sh
   args:
     chdir: /home/{{ansible_user}}/platformTG/ullr/latest
+  ignore_errors: True

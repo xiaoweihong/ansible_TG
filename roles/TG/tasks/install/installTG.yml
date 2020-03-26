@@ -17,4 +17,3 @@
 
 - include: installPVGTool.yml
 
-- include: installELK.yml

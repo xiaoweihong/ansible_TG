@@ -118,7 +118,7 @@
   when: update == False
 
 - name: create database themis
-  shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/themis/latest/themis.sql"; touch /home/{{ansible_user}}/platformTG/themis/flag
+  shell: su - postgres -c "psql -f /home/{{ansible_user}}/platformTG/themis/latest/themis_special_full.sql"; touch /home/{{ansible_user}}/platformTG/themis/flag
   args:
     creates: /home/{{ansible_user}}/platformTG/themis/flag
   when: update == False

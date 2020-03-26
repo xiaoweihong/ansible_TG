@@ -42,7 +42,7 @@
 			"CronRule": "0 45 23 * * ?",
 			"ConfigInfo": {
 				"DeleteDays":180,
-        "DelayMilliSeconds": 0
+        "DelayMilliSeconds": 3600000
 			}
 		},
 		{
