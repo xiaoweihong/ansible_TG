@@ -46,7 +46,7 @@
     - { src: 'serviceConfig/iris-confg.json',dest: '/home/{{ansible_user}}/platformTG/iris/latest/config.json' }
     - { src: 'serviceConfig/isdconfig.txt',dest: '/home/{{ansible_user}}/platformTG/isd/latest/tmp/isdconfig.txt' }
     - { src: 'serviceConfig/k2s-config.json',dest: '/home/{{ansible_user}}/platformTG/k2s/latest/config.json' }
-    - { src: 'serviceConfig/kronos_config.txt',dest: '/home/{{ansible_user}}/platformTG/kronos/latest/config/config.txt' }
+    - { src: 'serviceConfig/kronos_config.json',dest: '/home/{{ansible_user}}/platformTG/kronos/latest/config/config.json' }
     - { src: 'serviceConfig/loki-production.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/production.json' }
     - { src: 'serviceConfig/loki-default.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/default.json' }
     - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
