@@ -93,9 +93,12 @@ application:
   - name: capture
     repository: dockerhub.deepglint.com/deepface/flink-capture
     tag: 0.1.6.6
+    pullPolicy: IfNotPresent
   - name: warn
     repository: dockerhub.deepglint.com/deepface/flink-warn
     tag: 0.1.1.4
+    pullPolicy: IfNotPresent
   - name: alongwith
     repository: dockerhub.deepglint.com/deepface/flink-alongwith
     tag: 0.0.2.2
+    pullPolicy: IfNotPresent
