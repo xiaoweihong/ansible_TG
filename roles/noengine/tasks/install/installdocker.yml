@@ -10,3 +10,34 @@
   shell: dpkg -i *.deb
   args:
     chdir: /opt/docker
+
+
+- name: config docker config
+  copy:
+    src: conf/docker/daemon.json
+    dest: /etc/docker/daemon.json
+
+- name: mkdir for docker
+  file:
+    path: /platformData/{{ item }}
+    state: directory
+    recurse: yes
+  with_items:
+    - docker
+
+- name: mkdir for docker service
+  file:
+    path: /etc/systemd/system/{{ item }}/
+    state: directory
+    recurse: yes
+  with_items:
+    - docker.service.d
+
+- name: config docker config
+  copy:
+    src: conf/docker/docker.root.conf
+    dest: /etc/systemd/system/docker.service.d
+
+- name: restart docker
+  shell: systemctl daemon-reload; service docker restart
+

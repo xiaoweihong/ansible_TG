@@ -22,6 +22,15 @@
     - loki/upload/civilpackages
     - loki/upload/videos
 
+- name: mkdir for docker nginx
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "/opt/bigtoe"
+    - "/etc/nginx/conf.d"
+
 - name: copy logo and sound file to /platformData/loki
   copy:
     src: '{{ item.src }}'

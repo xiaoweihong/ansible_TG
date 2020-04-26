@@ -106,7 +106,8 @@ echo "|        A tool to auto-compile & install TG platform on Linux      |"
 echo "+-------------------------------------------------------------------+"
 echo "|           For more information please read document               |"
 echo "+-------------------------------------------------------------------+"
-echo "|                    1. 单机部署                                    |"
+echo "|                    1. 应用部署(不包含引擎)                        |"
+#echo "|                    1. 单机部署                                    |"
 echo "+-------------------------------------------------------------------+"
 echo "|                    2. 集群部署(多引擎)                            |"
 echo "+-------------------------------------------------------------------+"
@@ -114,11 +115,53 @@ echo "|                    3. 集群部署(分布式)                           
 echo "+-------------------------------------------------------------------+"
 #echo "|                    3. 930release升级到1115beta                    |"
 #echo "+-------------------------------------------------------------------+"
-echo "|                    4. 更换ip                                      |"
-echo "+-------------------------------------------------------------------+"
+#echo "|                    4. 更换ip                                      |"
+#echo "+-------------------------------------------------------------------+"
 echo "|                    q. 退出                                        |"
 echo "+-------------------------------------------------------------------+"
 echo "请选择:"
+}
+
+function appDeploy(){
+
+  rm -f /etc/ansible/hosts
+  rm -f /etc/ansible/group_vars/all.yml
+. ansible/scripts/config_arcee.sh
+
+  echo "---
+
+ansible_become: yes
+ansible_become_method: sudo
+ansible_user: $USER
+ansible_password: $PASSWORD
+ansible_become_pass: $PASSWORD
+platformPath: /platformData
+ansible_host_ip: '{{ ansible_default_ipv4.address }}'
+cluster: false
+update: false
+personfile: true" > /etc/ansible/group_vars/all.yml
+. ansible/scripts/config_ssh.sh
+  rm -rf /etc/TG
+  mkdir /etc/TG
+#  mv /etc/ansible/hosts /etc/TG/
+#  mv /etc/ansible/group_vars/all.yml /etc/TG
+#  ln -s /etc/TG/hosts /etc/ansible
+#  ln -s /etc/TG/all.yml /etc/ansible/group_vars
+#
+  cd /etc/ansible/scripts
+  ./setupSingleDeploy.sh
+  if [ $? -ne 0 ];then
+       fatal_exit
+  fi
+  cp hosts /etc/ansible/hosts
+  cd /etc/ansible
+  ansible-playbook playbook/02-check.yml
+  if [ $? -ne 0 ];then
+       fatal_exit
+  fi
+
+  ansible-playbook playbook/04-noengine.yml
+
 }
 
 function singleDeploy(){
@@ -161,8 +204,8 @@ ansible_password: $PASSWORD
 ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
-deepcloud_version: 10.1.1
-bigtoe_version: 4.4.2
+deepcloud_version: v10.3.0-x86_64-ubuntu-all
+bigtoe_version: 7.0.0
 cluster: false
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml
@@ -199,8 +242,8 @@ ansible_password: $PASSWORD
 ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
-deepcloud_version: 10.1.1
-bigtoe_version: 4.4.2
+deepcloud_version: v10.3.0-x86_64-ubuntu-all
+bigtoe_version: 7.0.0
 cluster: true
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml
@@ -291,8 +334,8 @@ ansible_password: $PASSWORD
 ansible_become_pass: $PASSWORD
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
-deepcloud_version: 10.1.1
-bigtoe_version: 4.4.2
+deepcloud_version: v10.3.0-x86_64-ubuntu-all
+bigtoe_version: 7.0.0
 cluster: false
 update: false
 personfile: true" > /etc/ansible/group_vars/all.yml
@@ -343,8 +386,10 @@ function main(){
         case $choose in
         1)
       clear
-          logging "单机部署"
-      singleDeploy
+      logging "应用部署"
+      appDeploy
+      #    logging "单机部署"
+      #singleDeploy
       if [[ $? == 0 ]]; then
         normal_exit
       else
@@ -392,6 +437,16 @@ function main(){
   unlock
       exit 0
       ;;
+        4)
+      clear
+      logging "单机部署"
+      singleDeploy
+      if [[ $? == 0 ]]; then
+        normal_exit
+      else
+        fatal_exit
+      fi
+        ;;
       *)
       logging "请选择[1-3]"
         menu

@@ -21,8 +21,6 @@
   with_items:
     - { src: 'conf/bigtoe/fse-tools.sh',dest: '/opt/bigtoe/fse-tools.sh'}
     - { src: 'conf/bigtoe/install_web.sh',dest: '/opt/bigtoe/install_web.sh'}
-    - { src: 'conf/bigtoe/config_params.sh',dest: '/opt/bigtoe/config_params.sh'}
-    - { src: 'conf/bigtoe/run.sh',dest: '/opt/bigtoe/deepcloud/run.sh'}
 
 
 
@@ -38,17 +36,4 @@
   when: result|failed
 
 #- include: updateImporter.yml
-
-#- include: updateNginx.yml
 #- include: updateKafka.yml
-#- include: updateLink.yml
-#- include: updateVSE.yml
-
-
-#- name: change ip for config file and change template file
-#  template:
-#    src: '{{ item.src }}'
-#    dest: '{{ item.dest }}'
-#  with_items:
-#    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini',dest: '/opt/bigtoe/DeepEngine-{{bigtoe_version}}.ini' }
-#    - { src: 'conf/bigtoe/DeepEngine-{{bigtoe_version}}.ini-template',dest: '/opt/bigtoe/src/var/www/bigtoe/tmpl/configs/DeepEngine-{{bigtoe_version}}' }

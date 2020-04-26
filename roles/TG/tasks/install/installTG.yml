@@ -4,16 +4,15 @@
 
 - include: installMutischeduler.yml
 
-#- include: installFse.yml
-
-#- include_tasks:
-#    file: installFse.yml
-#    apply:
-#      tags:
-#      - fse
-#  tags: [always]
-
 - include: installMap.yml
 
+- name: Check GPU card
+  shell: nvidia-smi
+  register: gpu_check
+  ignore_errors: True
+  tags: [gpu]
+
 - include: installPVGTool.yml
+  when: gpu_check.stderr.find('command not found') != -1
+  tags: [gpu]
 

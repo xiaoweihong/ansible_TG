@@ -19,9 +19,9 @@
     - { src: 'conf/optimize/bashrc/ubuntu.bashrc',dest: '/home/ubuntu/.bashrc' }
     - { src: 'conf/optimize/bashrc/root.bashrc',dest: '/root/.bashrc' }
 
-- name: add sudo nopasswd for ubuntu
+- name: add sudo nopasswd for {{ansible_user}}
   lineinfile:
-    line: 'ubuntu ALL=(ALL) NOPASSWD:ALL'
+    line: '{{ansible_user}} ALL=(ALL) NOPASSWD:ALL'
     dest: /etc/sudoers
 
 - name: hugepage optimize take effect

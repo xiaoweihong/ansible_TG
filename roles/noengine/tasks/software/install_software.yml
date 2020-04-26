@@ -6,7 +6,7 @@
     name: "{{ item }}"
     update_cache: yes
   with_items:
-    - nginx
+#    - nginx
     - openssh-server
     - vim
     - ifenslave

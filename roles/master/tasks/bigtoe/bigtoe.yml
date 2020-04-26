@@ -29,7 +29,7 @@
     dest: '{{ item.dest }}'
   with_items:
     - { src: 'conf/bigtoe/init.val',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/init.val' }
-    - { src: 'conf/bigtoe/public.val',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/public.val' }
+#    - { src: 'conf/bigtoe/public.val',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template/public.val' }
   when: not update
 
 

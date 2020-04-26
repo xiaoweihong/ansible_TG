@@ -30,17 +30,37 @@
   command: dpkg-query -l docker
   register: docker_check
   ignore_errors: True
+  tags: [docker]
 
 - include: install/installdocker.yml
   when: docker_check.stderr.find('no packages found') != -1
+  tags: [docker]
+
+- include: install/installnginx.yml
+  tags: [nginx]
 
 - name: Check k8s
   command: dpkg-query -l kubeadm
   register: k8s_check
   ignore_errors: True
+  tags: [k8s]
 
 - include: install/installk8s.yml
   when: k8s_check.stderr.find('no packages found') != -1
+  tags: [k8s]
+
+- name: Check k8smaster init
+  shell: kubectl get node
+  register: init_check
+  ignore_errors: True
+  tags: [init]
+
+- include: install/installk8smaster.yml
+  when: init_check.stderr.find('did you specify the right host') != -1
+  tags: [init]
+
+- include: install/installhelm.yml
+  tags: [k8s, helm]
 
 - include: install/installTG.yml
 

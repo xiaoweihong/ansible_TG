@@ -1,0 +1,7 @@
+---
+
+- name: copy helm bin
+  copy:
+    src: /etc/ansible/roles/common/files/package/helm
+    dest: /usr/local/bin/helm
+    mode: 0777

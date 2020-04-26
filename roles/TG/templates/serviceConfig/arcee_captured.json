@@ -12,7 +12,7 @@
             "JobNums": 10
         },
         "Master": "127.0.0.1:9333",
-        "Ttl": "3M",
+        "Ttl": "6M",
         "MaxMB": 5
     },
     "RedisConfig": {
