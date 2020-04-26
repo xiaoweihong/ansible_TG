@@ -13,8 +13,8 @@
 	},
 	"MatrixServiceConfig": {
 		"IsOpen": true,
-		"Addr": "http://{{groups.bigtoe[0]}}:38080/vse/face/rec/image",
-		"StructuredAddr": "http://{{groups.bigtoe[0]}}:38080/vse/vehicle/rec/image",
+		"Addr": "http://{{groups.bigtoe[0]}}:38080/vse/all/rec/image",
+		"StructuredAddr": "http://{{groups.bigtoe[0]}}:38080/vse/all/rec/image",
 		"ConnectNumber": 10,
 		"TimeoutSecond": 5,
 		"TryTimes": 3

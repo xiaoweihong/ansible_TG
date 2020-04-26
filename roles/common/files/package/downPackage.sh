@@ -17,5 +17,7 @@ function downloadPackage(){
    wget ${DOWNLOAD_URL}/patch_for_bigtoe_4.4.2_20200108.tgz
    wget ${DOWNLOAD_URL}/geojson.tar.gz
    wget ${DOWNLOAD_URL}/netposa.tgz
+   wget ${DOWNLOAD_URL}/k8s.tgz
+   wget ${DOWNLOAD_URL}/docker.tgz
 }
 downloadPackage

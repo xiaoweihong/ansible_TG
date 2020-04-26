@@ -8,7 +8,7 @@ ansible_become_pass: ubuntu
 platformPath: /platformData
 ansible_host_ip: '{{ ansible_default_ipv4.address }}'
 bigtoe_version: 4.4.2
-deepcloud_version: 10.1.1
+deepcloud_version: v10.3.0-x86_64-ubuntu-nvidia-all
 personfile: false
 cluster: false
 update: false

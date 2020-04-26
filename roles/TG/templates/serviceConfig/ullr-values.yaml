@@ -1,94 +1,4 @@
-config:
-  data:
-    capture: |+
-      # kafka source face capture
-      source.face.capture.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      source.face.capture.topics=devo-face-capture-topic
-      source.face.capture.group.id=flink-face-capture
-      source.face.capture.latest=true
-      # kafka source vehicle capture
-      source.vehicle.capture.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      source.vehicle.capture.topics=devo-vehicle-capture-topic
-      source.vehicle.capture.group.id=flink-vehicle-capture
-      source.vehicle.capture.latest=true
-      # kafka source nonmotor capture
-      source.nonmotor.capture.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      source.nonmotor.capture.topics=devo-nonmotor-capture-topic
-      source.nonmotor.capture.group.id=flink-nonmotor-capture
-      source.nonmotor.capture.latest=true
-      # kafka source pedestrian capture
-      source.pedestrian.capture.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      source.pedestrian.capture.topics=devo-pedestrian-capture-topic
-      source.pedestrian.capture.group.id=flink-pedestrian-capture
-      source.pedestrian.capture.latest=true
-      # kafka sink vehicle capture
-      sink.vehicle.capture.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      sink.vehicle.capture.topics=special-vehicle-capture-topic
-      # kafka sink nonmotor capture
-      sink.nonmotor.capture.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      sink.nonmotor.capture.topics=special-nonmotor-capture-topic
-      # database statistics
-      database.statistics.driver=org.postgresql.Driver
-      database.statistics.url=jdbc:postgresql://{{groups.db[0]}}:5432/statistics
-      database.statistics.username=postgres
-      database.statistics.password=Zstvgcs@9102
-      # database special
-      database.special.driver=org.postgresql.Driver
-      database.special.url=jdbc:postgresql://{{groups.db[0]}}:5432/special
-      database.special.username=postgres
-      database.special.password=Zstvgcs@9102
-      database.special.interval=2000
-      # cache
-      cache.url={{groups.redis[0]}}
-      cache.password=deepglint@2013
-      cache.port=6379
-      cache.db=3
-    warn: |+
-      # kafka source face warn
-      source.face.warn.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      source.face.warn.topics=devo-face-warn-topic
-      source.face.warn.group.id=flink-face-warn
-      source.face.warn.latest=true
-      # kafka source vehicle warn
-      source.vehicle.warn.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      source.vehicle.warn.topics=devo-vehicle-warn-topic
-      source.vehicle.warn.group.id=flink-vehicle-warn
-      source.vehicle.warn.latest=true
-      # database statistics
-      database.statistics.driver=org.postgresql.Driver
-      database.statistics.url=jdbc:postgresql://{{groups.db[0]}}:5432/statistics
-      database.statistics.username=postgres
-      database.statistics.password=Zstvgcs@9102
-      # cache
-      cache.url={{groups.redis[0]}}
-      cache.password=deepglint@2013
-      cache.port=6379
-      cache.db=3
-    alongwith: |+
-      # source.common
-      source.alongwith.bootstrap.servers={{groups.bigtoe[0]}}:{{port}}
-      source.alongwith.latest=true
-      # source.topic
-      source.face.alongwith.topics=devo-face-vid-capture-topic
-      source.vehicle.alongwith.topics=devo-vehicle-vid-capture-topic
-      source.nonmotor.alongwith.topics=devo-nonmotor-vid-capture-topic
-      source.pedestrian.alongwith.topics=devo-pedestrian-vid-capture-topic
-      # source.group
-      source.face.alongwith.group.id=ullr-face-alongwith-group
-      source.vehicle.alongwith.group.id=ullr-vehicle-alongwith-group
-      source.nonmotor.alongwith.group.id=ullr-nonmotor-alongwith-group
-      source.pedestrian.alongwith.group.id=ullr-pedestrian-alongwith-group
-      # sink.db.v5
-      database.deepface_v5.driver=org.postgresql.Driver
-      database.deepface_v5.url=jdbc:postgresql://{{groups.db[0]}}:5432/deepface_v5
-      database.deepface_v5.username=postgres
-      database.deepface_v5.password=Zstvgcs@9102
-      sink.batchnum=1
-      sink.interval.millseconds=1000
-      # transformation.create
-      create.state.millseconds=3000
-      deweight.state.millseconds=60000
-
+# 更换版本或config后, 按readme_install.md可使此文件改动生效
 application:
   - name: capture
     repository: dockerhub.deepglint.com/deepface/flink-capture
@@ -100,5 +10,87 @@ application:
     pullPolicy: IfNotPresent
   - name: alongwith
     repository: dockerhub.deepglint.com/deepface/flink-alongwith
-    tag: 0.0.2.2
+    tag: 0.0.3
     pullPolicy: IfNotPresent
+config:
+  data:
+    capture: |+
+      # 需与odin配置相同
+      source.face.capture.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      source.face.capture.topics=devo-face-capture-topic
+      source.face.capture.group.id=flink-face-capture
+      source.face.capture.latest=true
+      # 需与odin配置相同
+      source.vehicle.capture.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      source.vehicle.capture.topics=devo-vehicle-capture-topic
+      source.vehicle.capture.group.id=flink-vehicle-capture
+      source.vehicle.capture.latest=true
+      # 需与odin配置相同
+      source.nonmotor.capture.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      source.nonmotor.capture.topics=devo-nonmotor-capture-topic
+      source.nonmotor.capture.group.id=flink-nonmotor-capture
+      source.nonmotor.capture.latest=true
+      # 需与odin配置相同
+      source.pedestrian.capture.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      source.pedestrian.capture.topics=devo-pedestrian-capture-topic
+      source.pedestrian.capture.group.id=flink-pedestrian-capture
+      source.pedestrian.capture.latest=true
+      # 需与k2s配置相同
+      sink.vehicle.capture.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      sink.vehicle.capture.topics=special-vehicle-capture-topic
+      # 需与k2s配置相同
+      sink.nonmotor.capture.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      sink.nonmotor.capture.topics=special-nonmotor-capture-topic
+      # 需与archimedes配置相同
+      database.statistics.driver=org.postgresql.Driver
+      database.statistics.url=jdbc:postgresql://{{groups.db[0]}}:5432/statistics
+      database.statistics.username=postgres
+      database.statistics.password=Zstvgcs@9102
+      # 需与themis配置相同
+      database.special.driver=org.postgresql.Driver
+      database.special.url=jdbc:postgresql://{{groups.db[0]}}:5432/special
+      database.special.username=postgres
+      database.special.password=Zstvgcs@9102
+      database.special.interval=2000
+      # 需与archimedes配置相同
+      cache.url={{groups.redis[0]}}
+      cache.password=deepglint@2013
+      cache.port=6379
+      cache.db=3
+    warn: |+
+      # 需与odin配置相同
+      source.face.warn.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      source.face.warn.topics=devo-face-warn-topic
+      source.face.warn.group.id=flink-face-warn
+      source.face.warn.latest=true
+      # 需与odin配置相同
+      source.vehicle.warn.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      source.vehicle.warn.topics=devo-vehicle-warn-topic
+      source.vehicle.warn.group.id=flink-vehicle-warn
+      source.vehicle.warn.latest=true
+      # 需与archimedes配置相同
+      database.statistics.driver=org.postgresql.Driver
+      database.statistics.url=jdbc:postgresql://{{groups.db[0]}}:5432/statistics
+      database.statistics.username=postgres
+      database.statistics.password=Zstvgcs@9102
+      # 需与archimedes配置相同
+      cache.url={{groups.redis[0]}}
+      cache.password=deepglint@2013
+      cache.port=6379
+      cache.db=3
+    alongwith: |+
+      # 需与odin配置相同
+      source.alongwith.bootstrap.servers={{groups.kafka[0]}}:{{port}}
+      source.face.alongwith.topics=devo-face-vid-capture-topic
+      source.face.alongwith.group.id=ullr-face-alongwith-group
+      source.alongwith.latest=true
+      # 需与loki配置相同
+      database.deepface_v5.driver=org.postgresql.Driver
+      database.deepface_v5.url=jdbc:postgresql://{{groups.db[0]}}:5432/deepface_v5
+      database.deepface_v5.username=postgres
+      database.deepface_v5.password=Zstvgcs@9102
+      # 默认配置
+      debug=true
+      sink.interval.millseconds=1000
+      create.state.millseconds=10000
+      deweight.state.millseconds=60000

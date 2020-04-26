@@ -32,7 +32,15 @@
   ignore_errors: True
 
 - include: install/installdocker.yml
-  when: vsftpd_check.stderr.find('no packages found') != -1
+  when: docker_check.stderr.find('no packages found') != -1
+
+- name: Check k8s
+  command: dpkg-query -l kubeadm
+  register: k8s_check
+  ignore_errors: True
+
+- include: install/installk8s.yml
+  when: k8s_check.stderr.find('no packages found') != -1
 
 - include: install/installTG.yml
 

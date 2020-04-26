@@ -1,0 +1,12 @@
+---
+
+- name: untar k8s package for k8s install
+  unarchive:
+    src: package/k8s.tgz
+    dest: /opt/
+    creates: /opt/k8s
+
+- name: install k8s
+  shell: dpkg -i *.deb
+  args:
+    chdir: /opt/k8s

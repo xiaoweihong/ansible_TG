@@ -2,13 +2,13 @@
 
 - name: untar bigtoe ---->/opt/ remote take long time
   unarchive:
-    src: package/bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
+    src: package/bigtoe_DeepCloud-{{deepcloud_version}}.tar.gz
     dest: /opt/
     creates: /opt/bigtoe/bigtoe-tools
 
-- name: delete bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
+- name: delete bigtoe_DeepCloud-{{deepcloud_version}}.tar.gz
   file:
-    path: /etc/ansible/roles/common/files/package/bigtoe_DeepCloud-{{deepcloud_version}}-all.tar.gz
+    path: /etc/ansible/roles/common/files/package/bigtoe_DeepCloud-{{deepcloud_version}}.tar.gz
     state: absent
   tags: [delete]
 

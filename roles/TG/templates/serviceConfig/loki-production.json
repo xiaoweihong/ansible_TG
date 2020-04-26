@@ -1,111 +1,120 @@
 {
-    "api": {
-        "upload": {
-            "path": "/platformData/loki/upload",
-            "bigtoe_video": "/data/upload_videos"
+    "api":{
+        "upload":{
+            "bigtoe_video":"/data/upload_videos",
+            "path":"/platformData/loki/upload"
         }
     },
-    "app": {
-        "tmpPath": "/platformData/loki/tmp"
+    "app":{
+        "tmppath":"/platformData/loki/tmp"
     },
-    "database": {
-        "connectionString": "postgres://postgres:Zstvgcs@9102@{{groups.db[0]}}/deepface_v5",
-        "showSql": false
-	},
-    "services": {
-        "fse_runtime": {
-            "addr": "http://{{groups.bigtoe[0]}}:3154/x-api/v1"
+    "cronjob":{
+        "partition":{
+            "sax_switcher":false
         },
-        "fse_black": {
-            "addr": "http://{{groups.bigtoe[0]}}:3154/x-api/v1"
+        "vid":{
+            "updatecron":"* * 0 * * ?",
+            "updateseconds":86400
+        }
+    },
+    "database":{
+        "connectionstring":"postgres://postgres:Zstvgcs@9102@{{groups.db[0]}}/deepface_v5",
+        "showsql":false
+    },
+    "platform":{
+        "consumer":false,
+        "kafkaaddress":[
+            "{{groups.kafka[0]}}:{{port}}",
+            "{{groups.kafka[0]}}:{{port}}",
+            "{{groups.kafka[0]}}:{{port}}"
+        ],
+        "needsync":false,
+        "producer":false
+    },
+    "pool":{
+        "capacity":100
+    },
+    "services":{
+        "arcee":{
+            "addr":"127.0.0.1:7502"
         },
-        "sax": {
-            "addr": "http://127.0.0.1:50051"
+        "archimedes":{
+            "addr":"http://127.0.0.1:6666/archimedes/v1",
+            "timeout_second":60
         },
-        "arcee": {
-            "addr": "127.0.0.1:7502"
+        "athena":{
+            "addr":"http://127.0.0.1:2013"
         },
-        "hercules": {
-			"addr": "http://192.168.100.118:1315"
-		},
-		"megvii": {
-            "addr": "http://104.35.96.231:81",
-            "needTestData": false
+        "deepcloud":{
+            "access_key":"7966023d-0eee-4104-9c2f-8efa4279442a",
+            "addr":"http://{{groups.bigtoe[0]}}:39876/api",
+            "authkey":"dp-auth-v0",
+            "secret_key":"9e7b1900-302b-4059-bcaa-047262f3ca3b",
+            "timeout_second":60
         },
-        "mserver": {
-            "run_addr": "http://127.0.0.1:9009",
-			"out_addr":"127.0.0.1:8905"
+        "elasticsearch":{
+            "inuse":false,
+            "url":"http://127.0.0.1:9200"
         },
-        "link": {
-			"addr": "http://{{groups.bigtoe[0]}}:30233"
+        "fse_black":{
+            "addr":"http://{{groups.bigtoe[0]}}:3154/x-api/v1"
         },
-        "vse_face":{
-			"addr": "http://{{groups.bigtoe[0]}}:38080"
-		},
-		"vse_vehicle": {
-			"addr": "http://{{groups.bigtoe[0]}}:38080"
-		},
-        "elasticsearch": {
-            "url":"http://127.0.0.1:9200",
-            "inuse": false
+        "fse_runtime":{
+            "addr":"http://{{groups.bigtoe[0]}}:3154/x-api/v1"
         },
-		"athena": {
-			"addr": "http://127.0.0.1:2013"
+        "hercules":{
+            "addr":"http://127.0.0.1:1315"
         },
-        "redis":{
-			"cache": {
-                "addr":"{{groups.redis[0]}}:6379",
-                "password":"deepglint@2013"
-			},
-			"store": {
-                "addr":"{{groups.redis[0]}}:6379",
-                "password":"deepglint@2013"
-			}
+        "link":{
+            "addr":"http://{{groups.bigtoe[0]}}:30233"
+        },
+        "megvii":{
+            "addr":"http://104.35.96.231:81",
+            "needtestdata":false
+        },
+        "mserver":{
+            "out_addr":"{{groups.tg[0]}}:8905",
+            "run_addr":"http://{{groups.tg[0]}}:9009"
         },
         "pse":{
-			"addr": "http://127.0.0.1:1989"
-		},
-        "deepcloud": {
-            "addr": "http://{{groups.bigtoe[0]}}:39876/api",
-            "access_key": "7966023d-0eee-4104-9c2f-8efa4279442a",
-            "secret_key": "9e7b1900-302b-4059-bcaa-047262f3ca3b",
-            "authkey": "dp-auth-v0",
-            "timeout_second": 60
+            "addr":"http://127.0.0.1:1989"
         },
-        "archimedes": {
-            "addr": "http://127.0.0.1:6666/archimedes/v1",
-            "timeout_second": 60
+        "redis":{
+            "cache":{
+                "addr":"{{groups.redis[0]}}:6379",
+                "password":"deepglint@2013"
+            },
+            "store":{
+                "addr":"{{groups.redis[0]}}:6379",
+                "password":"deepglint@2013"
+            }
         },
-		"themis": {
-			"addr": "http://127.0.0.1:7777/themis/v1"
-		}
-	},
-    "cronjob": {
-        "vid": {
-            "updatecron": "* * 0 * * ?",
-            "updateseconds": 86400
+        "sax":{
+            "addr":"http://127.0.0.1:50051"
         },
-		"partition": {
-			"sax_switcher": false
-		}
+        "themis":{
+            "addr":"http://127.0.0.1:7777"
+        },
+        "uias":{
+            "addr":"http://127.0.0.1:9090"
+        },
+        "vse_all":{
+            "addr":"http://{{groups.bigtoe[0]}}:38080"
+        },
+        "vse_face":{
+            "addr":"http://{{groups.bigtoe[0]}}:38080"
+        },
+        "vse_vehicle":{
+            "addr":"http://{{groups.bigtoe[0]}}:38080"
+        },
+        "ymer":{
+            "addr":"http://127.0.0.1:9750"
+        }
     },
-    "pool": {
-		"capacity": 100
-	},
-    "platform": {
-		"kafkaAddress": [
-			"{{groups.kafka[0]}}:{{port}}",
-			"{{groups.kafka[0]}}:{{port}}",
-			"{{groups.kafka[0]}}:{{port}}"
-		],
-		"needSync": false,
-		"consumer": false,
-		"producer": false
-	},
-	"switcher": {
-		"person_file_compare": true,
-		"repo_collision": false,
-		"repo_statistics": false,
-		"vid_combine": true
-	}
+    "switcher":{
+        "person_file_compare":true,
+        "repo_collision":false,
+        "repo_statistics":false,
+        "vid_combine":true
+    }
 }

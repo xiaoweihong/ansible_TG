@@ -19,6 +19,20 @@
             }
         }
     },
+    "MessageConfig":{
+        "ConfigType":1,
+        "ConfigInfo":{
+            "Brokers":[
+                "{{groups.kafka[0]}}:{{port}}"
+            ],
+            "Topics":[
+                "iris-message-topic"
+            ],
+            "Group":"iris",
+            "MaxFetchBytes":104857600,
+            "SendMessageTimeout":5
+        }
+    },
     "TriggerConfig":{
         "TimeIntervalMillSecond":2000,
         "KeyMap":{
