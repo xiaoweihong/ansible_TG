@@ -96,7 +96,7 @@
           },
           {
             "Key":"address",
-            "Value":"{{groups.bigtoe[0]}}:{{port}}"
+            "Value":"{{groups.kafka[0]}}:{{port}}"
           }
         ],
         "SpeedLimit":1,
@@ -152,4 +152,3 @@
     "PreviewMode":false,
     "WriteUrl":true
   }
-  
