@@ -4,7 +4,7 @@ DOWNLOAD_URL="192.168.2.189:8050/platformSoftware"
 
 function downloadPackage(){
 
-#   wget ${DOWNLOAD_URL}/bigtoe_DeepCloud-10.1.1-all.tar.gz
+   wget ${DOWNLOAD_URL}/bigtoe_DeepCloud-v10.3.0-x86_64-ubuntu-all.tar.gz
    wget ${DOWNLOAD_URL}/software_package.tgz
    wget ${DOWNLOAD_URL}/platformTG.tgz
    wget ${DOWNLOAD_URL}/update_ssh_for_1604_20191016.tgz

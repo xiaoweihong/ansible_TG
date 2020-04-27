@@ -43,3 +43,14 @@
   shell: ./bigtoe-tools deploy deepengine-vse;./bigtoe-tools deploy deepengine-fse
   args:
     chdir: /opt/bigtoe
+
+- name: copy update shell
+  template:
+    src: conf/bigtoe/vse_change.sh
+    dest: /opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template
+    mode: 0777
+
+- name: some change for vse
+  shell: ./vse_change.sh
+  args:
+    chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template

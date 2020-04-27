@@ -1,6 +1,6 @@
 {
   "CacheConfig": {
-    "Host": "{{{{groups.tg[0]}}}}",
+    "Host": "{{groups.tg[0]}}",
     "Port": 6379,
     "PassWord": "deepglint@2013",
     "DB": 15,

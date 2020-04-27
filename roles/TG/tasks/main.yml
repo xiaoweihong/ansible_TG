@@ -2,13 +2,13 @@
 - include: install/installTG.yml
 
 - include: serviceConfig.yml
-  tags: [tg]
 
 - include: install/installELK.yml
+
+- include: install/installYmer.yml
 
 - include: install/installullr.yml
 
 - include: serviceSupervisor.yml
-  tags: [tg]
 
 #- include: serviceChangeip.yml

@@ -1,0 +1,13 @@
+---
+
+- name: copy init_first.sh to ymer
+  copy:
+    src: conf/ymer/init_first.sh
+    dest: /home/{{ansible_user}}/platformTG/ymer/latest/init_first.sh
+    mode: 0777
+
+- name: init ymer ES index
+  shell: ./init_first.sh; touch /home/{{ansible_user}}/platformTG/ymer/flag
+  args:
+    chdir: /home/{{ansible_user}}/platformTG/ymer/latest
+    creates: /home/{{ansible_user}}/platformTG/ymer/flag
