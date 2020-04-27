@@ -51,9 +51,11 @@
     - { src: 'serviceConfig/loki-default.json',dest: '/home/{{ansible_user}}/platformTG/loki/latest/config/default.json' }
     - { src: 'serviceConfig/odin-config.json',dest: '/home/{{ansible_user}}/platformTG/odin/latest/configs/config.json' }
     - { src: 'serviceConfig/pse_config.json',dest: '/home/{{ansible_user}}/platformTG/pse/latest/config/config.json' }
+    - { src: 'serviceConfig/rugine_config.json',dest: '/home/{{ansible_user}}/platformTG/rugine/latest/config.json' }
     - { src: 'serviceConfig/sax_vehicle_application.yml',dest: '/home/{{ansible_user}}/platformTG/sax_vehicle/latest/config/application.yml' }
     - { src: 'serviceConfig/themis_config.json',dest: '/home/{{ansible_user}}/platformTG/themis/latest/config.json' }
     - { src: 'serviceConfig/ullr-values.yaml',dest: '/home/{{ansible_user}}/platformTG/ullr/latest/flink/values.yaml' }
+    - { src: 'serviceConfig/ymer_config.json',dest: '/home/{{ansible_user}}/platformTG/ymer/latest/config.json' }
 
 - name: copy loki template file
   template:

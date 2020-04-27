@@ -1,6 +1,6 @@
 ---
 
-- name: install ullr user helm chart
+- name: install ullr use helm chart
   shell: ./install.sh
   args:
     chdir: /home/{{ansible_user}}/platformTG/ullr/latest

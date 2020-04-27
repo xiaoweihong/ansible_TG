@@ -1,0 +1,55 @@
+{
+  "CacheConfig": {
+    "Host": "{{{{groups.tg[0]}}}}",
+    "Port": 6379,
+    "PassWord": "deepglint@2013",
+    "DB": 15,
+    "Key": "rugine-ruleId:%s:v1"
+  },
+  "MessageConfig": {
+    "Subscribe": {
+      "ConfigType": 1,
+      "ConfigInfo": {
+        "Brokers": [
+          "{{groups.kafka[0]}}:{{port}}"
+        ],
+        "RuleTopic": "rugine-rule-topic",
+        "DataTopic": "rule-engine-resource-topic",
+        "MockTopic": "rugine-mock-data-topic",
+        "Group": "rugine",
+        "MaxFetchBytes": 104857600
+      }
+    },
+    "Publish": {
+      "ConfigType": 1,
+      "ConfigInfo": {
+        "Brokers": [
+          "{{groups.bigtoe[0]}}:{{port}}"
+        ],
+        "DataTopic": "rugine-result-topic",
+        "MockTopic": "rugine-mock-result-topic"
+      }
+    }
+  },
+  "LogConfig": {
+    "HttpRequest": true,
+    "KafkaReceive": false,
+    "RuleManagerEventbus": false,
+    "RuleManagerProcess": false,
+    "RuleTracking": true
+  },
+  "DependenciesConfig": {
+    "Themis": {
+      "Address": "http://127.0.0.1:7777",
+      "TimeoutSecond": 60
+    }
+  },
+  "RuleConfig": {
+    "SaveStatusPeriodMillisecond": 60000,
+    "ClearStatusPeriodMillisecond": 86400000,
+    "NonPersistent": false,
+    "ResultWithStatus": false,
+    "UseLocalRule": false,
+    "LocalRule": {}
+  }
+}

@@ -46,3 +46,4 @@ if check_npu_exists; then
     fi
 
 fi
+$TOOLS install web

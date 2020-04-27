@@ -12,6 +12,7 @@ function downloadPackage(){
    wget ${DOWNLOAD_URL}/hm_importer-0.12.5.tar
    wget ${DOWNLOAD_URL}/hw_importer-0.8.0.tar
    wget ${DOWNLOAD_URL}/dc84_sdk-0.1.0.tar
+   wget ${DOWNLOAD_URL}/nginx-1.17.3.tar
    wget ${DOWNLOAD_URL}/tools.zip
    wget ${DOWNLOAD_URL}/geojson.tar.gz
    wget ${DOWNLOAD_URL}/netposa.tgz

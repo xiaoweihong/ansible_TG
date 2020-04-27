@@ -11,6 +11,8 @@ rm -f *gz
 rm -f *.img
 rm -f *.tar
 rm -f *.zip
+rm -rf base
+rm -f helm*
 
 if [  -d ${PUBLISH_PATH} ];then
    rm  -rf ${PUBLISH_PATH}*

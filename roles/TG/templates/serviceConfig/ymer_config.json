@@ -1,0 +1,20 @@
+{
+    "HTTPServer": {
+        "Host": "0.0.0.0",
+        "Port": "9750"
+    },
+    "Kafka": {
+        "Brokers": [
+            "{{groups.bigtoe[0]}}:{{port}}",
+            "{{groups.bigtoe[0]}}:{{port}}",
+            "{{groups.bigtoe[0]}}:{{port}}"
+        ],
+        "Group": "ymer-017",
+        "MessageTopic": "file-message-topic"
+    },
+    "Elasticsearch": {
+        "Urls": [
+            "http://127.0.0.1:9200"
+        ]
+    }
+}

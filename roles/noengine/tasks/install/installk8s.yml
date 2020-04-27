@@ -13,36 +13,12 @@
 
 - name: load k8s base images
   shell: find /etc/ansible/roles/common/files/package/base -name "*.tar"|xargs -i docker load -i {};
-#
-#- name: init k8s-master
-#  shell: kubeadm init --config /etc/ansible/roles/noengine/files/conf/k8s/kubeadm-init-args.conf
-#  args:
-#   creates: /etc/kubernetes/kubelet.conf
-#
-##- name: config k8s-master
-##  file:
-##    src
-#
-#- name: mkdir for k8s .kube
-#  file:
-#    path: /root/.kube
-#    state: directory
-#    recurse: yes
-#
-#- name: copy k8s config file
-#  copy:
-#    src: /etc/kubernetes/admin.conf
-#    dest: /root/.kube/config
-#    group: root 
-#
-#- name: config k8s flannel plugin
-#  shell: kubectl apply -f /etc/ansible/roles/noengine/files/conf/k8s/kube-flannel.yaml
-#
-#- name: some update for k8s
-#  shell: kubectl -n kube-system get cm coredns -o yaml | sed '/loop/d' | kubectl replace -f -; kubectl -n kube-system get pods | grep '^coredns' | awk '{print $1}' | xargs -i kubectl -n kube-system delete pod {}
-#
-#- name: sleep 30s
-#  pause: seconds=30
-#
-#- name: make master can run task
-#  shell: kubectl taint nodes --all node-role.kubernetes.io/master-
+
+- name: turn off swap
+  shell: swapoff -a
+
+- name: delete swap config from /etc/fstab
+  lineinfile:
+    regexp: 'swap(.*)'
+    dest: /etc/fstab
+    state: absent
