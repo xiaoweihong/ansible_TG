@@ -31,10 +31,12 @@
     - { src: 'supervisor/conf.d/odin.conf',dest: '/etc/supervisor/conf.d/odin.conf' }
     - { src: 'supervisor/conf.d/pse.conf',dest: '/etc/supervisor/conf.d/pse.conf' }
     - { src: 'supervisor/conf.d/redis.conf',dest: '/etc/supervisor/conf.d/redis.conf' }
+    - { src: 'supervisor/conf.d/rugine.conf',dest:'/etc/supervisor/conf.d/rugine.conf' }
     - { src: 'supervisor/conf.d/sax-vehicle.conf',dest: '/etc/supervisor/conf.d/sax-vehicle.conf' }
     - { src: 'supervisor/conf.d/themis.conf',dest: '/etc/supervisor/conf.d/themis.conf' }
     - { src: 'supervisor/conf.d/weedfs.conf',dest: '/etc/supervisor/conf.d/weedfs.conf' }
     - { src: 'supervisor/conf.d/weedfs-repo.conf',dest: '/etc/supervisor/conf.d/weedfs-repo.conf' }
+    - { src: 'supervisor/conf.d/ymer.conf',dest: '/etc/supervisor/conf.d/ymer.conf' }
   tags: [master]
 
 - name: supervisord restart
