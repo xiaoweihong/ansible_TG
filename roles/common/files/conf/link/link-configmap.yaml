@@ -28,12 +28,16 @@ data:
     pudge_server = "pudge-service.pudge.svc.cluster.local:2234"
     pudge_client_timeout = 10
 
+    [fse]
+    fse_server = "fseapi-service.fse.svc.cluster.local:8000"
+    fse_client_timeout = 3
+
     [k8sclient]
     is_out_of_cluster = false
 
     [scheduler]
     remove_wait_retry_sleep = 60
-    
+
     [link]
     enable_db_log = false
     subtask_speedx = 2
@@ -61,6 +65,9 @@ data:
     namespace = "k8s-job"
 
     [jobs]
+        [jobs.example]
+        image_version = "busybox:latest"
+        command = ["/bin/sh", "-c", "--", "sleep 30"]
 
         [jobs.dc84_sdk]
         image_version = "dockerhub.deepglint.com/deepface/dc84_sdk:0.1.0"
@@ -82,16 +89,15 @@ data:
         image_version = "dockerhub.deepglint.com/deepface/hw_importer:0.8.0"
         command = ["./sdk_importer", "/k8s_link_use/configs/config.json"]
 
-
         [jobs.isd]
-        image_version = "dockerhub.deepglint.com/deepvideo/importer:1.3.6"
+        image_version = "dockerhub.deepglint.com/deepvideo/importer:1.3.6_sp3"
         command = [ "./run.sh", "/k8s_link_use/configs/config.json" ]
 
         [jobs.importer_ftp]
-        image_version = "dockerhub.deepglint.com/deepvideo/importer:1.3.6"
+        image_version = "dockerhub.deepglint.com/deepvideo/importer:1.3.6_sp3"
         command = [ "./run.sh", "/k8s_link_use/configs/config.json" ]
- 
-       [jobs.importer_libraf]
+
+        [jobs.importer_libraf]
         image_version = "dockerhub.deepglint.com/deepface/importer:v1.4.4"
         command = [ "/face/importer/importer", "-config", "/k8s_link_use/configs/config.json", "-logtostderr" ]
 
@@ -101,7 +107,7 @@ data:
         command = [ "python", "uploader.py" ]
 
     [nfs]
-    nfs_ip = "192.168.2.169"
+    nfs_ip = "192.168.100.108"
 
     [logging]
     level = "debug"

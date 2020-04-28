@@ -54,3 +54,9 @@
   shell: ./vse_change.sh
   args:
     chdir: /opt/bigtoe/pkg/k8s-conf/deepengine/vse/config/template
+
+- name: change deepcloud docsify port from 3000 to 3001
+  lineinfile:
+    path: /opt/bigtoe/deepcloud/config/docsify/run.sh
+    regexp: 'docsify'
+    line: docsify serve --port 3001 ./docs

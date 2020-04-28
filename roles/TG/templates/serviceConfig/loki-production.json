@@ -96,7 +96,7 @@
             "addr":"http://127.0.0.1:7777"
         },
         "uias":{
-            "addr":"http://127.0.0.1:9090"
+            "addr":"http://104.5.0.8:9090"
         },
         "vse_all":{
             "addr":"http://{{groups.bigtoe[0]}}:38080"

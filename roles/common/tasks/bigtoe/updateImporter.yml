@@ -17,6 +17,13 @@
     chdir: /opt/bigtoe/pkg/x86_64/docker-images
   when: update == True
 
+- name: update link config
+  copy:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+  with_items:
+    - { src: 'conf/link/link-configmap.yaml',dest: '/opt/bigtoe/pkg/k8s-conf/deepengine/link' }
+
 
 #- name: restart link
 #  shell: kubectl apply -f link-configmap.yaml ; kubectl delete pods -n link --all
